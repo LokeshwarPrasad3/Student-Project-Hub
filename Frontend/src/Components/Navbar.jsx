@@ -52,7 +52,7 @@ const Navbar = () => {
                 </div>
                 {/* right part */}
                 <ul
-                    style={{ left: showMenu ? '100%' : '0%' }}
+                    style={{ left: showMenu ? '0%' : '100%' }}
                     className='menu_links flex items-center justify-center gap-2' >
                     <li>
                         <a href="/" className="menu_link custom-nav-link ">
@@ -112,14 +112,14 @@ const Navbar = () => {
                 </ul>
 
                 {/* menu button which is visible when mobile screen */}
-                <a href="/" className="menu_bar px-1 rounded-md flex custom-transtion ">
+                <a href="/" className="menu_bar rounded-md flex custom-transtion ">
 
                     <MenuIcon
                         onClick={toggleMenu}
-                        className="hover:opacity-80" style={{ fontSize: '2.5rem', display: showMenu ? 'block' : 'none' }} />
+                        className="hover:opacity-80" style={{ fontSize: '2.5rem', display: showMenu ? 'none' : 'block' }} />
                     <CloseIcon
                         onClick={toggleMenu}
-                        className="hover:opacity-80" style={{ fontSize: '2.5rem', display: showMenu ? 'none' : 'block' }} />
+                        className="hover:opacity-80" style={{ fontSize: '2.5rem', display: showMenu ? 'block' : 'none' }} />
 
                 </a>
             </nav>

@@ -1,0 +1,48 @@
+/*👉 THIS IS RESPONSIVE DESGIN HANDLE FOR LOGIN/CREATE/AUTHENTICATION PAGE */
+
+/* doing changes when mobile size  */
+@media (max-width: 600px) {
+  /* when mobile size screen then decrease width */
+  .create_form,
+  .login_form,
+  .login_heading,
+  .login_contenet {
+    width: 25rem;
+  }
+  .create_form,
+  .login_form {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* profile css */
+
+/* grade icon */
+.grade_icon {
+  font-size: 4rem;
+}
+@media (max-width: 1200px) {
+  .user_details {
+    flex-wrap: wrap;
+  }
+  .profile_container_heading {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .imp_show,
+  .basic_details,
+  .user_all_skills {
+    min-width: 400px;
+  }
+  .profle_container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .project_box {
+    min-width: 390px;
+  }
+}

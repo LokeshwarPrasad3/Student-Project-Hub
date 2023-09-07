@@ -53,7 +53,7 @@ const Login = () => {
             setTimeout(() => {
                 setLoading(false);
                 // navigate to user home page section 
-                navigate('/');
+                navigate('/profile');
             }, 1000);
         } catch (error) {
             toast.error("Invalid User");

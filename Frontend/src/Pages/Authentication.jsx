@@ -7,6 +7,7 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 // My pages or componenets
 import Login from '../Components/Login';
 import Signup from '../Components/SignUp';
+import '../CSS/Style.css';
 
 
 const HomePage = () => {

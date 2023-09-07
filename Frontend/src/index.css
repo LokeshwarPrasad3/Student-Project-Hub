@@ -1,18 +1,41 @@
+/* Include Tailwind CSS base styles, components, and utilities */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body{
+/* Set the background color for the body with opacity */
+body {
   --tw-bg-opacity: 1;
-    background-color: rgb(15 23 42 / var(--tw-bg-opacity));
+  background-color: rgb(15 23 42 / var(--tw-bg-opacity));
 }
 
-
-.custom-nav-link{
-  @apply flex gap-1 items-center cursor-pointer font-signika justify-center hover:bg-slate-700 px-3 py-2 transition-all duration-300 hover:opacity-90 rounded-2xl ;
+/* Style for custom navigation links (Feature of TalwindCSS) */
+.custom-nav-link {
+  @apply flex gap-1 items-center cursor-pointer font-signika justify-center hover:bg-slate-700 px-3 py-2 transition-all duration-300 hover:opacity-90 rounded-2xl;
 }
 
-.custom-transtion{
-  @apply transition-all duration-300;
+/* Define a custom transition class */
+.custom-transtion {
+  @apply transition-all duration-300 ease-in;
 }
 
+.custom-button {
+  @apply py-1 px-3 w-fit bg-green-700 hover:bg-green-600 opacity-95 hover:text-gray-100 transition-all duration-300 rounded-md text-xl shadow-md shadow-pink-300 font-signika;
+}
+
+.small_heading {
+  @apply text-2xl font-semibold;
+}
+
+/* in profile secction when technology select */
+.selected_options {
+  @apply flex justify-center text-lg cursor-pointer items-center gap-1 bg-gray-100 text-black rounded-lg px-1;
+}
+.selected_options_close {
+  @apply bg-gray-400 cursor-pointer rounded-md hover:bg-gray-300;
+}
+
+/* heading of h1 */
+.left_heading {
+  @apply text-3xl font-semibold opacity-95 tracking-wide;
+}
