@@ -6,3 +6,13 @@ body{
   --tw-bg-opacity: 1;
     background-color: rgb(15 23 42 / var(--tw-bg-opacity));
 }
+
+
+.custom-nav-link{
+  @apply flex gap-1 items-center cursor-pointer font-signika justify-center hover:bg-slate-700 px-3 py-2 transition-all duration-300 hover:opacity-90 rounded-2xl ;
+}
+
+.custom-transtion{
+  @apply transition-all duration-300;
+}
+

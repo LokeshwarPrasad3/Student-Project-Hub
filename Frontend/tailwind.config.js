@@ -4,7 +4,13 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'signika': ['"Signika Negative"', 'serif'],
+        'bree': ['"Bree Serif"', 'serif'],
+        'overpass': ['"Overpass"', 'serif'],
+      },
+    },
   },
   plugins: [],
-}
+};
