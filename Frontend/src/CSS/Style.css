@@ -24,7 +24,16 @@
   border-radius: 7px;
 }
 
+@media (max-width: 1368px){
+  .user_all_skills{
+    min-width: 50vw;
+  }
+}
+
 @media (max-width: 1000px) {
+  .user_all_skills{
+    max-width: 500px;
+  }
   /* change layout of project card */
   .all_projects_container {
     padding: 2rem;
@@ -44,8 +53,16 @@
   }
 }
 @media (max-width: 870px) {
-  /* heading of profile container */
+    /* when select options then fix their sizef */
+  .selected_technology{
+    max-width:100%;
+  }
+  .technologies_names{
+    max-width:100%;
+  }
 
+
+  /* heading of profile container */
   .heading_container {
     padding: 0.75rem;
   }
@@ -63,7 +80,7 @@
     max-width: 100%;
   }
   .social_links {
-    padding-left: 31vw;
+    padding-left: 27vw;
   }
   .basic_details {
     width: 100%;
@@ -75,6 +92,7 @@
 }
 
 @media (max-width: 600px) {
+
   /* heading of profile container */
   .edit_profile_box{
     gap : 0.5rem;
@@ -88,6 +106,6 @@
   }
 
   .social_links {
-    padding-left: 20vw;
+    padding-left: 12vw;
   }
 }

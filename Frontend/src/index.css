@@ -40,10 +40,10 @@ body {
 
 /* in profile secction when technology select */
 .selected_options {
-  @apply flex justify-center text-lg cursor-pointer items-center gap-1 bg-gray-100 text-black rounded-lg px-1;
+  @apply flex justify-center text-[1rem] cursor-pointer items-center gap-1 bg-gray-100 text-black rounded-lg  h-[1.3rem];
 }
 .selected_options_close {
-  @apply bg-gray-400 cursor-pointer rounded-md hover:bg-gray-300;
+  @apply bg-gray-400 cursor-pointer h-[1.2rem] w-[1.2rem] rounded-md hover:bg-gray-300;
 }
 
 /* heading of h1 */
