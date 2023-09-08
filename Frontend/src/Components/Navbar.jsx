@@ -44,7 +44,7 @@ const Navbar = () => {
                 {/* header section left part */}
                 <div className="header flex items-center gap-7">
                     <Tooltip title="Go-to-Profile " arrow>
-                        <a href="/" className="menu_link p-[.1rem] flex rounded-full custom-transtion hover:bg-slate-700 shadow-lg shadow-blue-700">
+                        <a href="/profile" className="menu_link p-[.1rem] flex rounded-full custom-transtion hover:bg-slate-700 shadow-lg shadow-blue-700">
                             <img src="./Images/lokeshwar.jpg" alt="user" className='w-9 h-9 rounded-full' srcSet="" />
                         </a>
                     </Tooltip>
