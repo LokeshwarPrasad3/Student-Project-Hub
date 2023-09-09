@@ -470,7 +470,6 @@ const Profile = () => {
                   ) : ""
                 }
 
-
               </div>
 
             </div>

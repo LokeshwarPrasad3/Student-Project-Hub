@@ -1,6 +1,19 @@
-/*👉 THIS IS RESPONSIVE DESGIN HANDLE FOR LOGIN/CREATE/AUTHENTICATION PAGE */
+/* 👉 THIS IS CSS FOR RESPONSIVE DESIGN IN MOBILE TABLES  */
 
-/* doing changes when mobile size  */
+.project_upload::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  filter: blur(10px); /* Apply the blur effect to the background */
+  z-index: -1;
+}
+
+/* 1️⃣ LOGIN/CREATE/AUTHENTICATION PAGE CSS STYLE */
+
 @media (max-width: 600px) {
   /* when mobile size screen then decrease width */
   .create_form,
@@ -16,9 +29,10 @@
   }
 }
 
-/* profile css */
-/* grade icon */
+/* 2️⃣ PROFILE PAGE COMPONENT CSS STYLE */
+
 .grade_icon {
+  /* rating icon */
   width: 40px;
   background-color: red;
   border-radius: 7px;
@@ -98,7 +112,7 @@
 }
 
 @media (max-width: 600px) {
-   .user_all_skills {
+  .user_all_skills {
     max-width: 100vw;
   }
   /* heading of profile container */
@@ -115,5 +129,12 @@
 
   .social_links {
     padding-left: 12vw;
+  }
+}
+
+/* 3️⃣ UPLOAD PROJECT COMPONENT CSS STYLE */
+@media (max-width: 600px) {
+  .upload_part {
+    width: 25rem;
   }
 }

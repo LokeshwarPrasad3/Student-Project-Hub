@@ -1,10 +1,15 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
+
+// We using input type when edit profile making component because of more used 
 
 const EditCustomInput = (props) => {
 
+  // getting props their types, values, onChange method, and placeholder
   const { type, value, onChange, placeholder } = props;
 
-  if (type === 'input') {
+
+  if (type === 'input') {   // if input passed as input type 
     return (
       <input
         onChange={onChange}
@@ -13,14 +18,15 @@ const EditCustomInput = (props) => {
         placeholder={placeholder} name="" value={value} id=""
       />
     )
-  } else if (type === 'link') {
+
+  } else if (type === 'link') {   // if input is anchor tag 
     return (
-      <a href={value} className='custom-values' target="_blank" rel="noopener noreferrer">
+      <Link to={value} className='custom-values' target="_blank" rel="noopener noreferrer">
         {/* https://lokeshwar-creatives.netlify.app/ */}
         {value}
-      </a>
+      </Link>
     )
-  } else if (type === 'textarea') {
+  } else if (type === 'textarea') {  // if input is textarea
     return (
       <textarea
         onChange={onChange}
@@ -30,12 +36,10 @@ const EditCustomInput = (props) => {
     )
   }
 
-
+  // in case if not matched
   else {
     return null;
   }
-
-
 
 }
 

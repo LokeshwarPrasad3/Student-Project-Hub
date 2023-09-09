@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import MenuIcon from '@mui/icons-material/Menu';
+import { Link } from 'react-router-dom';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import MessageIcon from '@mui/icons-material/Message';
@@ -8,18 +9,33 @@ import CloseIcon from '@mui/icons-material/Close';
 
 // include css of navbar
 import '../CSS/Navbar.css';
+import UploadProject from './UploadProject';
 
 const Navbar = () => {
 
     const studentName = "Lokeshwar Prasad Dewangan";
 
-    // toggle navbar 
+    // making state when true then show upload project modal and false then hide
+    const [showUpload, setShowUpload] = useState(false);
+    // when cicked to upload project then show upload profile comonent
+    const showUploadProjectBox = (event) => {
+        event.preventDefault();
+        // 
+        setShowMenu(!showMenu);
+        console.log("upload project is clicked navbar");
+        setShowUpload(true);
+    }
+    // close popup when cancel or upload
+    const closePopup = () => {
+        setShowUpload(false);
+    }
+
+    // When mobile size then toggle navbar using menu_bar button
     const [showMenu, setShowMenu] = useState(false);
     const toggleMenu = (e) => {
         e.preventDefault();
         setShowMenu(!showMenu);
     }
-
 
     // need state : when mobile size then convert menu icons to texts
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 1100);
@@ -46,37 +62,41 @@ const Navbar = () => {
                 {/* header section left part */}
                 <div className="header flex items-center gap-7">
                     <Tooltip title="Go-to-Profile " arrow>
-                        <a href="/profile" className="menu_link p-[.1rem] flex rounded-full custom-transtion hover:bg-slate-700 shadow-lg shadow-blue-700">
+                        <Link to="/profile" className="menu_link p-[.1rem] flex rounded-full custom-transtion hover:bg-slate-700 shadow-lg shadow-blue-700">
                             <img src="./Images/lokeshwar.jpg" alt="user" className='w-9 h-9 rounded-full' srcSet="" />
-                        </a>
+                        </Link>
                     </Tooltip>
-                    <a href="/profile" className='user_name font-bree text-2xl hover:opacity-90 custom-transtion ' >{studentName.split(' ').slice(0, 2).join(' ')}</a>
+                    <Link to="/" className='user_name font-bree text-2xl hover:opacity-90 custom-transtion ' >{studentName.split(' ').slice(0, 2).join(' ')}</Link>
                 </div>
                 {/* right part */}
                 <ul
                     style={{ left: showMenu ? '0%' : '100%' }}
                     className='menu_links flex items-center justify-center gap-2' >
                     <li>
-                        <a href="/" className="menu_link custom-nav-link ">
+                        <Link to="/" className="menu_link custom-nav-link ">
 
                             {/* we changing content when mobile size  */}
                             {
                                 !isMobile ? (
                                     <>
                                         <Tooltip title="New Project" arrow className='custom-tooltip'>
-                                            <CloudUploadIcon id="upload_project" />
+                                            <CloudUploadIcon
+                                                onClick={showUploadProjectBox}
+                                                id="upload_project" />
                                         </Tooltip>
                                     </>
                                 ) : (
-                                    <h3 className='custom-menu-link' >Upload Project</h3>
+                                    <h3 className='custom-menu-link'
+                                        onClick={showUploadProjectBox}
+                                    >Upload Project</h3>
                                 )
                             }
 
-                        </a>
+                        </Link>
                     </li>
                     <li>
                         {/* <h2 htmlFor="upload_project cursor-pointer ">PROJECT</h2> */}
-                        <a href="/" className="menu_link flex items-center justify-center hover:bg-slate-700 px-3 py-2 custom-transtion hover:opacity-90 rounded-2xl ">
+                        <Link to="/" className="menu_link flex items-center justify-center hover:bg-slate-700 px-3 py-2 custom-transtion hover:opacity-90 rounded-2xl ">
 
                             {/* we changing content when mobile size  */}
                             {
@@ -87,14 +107,16 @@ const Navbar = () => {
                                         </Tooltip>
                                     </>
                                 ) : (
-                                    <h3 className='custom-menu-link' >Notifications</h3>
+                                    <h3 className='custom-menu-link'
+                                        //Also Close reponsive menu when cicked
+                                        onClick={(e) => { e.preventDefault(); setShowMenu(!showMenu) }}
+                                    >Notifications</h3>
                                 )
                             }
-
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="/" className="menu_link flex items-center justify-center hover:bg-slate-700 px-3 py-2 custom-transtion hover:opacity-90 rounded-2xl ">
+                        <Link to="/" className="menu_link flex items-center justify-center hover:bg-slate-700 px-3 py-2 custom-transtion hover:opacity-90 rounded-2xl ">
 
                             {/* we changing content when mobile size  */}
                             {
@@ -105,16 +127,19 @@ const Navbar = () => {
                                         </Tooltip>
                                     </>
                                 ) : (
-                                    <h3 className='custom-menu-link' >My Messages</h3>
+                                    <h3 className='custom-menu-link'
+                                        //Also Close reponsive menu when cicked
+                                        onClick={(e) => { e.preventDefault(); setShowMenu(!showMenu) }}
+                                    >My Messages</h3>
                                 )
                             }
 
-                        </a>
+                        </Link>
                     </li>
                 </ul>
 
                 {/* menu button which is visible when mobile screen */}
-                <a href="/" className="menu_bar rounded-md flex custom-transtion ">
+                <Link to="/" className="menu_bar rounded-md flex custom-transtion ">
 
                     <MenuIcon
                         onClick={toggleMenu}
@@ -123,8 +148,13 @@ const Navbar = () => {
                         onClick={toggleMenu}
                         className="hover:opacity-80" style={{ fontSize: '2.5rem', display: showMenu ? 'block' : 'none' }} />
 
-                </a>
+                </Link>
             </nav>
+
+
+            {
+                showUpload ? <UploadProject onClose={closePopup} /> : ""
+            }
         </>
     )
 }
