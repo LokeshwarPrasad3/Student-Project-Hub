@@ -24,14 +24,14 @@
   border-radius: 7px;
 }
 
-@media (max-width: 1368px){
-  .user_all_skills{
+@media (max-width: 1368px) {
+  .user_all_skills {
     min-width: 50vw;
   }
 }
 
 @media (max-width: 1000px) {
-  .user_all_skills{
+  .user_all_skills {
     max-width: 500px;
   }
   /* change layout of project card */
@@ -53,14 +53,13 @@
   }
 }
 @media (max-width: 870px) {
-    /* when select options then fix their sizef */
-  .selected_technology{
-    max-width:100%;
+  /* when select options then fix their sizef */
+  .selected_technology {
+    max-width: 100%;
   }
-  .technologies_names{
-    max-width:100%;
+  .technologies_names {
+    max-width: 100%;
   }
-
 
   /* heading of profile container */
   .heading_container {
@@ -68,7 +67,7 @@
   }
 
   .user_details {
-    padding: 1rem;
+    padding: 0.3rem;
   }
   .top_details {
     padding: 0 0;
@@ -80,7 +79,7 @@
     max-width: 100%;
   }
   .social_links {
-    padding-left: 27vw;
+    padding-left: 25vw;
   }
   .basic_details {
     width: 100%;
@@ -89,13 +88,22 @@
     justify-content: center;
     align-items: center;
   }
+
+  .bio_details {
+    width: 90vw;
+  }
+  .textarea_bio {
+    width: 90vw;
+  }
 }
 
 @media (max-width: 600px) {
-
+   .user_all_skills {
+    max-width: 100vw;
+  }
   /* heading of profile container */
-  .edit_profile_box{
-    gap : 0.5rem;
+  .edit_profile_box {
+    gap: 0.5rem;
   }
 
   .edit_choice {

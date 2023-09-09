@@ -11,6 +11,8 @@ import '../CSS/Navbar.css';
 
 const Navbar = () => {
 
+    const studentName = "Lokeshwar Prasad Dewangan";
+
     // toggle navbar 
     const [showMenu, setShowMenu] = useState(false);
     const toggleMenu = (e) => {
@@ -48,7 +50,7 @@ const Navbar = () => {
                             <img src="./Images/lokeshwar.jpg" alt="user" className='w-9 h-9 rounded-full' srcSet="" />
                         </a>
                     </Tooltip>
-                    <a href="/profile" className='user_name font-bree text-2xl hover:opacity-90 custom-transtion ' >Lokeshwar Prasad</a>
+                    <a href="/profile" className='user_name font-bree text-2xl hover:opacity-90 custom-transtion ' >{studentName.split(' ').slice(0, 2).join(' ')}</a>
                 </div>
                 {/* right part */}
                 <ul

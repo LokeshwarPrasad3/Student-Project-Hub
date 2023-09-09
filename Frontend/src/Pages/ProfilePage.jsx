@@ -7,17 +7,50 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import Diversity1Icon from '@mui/icons-material/Diversity1';
 import CloseIcon from '@mui/icons-material/Close';
 import GradeIcon from '@mui/icons-material/Grade';
-import FactCheckIcon from '@mui/icons-material/FactCheck';
-import CallMissedOutgoingIcon from '@mui/icons-material/CallMissedOutgoing';
 import LinkIcon from '@mui/icons-material/Link';
+import ProjectCard from '../Components/ProjectCard';
+import EditCustomInput from '../Components/CustomInput/EditCustomInput';
 // used react-material components 
 // import Tabs from '@mui/material/Tabs';
 // import Tab from '@mui/material/Tab';
 
 const Profile = () => {
 
+  const myName = "Lokeshwar Prasad Dewangan";
+  const bio = "ipsum dolor sit amet consectetur adipisicing elit. Fugiat rem cumque possimus et nostrum eos voluptate sapiente alias labore. Magnam.";
+  const website = "https://netlify.com";
+  const linkedin_link = "https://linkedin.com";
+  const github_link = "https://github.com";
+  const instagram_link = "https://instagram.com";
+  const email = "lokeshwar@gmail.com";
+  const college = "RSR Rungta college bhilai";
+  const course = "BTech/CSE";
+  const passYear = 2025;
+  const semYear = "5th Sem";
+  const location = "Durg Chhattisgarh"
+
+  // STUDENT DETAILS STORE
+  const [studentName, setStudentName] = useState(myName);
+  const [studentBio, setStudentBio] = useState(bio);
+  const [studentWebsite, setStudentWebsite] = useState(website)
+  const [studentLinkedin, setStudentLinkedin] = useState(linkedin_link)
+  const [studentGithub, setStudentGithub] = useState(github_link)
+  const [studentInstagram, setStudentInstagram] = useState(instagram_link)
+  const [studentEmail, setStudentEmail] = useState(email)
+  const [studentCollege, setStudentCollege] = useState(college)
+  const [studentCourse, setStudentCourse] = useState(course)
+  const [studentPassYear, setStudentPassYear] = useState(passYear)
+  const [studentCurrentSemYear, setStudentCurrentSemYear] = useState(semYear)
+  const [studentLocation, setStudentLocation] = useState(location)
+
+  // when clicking edit button then convert text to input
+  const [showEditBox, setShowEditBox] = useState(true);
+
   // when choosing technologies in options then store
-  const [selectedTechnology, setSelectedTechnology] = useState([]);
+  const [selectedTechnology, setSelectedTechnology] = useState(["React", "Typescript", "Javascript"]);
+
+  // when choosing Programming language in options then store
+  const [selectedProgramming, setSelectedProgramming] = useState(["Java", "Python"]);
 
   // handle when selected more options
   const addTechnologies = (event) => {
@@ -29,10 +62,6 @@ const Profile = () => {
     console.log(selectedTechnology);
   }
 
-
-  // when choosing Programming language in options then store
-  const [selectedProgramming, setSelectedProgramming] = useState([]);
-
   // handle when selected more options
   const addProgrammings = (event) => {
     const selectedValue = event.target.value;
@@ -43,11 +72,26 @@ const Profile = () => {
     console.log(selectedTechnology);
   }
 
-  // when clicked to close then remove
-  const handleRemoveOption = (name, state, setState) => {
-    const filteredOptions = state.filter((currName) => currName !== name);
-    setState(filteredOptions);
+
+  // edit button handle
+  const handleEdit = (e) => {
+    setShowEditBox(false);
   }
+
+  // handle saved
+  const handleSaveEdit = () => {
+    // console.log("saved button");
+    setShowEditBox(true);
+
+  }
+
+  // handle cancel when edit 
+  const handleCancelEdit = () => {
+    // console.log("Cancel button");
+    setShowEditBox(true);
+  }
+
+
 
 
   return (
@@ -59,8 +103,25 @@ const Profile = () => {
         <div className="heading_container flex  text-white items-center justify-between px-16 py-3 shadow-sm shadow-gray-500 ">
           <h1 className='profile_container_heading font-signika font-semibold text-gray-300 text-2xl ' >MY PROFILE SECTION</h1>
           <div className="edit_profile_box flex gap-6 items-center justify-center">
-            {/* <h3 className='edit_choice text-xl' >Want to Edit Details</h3> */}
-            <button className='edit_button custom-button '>EDIT</button>
+
+            {/* if user edit then show save and cancel button */}
+            {
+              showEditBox ? (
+                <button className='edit_button custom-button '
+                  onClick={handleEdit}
+                >EDIT</button>
+              ) : (
+                <>
+                  <button className='edit_button custom-button '
+                    onClick={handleSaveEdit}
+                  >SAVE</button>
+                  <button className='edit_button custom-button '
+                    onClick={handleCancelEdit}
+                  >CANCEL</button>
+                </>
+              )
+            }
+
           </div>
         </div>
 
@@ -76,20 +137,53 @@ const Profile = () => {
 
               {/* image and name */}
               <div className="name-and-image flex flex-col items-center gap-4 ">
-                <img src="./Images/lokeshwar.jpg" alt="user" className='p-[0.2rem] transition-all duration-500 bg-slate-900 w-32 h-32 rounded-full cursor-pointer hover:bg-gray-400 shadow-lg shadow-blue-700' />
-                <h2 className='text-3xl font-semibold opacity-90'>Lokeshwar Prasad</h2>
+                <div className="image_box ">
+                  <img src="./Images/lokeshwar.jpg" alt="user" className='p-[0.2rem] transition-all duration-500 bg-slate-900 w-32 h-32 rounded-full cursor-pointer hover:bg-gray-400 shadow-xl shadow-blue-700 overflow-hidden' />
+                  <input type="file" name="" id="profile_file" className='hidden ' />
+                  <label htmlFor="profile_file" className='relative top-[-1.6rem] left-4 pb-1 px-1 rounded-lg text-[0.9rem] text-white bg-purple-950 ' >Change Image</label>
+                </div>
+
+                <h2 className='text-3xl font-semibold opacity-90'>
+                  {
+                    !showEditBox ?
+                      (
+                        <input
+                          onChange={(e) => setStudentName(e.target.value)}
+                          type="text" className='bg-gray-700 text-lg pl-2 text-gray-200 font-normal rounded w-64 border-[1px]  border-gray-400 focus:border-blue-600 placeholder:Enter Your Name' name="" value={studentName} id="" />
+                      ) : (
+                        studentName.split(' ').slice(0, 2).join(' ')
+                      )
+                  }
+
+                </h2>
               </div>
 
               {/* bio of students */}
               <div className="bio w-full max-w-[34vw]">
-                <p className='bio_detalis text-center text-xl custom-values' >ipsum dolor sit amet consectetur adipisicing elit. Fugiat rem cumque possimus et nostrum eos voluptate sapiente alias labore. Magnam.</p>
+                <p className='bio_details text-center text-xl custom-values' >
+                  {
+                    !showEditBox ?
+                      (
+                        <EditCustomInput
+                          type="textarea"
+                          value={studentBio}
+                          onChange={(e) => setStudentBio(e.target.value)}
+                          placeholder="Your Bio"
+                        />) : (
+                        studentBio.split(' ').slice(0, 20).join(' ')
+                      )
+                  }
+                </p>
+
+
               </div>
 
 
 
               {/* linlks of social media */}
-              <div className="social_links flex flex-col gap-2 w-full pl-[5vw] text-xl">
+              <div className={`social_links flex flex-col gap-2 w-full ${showEditBox ? 'pl-[5vw]' : ""} text-xl`}>
                 {/* no of connections */}
+
                 <div className="user_connections flex gap-3 w-full  text-xl">
                   <Diversity1Icon />
                   <span className='custom-values' >Connections : </span>
@@ -99,37 +193,82 @@ const Profile = () => {
                 {/* My Website link */}
                 <div className="website_link flex gap-3">
                   <LinkIcon className='' />
-                  <a href="https://lokeshwar-creatives.netlify.app/" className='custom-values' target="_blank" rel="noopener noreferrer">
-                    {/* https://lokeshwar-creatives.netlify.app/ */}
-                    https://netlify.app/
-                  </a>
+                  {
+                    !showEditBox ? (
+                      <EditCustomInput
+                        type="input"
+                        value={studentWebsite}
+                        onChange={(e) => setStudentWebsite(e.target.value)}
+                        placeholder="Your Website"
+                      />
+                    ) : (
+                      <EditCustomInput
+                        type="link"
+                        value={studentWebsite}
+                      />
+                    )
+                  }
                 </div>
                 {/* linkedin link */}
                 <div className="linkedin_link flex gap-3">
                   <LinkedInIcon className='' />
-                  <a href="https://linkedin.com/in/lokeshwar-prasad-dewangan-7b2163211/" className='custom-values' target="_blank" rel="noopener noreferrer">
-                    {/* linkedin.com/in/lokeshwar-prasad-dewangan-7b2163211/ */}
-                    https://linkedin.com/
-                  </a>
+                  {
+                    !showEditBox ?
+                      (
+                        <EditCustomInput
+                          type="input"
+                          value={studentLinkedin}
+                          onChange={(e) => setStudentLinkedin(e.target.value)}
+                          placeholder="Linkedin Link"
+                        />) : (
+                        <EditCustomInput
+                          type="link"
+                          value={studentLinkedin}
+                        />
+                      )
+                  }
                 </div>
-                {/* linkedin link */}
+                {/* github link */}
                 <div className="github_link flex gap-3">
                   <GitHubIcon className='' />
-                  <a href="https://github.com/LokeshwarPrasad3" className='custom-values' target="_blank" rel="noopener noreferrer">
-                    {/* https://github.com/LokeshwarPrasad3 */}
-                    https://github.com/
-                  </a>
+                  {
+                    !showEditBox ?
+                      (
+                        <EditCustomInput
+                          type="input"
+                          value={studentGithub}
+                          onChange={(e) => setStudentGithub(e.target.value)}
+                          placeholder="Github Link"
+                        />) : (
+                        <EditCustomInput
+                          type="link"
+                          value={studentGithub}
+                        />
+                      )
+                  }
                 </div>
 
                 {/* instagram link */}
                 <div className="instagram_link flex gap-3">
                   <InstagramIcon className='' />
-                  <a href="https://www.instagram.com/Lokeshwarprasad1/" className='custom-values' target="_blank" rel="noopener noreferrer">
-                    {/* https://www.instagram.com/Lokeshwarprasad1/ */}
-                    https://www.instagram.com/
-                  </a>
+                  {
+                    !showEditBox ?
+                      (
+                        <EditCustomInput
+                          type="input"
+                          value={studentInstagram}
+                          onChange={(e) => setStudentInstagram(e.target.value)}
+                          placeholder="Instagram Link"
+                        />) : (
+                        <EditCustomInput
+                          type="link"
+                          value={studentInstagram}
+                        />
+                      )
+                  }
                 </div>
               </div>
+
             </div>
 
           </div>
@@ -141,99 +280,196 @@ const Profile = () => {
             {/* email */}
             <div className="user_email flex items-center  gap-3">
               <span className='small_heading' >Email : </span>
-              <span className='custom-values' >lokeshwar@gmail.com</span>
+              {
+                !showEditBox ?
+                  (
+                    <EditCustomInput
+                      type="input"
+                      value={studentEmail}
+                      onChange={(e) => setStudentEmail(e.target.value)}
+                      placeholder="Your Email"
+                    />
+                  ) : (
+                    <span className='custom-values' >{studentEmail}</span>
+                  )
+              }
             </div>
 
             {/* Collage */}
             <div className="user_collge flex items-center  gap-3">
               <span className='small_heading opacity-95' >Collage : </span>
-              <span className='custom-values' >RSR Rungta colleage Bhilai</span>
+              {
+                !showEditBox ?
+                  (
+                    <EditCustomInput
+                      type="input"
+                      value={studentCollege}
+                      onChange={(e) => setStudentCollege(e.target.value)}
+                      placeholder="Your Collage"
+                    />
+                  ) : (
+                    <span className='custom-values' >{studentCollege}</span>
+                  )
+              }
             </div>
 
             {/* Courses */}
             <div className="user_course flex items-center  gap-3">
               <span className='small_heading opacity-95' >Course : </span>
-              <span className='custom-values' >BTech/CSE</span>
+              {
+                !showEditBox ?
+                  (
+                    <EditCustomInput
+                      type="input"
+                      value={studentCourse}
+                      onChange={(e) => setStudentCourse(e.target.value)}
+                      placeholder="Your Couse"
+                    />) : (
+                    <span className='custom-values' >{studentCourse}</span>
+                  )
+              }
             </div>
 
             {/* Passout Year */}
             <div className="user_pass_year flex items-center  gap-3">
-              <span className='small_heading opacity-95' >Passout Year : </span>
-              <span className='custom-values' >2025</span>
+              <span className='small_heading opacity-95' >PassYear : </span>
+              {
+                !showEditBox ?
+                  (
+                    <EditCustomInput
+                      type="input"
+                      value={studentPassYear}
+                      onChange={(e) => setStudentPassYear(e.target.value)}
+                      placeholder="Your Course"
+                    />) : (
+                    <span className='custom-values' >{studentPassYear}</span>
+                  )
+              }
             </div>
 
             {/* SEM/ YEAR */}
             <div className="user_year_sem flex items-center  gap-3">
               <span className='small_heading opacity-95' >Sem/Year : </span>
-              <span className='custom-values' >5th Sem</span>
+              {
+                !showEditBox ?
+                  (
+                    <EditCustomInput
+                      type="input"
+                      value={studentCurrentSemYear}
+                      onChange={(e) => setStudentCurrentSemYear(e.target.value)}
+                      placeholder="Your Sem/Year"
+                    />) : (
+                    <span className='custom-values' >{studentCurrentSemYear}</span>
+                  )
+              }
             </div>
 
             <div className="user_location flex items-center  gap-3">
               <span className='small_heading opacity-95' >Location : </span>
-              <span className='custom-values' >Durg Chhattisgarh </span>
+              {
+                !showEditBox ?
+                  (
+                    <EditCustomInput
+                      type="input"
+                      value={studentLocation}
+                      onChange={(e) => setStudentLocation(e.target.value)}
+                      placeholder="Your Location"
+                    />) : (
+                    <span className='custom-values' >{studentLocation} </span>
+                  )
+              }
             </div>
 
           </div>
 
 
           {/* User skills educations */}
-          <div className="user_all_skills flex items-center flex-col px-3  pt-7 gap-9  text-xl min-w-[30vw]">
+          <div className="user_all_skills flex items-center flex-col px-3  pt-7 gap-1  text-xl min-w-[30vw]">
 
             {/* technology used */}
             <div className="technologies_names flex max-w-[82%] flex-col items-center gap-3">
               {/* technology listed options */}
-              <div className="show_technologies flex gap-5 items-center justify-center">
+              <div className={`show_technologies flex ${showEditBox ? 'flex-col' : ""}  gap-1 items-center justify-center`}>
                 <span className='small_heading' >Technology : </span>
+
                 {/* selections of technologies */}
-                <select
-                  value={selectedTechnology}
-                  onChange={addTechnologies}
-                  multiple={false}
-                  className='cursor-pointer h-5 text-[1rem] text-black' name="" id="">
-                  <option value="">_SELECT_Technology</option>
-                  <option value="HTML">HTML</option>
-                  <option value="CSS">CSS</option>
-                  <option value="Javascript">Javascript</option>
-                  <option value="Typescript">Typescript</option>
-                  <option value="Bootstrap">Bootstrap</option>
-                  <option value="Talwind">Talwind</option>
-                  <option value="React">React</option>
-                  <option value="NodeJS">NodeJS</option>
-                  <option value="Express">Express</option>
-                  <option value="MySql">MySql</option>
-                  <option value="PHP">PHP</option>
-                  <option value="Spring">Spring</option>
-                  <option value="Hybernet">Hybernet</option>
-                  <option value="Django">Django</option>
-                  <option value=".NET">.NET</option>
-                  <option value="GO">GO</option>
-                </select>
+                {
+                  !showEditBox ? (
+                    <select
+                      value={selectedTechnology.length > 0 ? selectedTechnology[0] : ''}
+                      onChange={addTechnologies}
+                      multiple={false}
+                      className='cursor-pointer h-5 text-[1rem] text-black'
+                      name=""
+                      id=""
+                    >
+                      <option value="">_SELECT_Technology</option>
+                      <option value="HTML">HTML</option>
+                      <option value="CSS">CSS</option>
+                      <option value="Javascript">Javascript</option>
+                      <option value="Typescript">Typescript</option>
+                      <option value="Bootstrap">Bootstrap</option>
+                      <option value="Talwind">Talwind</option>
+                      <option value="React">React</option>
+                      <option value="NodeJS">NodeJS</option>
+                      <option value="Express">Express</option>
+                      <option value="MySql">MySql</option>
+                      <option value="PHP">PHP</option>
+                      <option value="Spring">Spring</option>
+                      <option value="Hybernet">Hybernet</option>
+                      <option value="Django">Django</option>
+                      <option value=".NET">.NET</option>
+                      <option value="GO">GO</option>
+                    </select>
+                  ) : (
+                    <div className="selected_technology  flex  flex-wrap items-center justify-center gap-1 w-full">
+
+                      {
+                        selectedTechnology.map((name) => {
+                          return (
+                            <React.Fragment key={name}>
+                              {/* one selected */}
+                              <div className="technology_box selected_options px-1">
+                                <span>{name}</span>
+                              </div>
+                            </React.Fragment>
+                          )
+                        })
+                      }
+                    </div>
+                  )
+                }
+
 
               </div>
 
               {/* technology which is selected */}
-              <div className="selected_technology max-w-[450px] flex flex-wrap gap-1 select-none">
+              <div className="selected_technology max-w-[450px] mb-2 flex flex-wrap gap-1 select-none">
 
 
                 {/* show all technologies which is selected by selectedTechnology state */}
                 {
-                  selectedTechnology.map((name) => {
-                    return (
-                      <>
-                        {/* one selected */}
-                        <div className="technology_box selected_options " key={name}>
-                          <span>{name}</span>
-                          <CloseIcon
-                            onClick={() => {
-                              const filteredOptions = selectedTechnology.filter((currName) => currName !== name);
-                              setSelectedTechnology(filteredOptions);
-                            }}
-                            className='selected_options_close ' style={{ height: '1.2rem', width: '1.2rem' }} />
-                        </div>
-                      </>
-                    )
-                  })
+                  !showEditBox ? (
+
+                    selectedTechnology.map((name, index) => {
+                      return (
+                        <React.Fragment key={name}>
+                          {/* one selected */}
+                          <div className="technology_box selected_options ">
+                            <span>{name}</span>
+                            <CloseIcon
+                              onClick={() => {
+                                const filteredOptions = selectedTechnology.filter((currName) => currName !== name);
+                                setSelectedTechnology(filteredOptions);
+                              }}
+                              className='selected_options_close ' style={{ height: '1.2rem', width: '1.2rem' }} />
+                          </div>
+                        </React.Fragment>
+                      )
+                    })
+                  ) : ""
                 }
+
 
               </div>
 
@@ -243,45 +479,73 @@ const Profile = () => {
             {/* Core Programming Lnagugae */}
             <div className="programming_language_names flex flex-col gap-3">
               {/* programming language listed options */}
-              <div className="show_programming_language   flex-2 flex-3 gap-3">
+              <div className={`show_programming_language ${showEditBox ? 'flex-col' : ""} flex-2 flex-3 gap-1`}>
                 <span className='small_heading' >Programming : </span>
+
                 {/* selections of Programming */}
-                <select
-                  value={selectedProgramming}
-                  onChange={addProgrammings}
-                  multiple={false}
-                  className='cursor-pointer h-5 text-[1rem] text-black' name="" id="">
-                  <option value="">_SELECT_Language</option>
-                  <option value="C">C</option>
-                  <option value="C++">C++</option>
-                  <option value="Python">Python</option>
-                  <option value="Java">Java</option>
-                </select>
+                {
+                  !showEditBox ? (
+                    <>
+                      <select
+                        value={selectedProgramming.length > 0 ? selectedProgramming[0] : ''}
+
+                        onChange={addProgrammings}
+                        multiple={false}
+                        className='cursor-pointer h-5 text-[1rem] text-black' name="" id="">
+                        <option value="">_SELECT_Language</option>
+                        <option value="C">C</option>
+                        <option value="C++">C++</option>
+                        <option value="Python">Python</option>
+                        <option value="Java">Java</option>
+                      </select>
+                    </>
+                  ) : (
+                    <>
+
+                      <div className="selected_programming_language flex justify-center items-center gap-1">
+                        {
+                          selectedProgramming.map((name) => {
+                            return (
+                              <React.Fragment key={name}>
+                                {/* one selected */}
+                                <div className="language_box selected_options px-1" >
+                                  <span>{name}</span>
+                                </div>
+                              </React.Fragment>
+                            )
+                          })
+                        }
+                      </div>
+                    </>
+                  )
+                }
 
               </div>
 
               {/* technology which is selected */}
-              <div className="selected_programming_language max-w-[450px] flex gap-1">
+              <div className="selected_programming_language mb-2  max-w-[450px] flex gap-1">
 
 
                 {/* show all prpogramming lang which is selected by selectedTechnology state */}
                 {
-                  selectedProgramming.map((name) => {
-                    return (
-                      <>
-                        {/* one selected */}
-                        <div className="language_box selected_options" key={name}>
-                          <span>{name}</span>
-                          <CloseIcon
-                            onClick={() => {
-                              const filteredOptions = selectedProgramming.filter((currName) => currName !== name);
-                              setSelectedProgramming(filteredOptions);
-                            }}
-                            className='selected_options_close custom-transition' style={{ height: '1.2rem', width: '1.2rem' }} />
-                        </div>
-                      </>
-                    )
-                  })
+                  !showEditBox ? (
+                    selectedProgramming.map((name) => {
+                      return (
+                        <React.Fragment key={name}>
+                          {/* one selected */}
+                          <div className="language_box selected_options" >
+                            <span>{name}</span>
+                            <CloseIcon
+                              onClick={() => {
+                                const filteredOptions = selectedProgramming.filter((currName) => currName !== name);
+                                setSelectedProgramming(filteredOptions);
+                              }}
+                              className='selected_options_close custom-transition' style={{ height: '1.2rem', width: '1.2rem' }} />
+                          </div>
+                        </React.Fragment>
+                      )
+                    })
+                  ) : ""
                 }
 
               </div>
@@ -289,7 +553,7 @@ const Profile = () => {
 
 
             {/* my rating */}
-            <div className="user_rating flex items-center justify-center gap-3">
+            <div className="user_rating flex items-center my-1 justify-center gap-3 ">
               <span className='small_heading'>My Rating :-</span>
               <div className="rating_box">
                 <GradeIcon className='grade_icon' />
@@ -301,7 +565,7 @@ const Profile = () => {
             </div>
 
             {/* send message to user */}
-            <div className="send_message_button">
+            <div className="send_message_button my-1">
               <button className="send_message custom-button">SEND MESSAGE</button>
             </div>
           </div>
@@ -310,119 +574,11 @@ const Profile = () => {
 
 
         {/* all projects container with headings  */}
-        <div className="all_projects_container text-white px-16  flex flex-col items-center justify-center w-full py-9 gap-5 shadow-sm shadow-gray-600">
-          {/* heding part */}
-          <div className="disclaimers items-center flex w-full justify-center">
-            <h2 className='font-signika font-semibold text-gray-300 text-2xl ' >CHECKOUT MY PROJECTS</h2>
-            {/* need filter button ongoing completed */}
-            {/* <Tabs  className='text-white' aria-label="icon label tabs example">
-              <Tab style={{color:'white'}} label="LOGIN-ACCOUNT" />
-              <Tab style={{color:'white'}} label="CREATE-ACCOUNT" />
-            </Tabs> */}
-          </div>
 
-          {/* container contains all projects box */}
-          <div className="projects_container flex py-4 gap-9 flex-wrap items-center justify-center ">
-
-            {/* projecct box */}
-            <div className="project_box flex flex-col items-center bg-slate-600 rounded-md px-5 gap-2 min-w-[404px] py-6 shadow-md shadow-gray-200 ">
-              <div className="status flex justify-center gap-2 items-center">
-                <span className="status text-xl text-green-500">OnGoing</span>
-                <CallMissedOutgoingIcon />
-              </div>
-              <div className="project_name flex gap-3  w-full ">
-                <span className='project_name small_heading text-gray-200' >PROJECT : </span>
-                <span className='name_value text-xl custom-values' >SMART CANTEEN WEBAPP </span>
-              </div>
-              <div className="technology_name project_name flex gap-3 items-center w-full">
-                <span className='technology_name small_heading text-gray-200' >Technology : </span>
-                <span className='technology_value text-xl custom-values' >HTML,CSS,JS,REACT..</span>
-              </div>
-              <div className="project_name project_name flex gap-3 items-center w-full">
-                <span className='description_name small_heading text-gray-200' >Description : </span>
-                <span className='description_value text-xl custom-values' >This is Group Projects of... </span>
-              </div>
-              <button className='custom-button relative top-2' >Goto-Project</button>
-            </div>
+        <ProjectCard />
 
 
-            {/* projecct box */}
-            <div className="project_box flex flex-col items-center bg-slate-600 rounded-md px-5 gap-2 min-w-[404px] py-6 shadow-md shadow-gray-200">
-              <div className="status flex justify-center gap-2 items-center">
-                <span className="status text-xl text-green-500">OnGoing</span>
-                <CallMissedOutgoingIcon />
-              </div>
-              <div className="project_name flex gap-3  w-full ">
-                <span className='project_name small_heading text-gray-200' >PROJECT : </span>
-                <span className='name_value text-xl custom-values' >SMART CANTEEN WEBAPP </span>
-              </div>
-              <div className="technology_name project_name flex gap-3 items-center w-full">
-                <span className='technology_name small_heading text-gray-200' >Technology : </span>
-                <span className='technology_value text-xl custom-values' >HTML,CSS,JS,REACT..</span>
-              </div>
-              <div className="project_name project_name flex gap-3 items-center w-full">
-                <span className='description_name small_heading text-gray-200' >Description : </span>
-                <span className='description_value text-xl custom-values' >This is Group Projects of... </span>
-              </div>
-              <button className='custom-button relative top-2' >Goto-Project</button>
-            </div>
-
-
-            {/* projecct box */}
-            <div className="project_box flex flex-col items-center bg-slate-600 rounded-md px-5 gap-2 min-w-[404px] py-6 shadow-md shadow-gray-200">
-              <div className="status flex justify-center gap-2 items-center">
-                <span className="status text-xl text-green-500">OnGoing</span>
-                <CallMissedOutgoingIcon />
-              </div>
-              <div className="project_name flex gap-3  w-full ">
-                <span className='project_name small_heading text-gray-200' >PROJECT : </span>
-                <span className='name_value text-xl custom-values' >SMART CANTEEN WEBAPP </span>
-              </div>
-              <div className="technology_name project_name flex gap-3 items-center w-full">
-                <span className='technology_name small_heading text-gray-200' >Technology : </span>
-                <span className='technology_value text-xl custom-values' >HTML,CSS,JS,REACT..</span>
-              </div>
-              <div className="project_name project_name flex gap-3 items-center w-full">
-                <span className='description_name small_heading text-gray-200' >Description : </span>
-                <span className='description_value text-xl custom-values' >This is Group Projects of... </span>
-              </div>
-              <button className='custom-button relative top-2' >Goto-Project</button>
-            </div>
-
-
-            {/* projecct box */}
-            <div className="project_box flex flex-col items-center bg-slate-600 rounded-md px-5 gap-2 min-w-[404px] py-6 shadow-md shadow-gray-200">
-              <div className="status flex justify-center gap-2 items-center">
-                <span className="status text-xl text-green-500">OnGoing</span>
-                <CallMissedOutgoingIcon />
-              </div>
-              <div className="project_name flex gap-3  w-full ">
-                <span className='project_name small_heading text-gray-200' >PROJECT : </span>
-                <span className='name_value text-xl custom-values' >SMART CANTEEN WEBAPP </span>
-              </div>
-              <div className="technology_name project_name flex gap-3 items-center w-full">
-                <span className='technology_name small_heading text-gray-200' >Technology : </span>
-                <span className='technology_value text-xl custom-values' >HTML,CSS,JS,REACT..</span>
-              </div>
-              <div className="project_name project_name flex gap-3 items-center w-full">
-                <span className='description_name small_heading text-gray-200' >Description : </span>
-                <span className='description_value text-xl custom-values' >This is Group Projects of... </span>
-              </div>
-              <button className='custom-button relative top-2' >Goto-Project</button>
-            </div>
-
-
-
-
-
-          </div>
-        </div>
-
-
-
-
-
-      </div>
+      </div >
     </>
   )
 }
