@@ -1,5 +1,7 @@
 /* 👉 THIS IS CSS FOR RESPONSIVE DESIGN IN MOBILE TABLES  */
-
+.code_space {
+    overflow: hidden;
+  }
 .project_upload::before {
   content: "";
   position: fixed;
@@ -34,13 +36,20 @@
 .grade_icon {
   /* rating icon */
   width: 40px;
-  background-color: red;
   border-radius: 7px;
 }
 
 @media (max-width: 1368px) {
   .user_all_skills {
-    min-width: 50vw;
+    min-width: 25vw;
+  }
+  .basic_details {
+    min-width: 300px;
+  }
+}
+@media (max-width: 1368px) {
+  .basic_details {
+    padding: 0;
   }
 }
 
@@ -136,5 +145,43 @@
 @media (max-width: 600px) {
   .upload_part {
     width: 25rem;
+  }
+}
+
+/* 4. PROJECT PAGE WHERE DETAILED DISPLAY */
+@media (max-width: 600px) {
+  .project_links,
+  .user_rating,
+  .project_buttons,
+  .show_contributers {
+    min-width: 100px;
+  }
+
+  .actual_code {
+    min-width: 20rem;
+    margin: 0;
+  }
+  .code_space {
+    padding: 0.5rem;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 802px) {
+  .project_folder_container {
+    flex-direction: column;
+  }
+  .folder_structures {
+    width: 100%;
+    /* padding : 1rem 2rem; */
+    padding-left: 3rem;
+  }
+  .code_heading {
+    padding: 0 1rem;
+  }
+
+  .project_properties {
+    display: grid;
+    grid-template-columns: 155px 1fr;
   }
 }

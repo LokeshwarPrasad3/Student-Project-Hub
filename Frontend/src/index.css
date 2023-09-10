@@ -33,9 +33,6 @@ body {
   @apply py-1 px-3 w-fit bg-green-700  opacity-95 hover:text-slate-200 transition-all duration-300 rounded-md text-xl shadow-md shadow-pink-300 font-signika;
 }
 
-.small_heading {
-  @apply text-2xl font-[500];
-}
 
 
 /* in profile secction when technology select */
@@ -53,5 +50,5 @@ body {
 
 /* custom values of keys */
 .custom-values{
-  @apply text-gray-300;
+  @apply text-gray-300 text-[1.2rem];
 }

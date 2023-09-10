@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 // axios for fetching api
 // import axios from 'axios';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import '../CSS/Style.css';
+import '../../CSS/Style.css';
 
 const UploadProject = ({ onClose }) => {
 

@@ -8,7 +8,11 @@ module.exports = {
       fontFamily: {
         'signika': ['"Signika Negative"', 'serif'],
         'bree': ['"Bree Serif"', 'serif'],
+        'fira': ['"Fira Code"', 'serif'],
         'overpass': ['"Overpass"', 'serif'],
+      },
+      gridColumn: {
+        'auto-200px': 'repeat(auto-fill, minmax(200px, 1fr))',
       },
     },
   },

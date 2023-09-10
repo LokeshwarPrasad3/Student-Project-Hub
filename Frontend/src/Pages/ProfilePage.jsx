@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import '../CSS/Style.css'
 import Navbar from '../Components/Navbar';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import LinkIcon from '@mui/icons-material/Link';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import Diversity1Icon from '@mui/icons-material/Diversity1';
 import CloseIcon from '@mui/icons-material/Close';
 import GradeIcon from '@mui/icons-material/Grade';
-import LinkIcon from '@mui/icons-material/Link';
-import ProjectCard from '../Components/ProjectCard';
+import ProjectCard from '../Components/ProjectComponents/ProjectCard';
 import EditCustomInput from '../Components/CustomInput/EditCustomInput';
 // used react-material components 
 // import Tabs from '@mui/material/Tabs';
@@ -129,11 +129,11 @@ const Profile = () => {
         {/* user details strudents  */}
         <div className="user_details text-white flex flex-wrap justify-center items-center px-0 gap-3 w-full h-full py-8 shadow-sm shadow-gray-600">
 
-          {/* images name descr social links */}
-          <div className="imp_show flex flex-col items-center gap-6 px-2 py-2 min-w-[30vw]">
+          {/* images name descr social links changed from 30vw */}
+          <div className="imp_show flex flex-col items-center gap-6 px-2 py-2 min-w-[25vw]">
 
             {/* image name bio */}
-            <div className="top_details flex flex-col items-center gap-5 px-[2vw]">
+            <div className="top_details flex flex-col items-center gap-5 px-[0vw]">
 
               {/* image and name */}
               <div className="name-and-image flex flex-col items-center gap-4 ">
@@ -275,7 +275,7 @@ const Profile = () => {
 
 
           {/* basic details of User */}
-          <div className="basic_details flex flex-col  pl-9 h-full pt-7 px-5 gap-9 text-xl min-w-[400px]">
+          <div className="basic_details flex flex-col  pl-9 h-full pt-7 px-0 gap-3 text-xl min-w-[400px]">
 
             {/* email */}
             <div className="user_email flex items-center  gap-3">
@@ -383,8 +383,8 @@ const Profile = () => {
           </div>
 
 
-          {/* User skills educations */}
-          <div className="user_all_skills flex items-center flex-col px-3  pt-7 gap-1  text-xl min-w-[30vw]">
+          { }
+          <div className="user_all_skills flex items-center flex-col px-3  pt-7 gap-1  text-xl ">
 
             {/* technology used */}
             <div className="technologies_names flex max-w-[82%] flex-col items-center gap-3">
@@ -399,7 +399,7 @@ const Profile = () => {
                       value={selectedTechnology.length > 0 ? selectedTechnology[0] : ''}
                       onChange={addTechnologies}
                       multiple={false}
-                      className='cursor-pointer h-5 text-[1rem] text-black'
+                      className='cursor-pointer h-5 text-[1rem] text-black w-[75px]'
                       name=""
                       id=""
                     >
@@ -444,7 +444,7 @@ const Profile = () => {
               </div>
 
               {/* technology which is selected */}
-              <div className="selected_technology max-w-[450px] mb-2 flex flex-wrap gap-1 select-none">
+              <div className="selected_technology mb-2 flex  flex-wrap gap-1 select-none">
 
 
                 {/* show all technologies which is selected by selectedTechnology state */}
@@ -490,7 +490,7 @@ const Profile = () => {
 
                         onChange={addProgrammings}
                         multiple={false}
-                        className='cursor-pointer h-5 text-[1rem] text-black' name="" id="">
+                        className='cursor-pointer h-5 text-[1rem] text-black w-[75px]' name="" id="">
                         <option value="">_SELECT_Language</option>
                         <option value="C">C</option>
                         <option value="C++">C++</option>

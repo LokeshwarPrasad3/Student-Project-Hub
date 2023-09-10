@@ -6,10 +6,11 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import MessageIcon from '@mui/icons-material/Message';
 import Tooltip from '@mui/material/Tooltip';
 import CloseIcon from '@mui/icons-material/Close';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 // include css of navbar
 import '../CSS/Navbar.css';
-import UploadProject from './UploadProject';
+import UploadProject from './ProjectComponents/UploadProject';
 
 const Navbar = () => {
 
@@ -72,6 +73,8 @@ const Navbar = () => {
                 <ul
                     style={{ left: showMenu ? '0%' : '100%' }}
                     className='menu_links flex items-center justify-center gap-2' >
+
+                    {/* upload project menu link */}
                     <li>
                         <Link to="/" className="menu_link custom-nav-link ">
 
@@ -94,8 +97,9 @@ const Navbar = () => {
 
                         </Link>
                     </li>
+
+                    {/* Notification menu link */}
                     <li>
-                        {/* <h2 htmlFor="upload_project cursor-pointer ">PROJECT</h2> */}
                         <Link to="/" className="menu_link flex items-center justify-center hover:bg-slate-700 px-3 py-2 custom-transtion hover:opacity-90 rounded-2xl ">
 
                             {/* we changing content when mobile size  */}
@@ -115,9 +119,9 @@ const Navbar = () => {
                             }
                         </Link>
                     </li>
+                    {/* Message icon menu link */}
                     <li>
                         <Link to="/" className="menu_link flex items-center justify-center hover:bg-slate-700 px-3 py-2 custom-transtion hover:opacity-90 rounded-2xl ">
-
                             {/* we changing content when mobile size  */}
                             {
                                 !isMobile ? (
@@ -133,7 +137,26 @@ const Navbar = () => {
                                     >My Messages</h3>
                                 )
                             }
-
+                        </Link>
+                    </li>
+                    {/* Logout icon menu link */}
+                    <li>
+                        <Link to="/auth" className="menu_link flex items-center justify-center hover:bg-slate-700 px-3 py-2 custom-transtion hover:opacity-90 rounded-2xl ">
+                            {/* we changing content when mobile size  */}
+                            {
+                                !isMobile ? (
+                                    <>
+                                        <Tooltip title="Logout" arrow>
+                                            <LogoutIcon className='' />
+                                        </Tooltip>
+                                    </>
+                                ) : (
+                                    <h3 className='custom-menu-link'
+                                        //Also Close reponsive menu when cicked
+                                        onClick={(e) => { e.preventDefault(); setShowMenu(!showMenu) }}
+                                    >Logout</h3>
+                                )
+                            }
                         </Link>
                     </li>
                 </ul>
