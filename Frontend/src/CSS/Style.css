@@ -1,7 +1,7 @@
 /* 👉 THIS IS CSS FOR RESPONSIVE DESIGN IN MOBILE TABLES  */
 .code_space {
-    overflow: hidden;
-  }
+  overflow: hidden;
+}
 .project_upload::before {
   content: "";
   position: fixed;
@@ -184,4 +184,30 @@
     display: grid;
     grid-template-columns: 155px 1fr;
   }
+}
+
+@media (max-width: 990px) {
+  .docs_textarea_form{
+    width: 24rem;
+    min-width: 24rem;
+  }
+  .docs_textarea_box {
+    width: 24rem;
+    min-width: 24rem;
+    height: 14rem;
+  }
+  .page_description{
+    width: 24rem;
+  }
+}
+@media (max-width: 824px) {
+  .page_info_box{
+  flex-direction: column;
+}
+.docs_textarea_form  {
+  height:9rem;
+}
+.docs_textarea_box{
+  height:9rem;
+}
 }

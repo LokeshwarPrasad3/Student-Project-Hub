@@ -21,6 +21,7 @@ import SyntaxHighlighter from 'react-syntax-highlighter';
 import { atomOneDarkReasonable } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import ContentPasteOutlinedIcon from '@mui/icons-material/ContentPasteOutlined';
 import DoneIcon from '@mui/icons-material/Done';
+import { Link } from 'react-router-dom';
 
 const ProjectPage = () => {
 
@@ -120,16 +121,16 @@ export default CodeEditor;
                                 <option value="Surendra Kumar "> Surendra Kumar</option>
                                 <option value="Dushyant Das">Dushyant Das</option>
                             </select>
-                            <button className='req_button py-0 px-3 w-fit bg-green-700  opacity-95 hover:text-slate-200 transition-all duration-300 rounded-md text-lg shadow-sm shadow-pink-300 font-signika'>Req-Contribute</button>
+                            <button className='req_button  fav_button '>Req-Contribute</button>
                         </div>
 
                         {/* documentation and download */}
                         <div className="project_buttons min-w-[220px] flex flex-col justify-center items-center gap-4  py-2">
                             <div className="documentation_button">
-                                <button className="docu_button py-0 px-3 w-fit bg-green-700  opacity-95 hover:text-slate-200 transition-all duration-300 rounded-md text-lg shadow-sm shadow-pink-300 font-signika">See-Docs</button>
+                                <Link to="/docs" className="docu_button  fav_button ">See-Docs</Link>
                             </div>
                             <div className="">
-                                <button className="download_button py-0 px-3 w-fit bg-green-700  opacity-95 hover:text-slate-200 transition-all duration-300 rounded-md text-lg shadow-sm shadow-pink-300 font-signika">DOWNLOAD</button>
+                                <button className="download_button  fav_button ">DOWNLOAD</button>
                             </div>
                         </div>
 

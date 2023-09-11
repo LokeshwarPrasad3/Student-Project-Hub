@@ -25,7 +25,7 @@ body {
 }
 
 /* Define a custom transition class */
-.custom-transtion {
+.custom-transition {
   @apply transition-all duration-300 ease-in;
 }
 
@@ -51,4 +51,8 @@ body {
 /* custom values of keys */
 .custom-values{
   @apply text-gray-300 text-[1.2rem];
+}
+/* favoritae button of project */
+.fav_button{
+  @apply py-0 px-3 w-fit bg-green-700  opacity-95 hover:text-slate-200 transition-all duration-300 rounded-md text-lg shadow-sm shadow-pink-300 font-signika;
 }

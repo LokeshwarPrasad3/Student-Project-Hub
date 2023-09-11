@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import MessageIcon from '@mui/icons-material/Message';
@@ -8,11 +8,16 @@ import Tooltip from '@mui/material/Tooltip';
 import CloseIcon from '@mui/icons-material/Close';
 import LogoutIcon from '@mui/icons-material/Logout';
 
+
+
 // include css of navbar
 import '../CSS/Navbar.css';
 import UploadProject from './ProjectComponents/UploadProject';
 
 const Navbar = () => {
+
+    // using for navigation
+    const navigate = useNavigate();
 
     const studentName = "Lokeshwar Prasad Dewangan";
 
@@ -153,7 +158,7 @@ const Navbar = () => {
                                 ) : (
                                     <h3 className='custom-menu-link'
                                         //Also Close reponsive menu when cicked
-                                        onClick={(e) => { e.preventDefault(); setShowMenu(!showMenu) }}
+                                        onClick={(e) => { e.preventDefault(); setShowMenu(!showMenu); navigate("/auth") }}
                                     >Logout</h3>
                                 )
                             }

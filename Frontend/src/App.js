@@ -4,6 +4,7 @@ import Authentication from './Pages/Authentication';
 import HomePage from './Pages/HomePage';
 import ProfilePage from './Pages/ProfilePage'
 import ProjectPage from './Pages/ProjectPage'
+import DocsPage from './Pages/DocsPage';
 
 
 
@@ -19,6 +20,9 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         {/* can see Project information */}
         <Route path="/project" element={<ProjectPage />} />
+        {/* documentation page */}
+        <Route path="/docs" element={<DocsPage />} />
+        
       </Routes>
     </>
   );
