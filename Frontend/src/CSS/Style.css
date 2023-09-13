@@ -167,6 +167,8 @@
   }
 }
 
+/* 5.DOCUMENTATION PAGE DESINGSd */
+
 @media (max-width: 802px) {
   .project_folder_container {
     flex-direction: column;
@@ -210,4 +212,14 @@
 .docs_textarea_box{
   height:9rem;
 }
+}
+
+
+/* 5.DOCUMENTATION PAGE DESINGSd */
+@media (max-width: 600px){
+  .all_person_list{
+    width: 100%
+  }
+  
+
 }

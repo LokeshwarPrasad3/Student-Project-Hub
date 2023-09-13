@@ -69,7 +69,7 @@ const Navbar = () => {
                 <div className="header flex items-center gap-7">
                     <Tooltip title="Go-to-Profile " arrow>
                         <Link to="/profile" className="menu_link p-[.1rem] flex rounded-full custom-transtion hover:bg-slate-700 shadow-lg shadow-blue-700">
-                            <img src="./Images/lokeshwar.jpg" alt="user" className='w-9 h-9 rounded-full' srcSet="" />
+                            <img src="./Images/lokeshwar1.jpg" alt="user" className='w-9 h-9 rounded-full' srcSet="" />
                         </Link>
                     </Tooltip>
                     <Link to="/" className='user_name font-bree text-2xl hover:opacity-90 custom-transtion ' >{studentName.split(' ').slice(0, 2).join(' ')}</Link>
@@ -126,7 +126,7 @@ const Navbar = () => {
                     </li>
                     {/* Message icon menu link */}
                     <li>
-                        <Link to="/" className="menu_link flex items-center justify-center hover:bg-slate-700 px-3 py-2 custom-transtion hover:opacity-90 rounded-2xl ">
+                        <Link to="/message" className="menu_link flex items-center justify-center hover:bg-slate-700 px-3 py-2 custom-transtion hover:opacity-90 rounded-2xl ">
                             {/* we changing content when mobile size  */}
                             {
                                 !isMobile ? (
@@ -138,7 +138,7 @@ const Navbar = () => {
                                 ) : (
                                     <h3 className='custom-menu-link'
                                         //Also Close reponsive menu when cicked
-                                        onClick={(e) => { e.preventDefault(); setShowMenu(!showMenu) }}
+                                        onClick={(e) => { e.preventDefault(); setShowMenu(!showMenu);navigate('/message') }}
                                     >My Messages</h3>
                                 )
                             }

@@ -5,6 +5,7 @@ import HomePage from './Pages/HomePage';
 import ProfilePage from './Pages/ProfilePage'
 import ProjectPage from './Pages/ProjectPage'
 import DocsPage from './Pages/DocsPage';
+import MessagePage from './Pages/MessagePage';
 
 
 
@@ -22,6 +23,8 @@ function App() {
         <Route path="/project" element={<ProjectPage />} />
         {/* documentation page */}
         <Route path="/docs" element={<DocsPage />} />
+        {/* Messages page */}
+        <Route path="/message" element={<MessagePage />} />
         
       </Routes>
     </>

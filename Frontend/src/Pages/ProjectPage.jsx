@@ -166,7 +166,7 @@ export default CodeEditor;
 
                 {/* PROJECT FILES FOLDERS SHOW */}
 
-                <div className="project_folder_container font-signika flex  h-[80vh]  shadow-sm shadow-blue-200">
+                <div className="project_folder_container mb-4 font-signika flex  h-[100vh]  shadow-sm shadow-blue-200">
 
                     {/* desgin of folder structure */}
                     <div className="folder_structures w-[28rem] text-white flex flex-col px-4 py-5 gap-3 shadow-sm shadow-blue-200 ">
@@ -176,7 +176,7 @@ export default CodeEditor;
                         </div>
 
                         {/* folder structure design */}
-                        <div className="structures flex flex-col ">
+                        <div className="structures overflow-y-auto flex flex-col ">
 
                             {/* root folder design */}
                             <div className="root_folder flex cursor-pointer">
@@ -275,7 +275,8 @@ export default CodeEditor;
                                 style={atomOneDarkReasonable}
                                 customStyle={{
                                     padding: '25px',
-                                    fontFamily: 'Fira Code'
+                                    fontFamily: 'Fira Code',
+                                    height: '100%'
                                 }}
 
                                 showLineNumbers={true}
@@ -288,38 +289,38 @@ export default CodeEditor;
                 </div>
 
                     {/* comments of another students */}
-                <div className="comments_container text-white flex flex-col  font-signika px-5 py-6 shadow-sm items-center justify-center shadow-blue-400 m-1">
+                        {/* indivisual box of comments */}
+                        {/* profile image first */}
+                            {/* comment */}
+                        {/* indivisual box of comments */}
+                        {/* profile image first */}
+                            {/* comment */}
+                {/* <div className="comments_container text-white flex flex-col  font-signika px-5 py-6 shadow-sm items-center justify-center shadow-blue-400 m-1">
                     <h2 className='text-xl font-semibold opacity-90 pb-3' >COMMENTS</h2>
 
-                        {/* indivisual box of comments */}
                         <div className="comments_box py-2 px-1 ">
-                        {/* profile image first */}
                             <div className="profile_image flex items-center gap-1">
-                                <img src="./Images/lokeshwar.jpg" className="h-7 w-7 rounded-full" alt="" />
+                                <img src="./Images/lokeshwar1.jpg" className="h-7 w-7 rounded-full" alt="" />
                                 <h3>Lokeshwar Prasad</h3>
                             </div>
-                            {/* comment */}
                             <div className="comment px-8 ">
                                 <p className='text-sm' >Lorem adipisicing elit. Facere accusamus earum ipsam nulla asperiores aspernatur quas vero perspiciatis voluptatum cum.</p>
                             </div>
 
                         </div>
 
-                        {/* indivisual box of comments */}
                         <div className="comments_box py-[1px] px-1 ">
-                        {/* profile image first */}
                             <div className="profile_image flex items-center gap-1">
-                                <img src="./Images/lokeshwar.jpg" className="h-7 w-7 rounded-full" alt="" />
+                                <img src="./Images/lokeshwar1.jpg" className="h-7 w-7 rounded-full" alt="" />
                                 <h3>Lokeshwar Prasad</h3>
                             </div>
-                            {/* comment */}
                             <div className="comment px-8 ">
                                 <p className='text-sm' >Lorem adipisicing elit. Facere accusamus earum ipsam nulla asperiores aspernatur quas vero perspiciatis voluptatum cum.</p>
                             </div>
 
                         </div>
 
-                </div>
+                </div> */}
             </div>
         </>
     )

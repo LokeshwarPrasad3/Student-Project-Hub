@@ -138,7 +138,7 @@ const Profile = () => {
               {/* image and name */}
               <div className="name-and-image flex flex-col items-center gap-4 ">
                 <div className="image_box ">
-                  <img src="./Images/lokeshwar.jpg" alt="user" className='p-[0.2rem] transition-all duration-500 bg-slate-900 w-32 h-32 rounded-full cursor-pointer hover:bg-gray-400 shadow-xl shadow-blue-700 overflow-hidden' />
+                  <img src="./Images/lokeshwar1.jpg" alt="user" className='p-[0.2rem] transition-all duration-500 bg-slate-900 w-32 h-32 rounded-full cursor-pointer hover:bg-gray-400 shadow-xl shadow-blue-700 overflow-hidden' />
                   <input type="file" name="" id="profile_file" className='hidden ' />
                   <label htmlFor="profile_file" className='relative top-[-1.6rem] left-4 pb-1 px-1 rounded-lg text-[0.9rem] text-white bg-purple-950 ' >Change Image</label>
                 </div>
