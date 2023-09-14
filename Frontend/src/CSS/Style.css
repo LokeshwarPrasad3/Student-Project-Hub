@@ -189,7 +189,7 @@
 }
 
 @media (max-width: 990px) {
-  .docs_textarea_form{
+  .docs_textarea_form {
     width: 24rem;
     min-width: 24rem;
   }
@@ -198,28 +198,56 @@
     min-width: 24rem;
     height: 14rem;
   }
-  .page_description{
+  .page_description {
     width: 24rem;
   }
 }
 @media (max-width: 824px) {
-  .page_info_box{
-  flex-direction: column;
+  .page_info_box {
+    flex-direction: column;
+  }
+  .docs_textarea_form {
+    height: 9rem;
+  }
+  .docs_textarea_box {
+    height: 9rem;
+  }
 }
-.docs_textarea_form  {
-  height:9rem;
-}
-.docs_textarea_box{
-  height:9rem;
-}
-}
-
 
 /* 5.DOCUMENTATION PAGE DESINGSd */
-@media (max-width: 600px){
-  .all_person_list{
-    width: 100%
+@media (max-width: 1009px) {
+  /* card of */
+  .person_details {
+    min-width: 23rem;
   }
-  
+  .messages_container {
+    min-width: 50vw;
+  }
+}
+@media (max-width: 821px) {
+  .messages_container {
+    /* display: none; */
+    min-width: 100vw;
+    min-height: 85vh;
+  }
+  .all_person_list {
+    width: 100%;
+    /* padding: 0; */
+    min-width: 24rem;
+  }
+  .communication_message_container {
+    flex-direction: column;
+  }
 
+  .messages_container {
+    /* min-width: 23rem; */
+    display: flex;
+    border: 1px;
+  }
+}
+@media (max-width: 410px) {
+  /* card of */
+  .person_details {
+    min-width: 20rem;
+  }
 }
