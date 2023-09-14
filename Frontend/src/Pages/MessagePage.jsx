@@ -3,7 +3,7 @@ import Navbar from '../Components/Navbar';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SendIcon from '@mui/icons-material/Send';
 import { ToastContainer, toast } from 'react-toastify';
-import ChatMessages from '../Components/ChatMessages';
+import ChatMessages from '../Components/ProjectComponents/ChatMessages';
 import { previousTempMessages } from './tempMessage';
 
 const MessagePage = () => {

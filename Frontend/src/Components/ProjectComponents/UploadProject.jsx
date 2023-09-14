@@ -20,11 +20,14 @@ const UploadProject = ({ onClose }) => {
     // getting technology used as string 
     // const [technology, setTechnology] = useState('');
     // getting main technology form of arrays
+    // is project ongoing true/false
+    const [onGoing, setOnGoing] = useState(false);
     // const [allTechnology, setAllTechnology] = useState(technology.split(',').join(" "));
     const [allTechnology, setAllTechnology] = useState([]);
 
     // state for loading to upload picture of user
     const [loading, setLoading] = useState(false);
+
 
     // tradition method to choose folder system
     const handleTakeFolder = (event) => {
@@ -124,12 +127,15 @@ const UploadProject = ({ onClose }) => {
 
         // POSTING ON API TO DATA
 
+        // if project ongoing 
+        console.log(onGoing ? "Ongoing" : "Completed");
         // on success fully posted on server 
         toast.success("Project has been created!");
 
         // do empty in input fields
         setProjectName("");
         setDescription("");
+        setOnGoing(false);
         setAllTechnology([]);
 
 
@@ -146,7 +152,7 @@ const UploadProject = ({ onClose }) => {
             <div className="project_upload z-50 transition fixed top-2 left-2/4 right-2/4 font-signika flex flex-col justify-center items-center pt-7 gap-2  ">
 
                 {/* this includes heading part */}
-                <div className="login_heading bg-white rounded-md w-[35rem]  py-4 flex justify-center items-center">
+                <div className="login_heading bg-white rounded-md w-[35rem]  py-3 flex justify-center items-center">
                     <h1 className=' text-2xl font-semibold  opacity-80 tracking-wide' >Upload Your Project</h1>
                 </div>
 
@@ -155,7 +161,7 @@ const UploadProject = ({ onClose }) => {
 
                     {/*👉 CREATE UPLOAD PROJECT FOROM */}
 
-                    <form action="" className="create_form  w-[35rem]  px-16 flex flex-col gap-3 py-9 pt-4" >
+                    <form action="" className="create_form  w-[35rem]  px-16 flex flex-col gap-3 pt-4 pb-5" >
 
                         {/* for input project name */}
                         <div className="name_box flex flex-col gap-2">
@@ -179,7 +185,16 @@ const UploadProject = ({ onClose }) => {
 
                         {/* for input TECHNOLOGY used  */}
                         <div className="technology_box flex flex-col gap-2">
-                            <label htmlFor="input_project_technology" className='text-[1.2rem]   font-[600] opacity-70'>Technology Used </label>
+                            <div className="technology_ongoing flex justify-between items-center">
+                                <label htmlFor="input_project_technology" className='text-[1.2rem]   font-[600] opacity-70'>Technology Used </label>
+                                <div className="status flex justify-center items-center gap-2 pr-6">
+                                    <input type="checkbox" name="" id="project_status"
+                                        value={onGoing}
+                                        onClick={(e) => setOnGoing(e.target.checked)}
+                                    />
+                                    <label htmlFor="project_status">OnGoing</label>
+                                </div>
+                            </div>
                             <textarea
                                 value={allTechnology} // getting forom of string and then array converted
                                 onChange={(e) => setAllTechnology(e.target.value)} // set value when change
@@ -195,7 +210,7 @@ const UploadProject = ({ onClose }) => {
                             <h3 htmlFor="input_project_folder" className='text-[1.2rem]  font-[600] opacity-70 pb-2'>Upload Folder</h3>
 
                             {/* Drag and drop feature implemented */}
-                            <div className="drag-drop hover:bg-slate-100 custom-transition cursor-pointer flex-all border-2 h-48 rounded-xl border-dashed border-slate-400"
+                            <div className="drag-drop hover:bg-slate-100 custom-transition cursor-pointer flex-all border-2 h-40 rounded-xl border-dashed border-slate-400"
                                 draggable="true" // set to draggable component
                                 // when drop folder then listen that event
                                 onDrop={handleDrop}
@@ -222,24 +237,24 @@ const UploadProject = ({ onClose }) => {
                         </div>
 
                         {/* input button to upload project */}
-                        <div className="button_box flex flex-col justify-center py-4 items-center gap-4">
+                        <div className="button_box flex  justify-center pt-3 items-center gap-4">
                             <button
                                 // Upload Project button
                                 onClick={uploadProject}
                                 disabled={loading}
-                                className='bg-blue-600 w-full py-[3px] rounded opacity-90 text-white text-[1rem] hover:bg-blue-700 text-opacity-90 '
+                                className='bg-blue-600 py-1 w-full rounded opacity-90 text-white text-[1rem] hover:bg-blue-700 text-opacity-90 '
                             >
                                 {/* button content is changing to circluar progress when upload image */}
                                 {loading ?
                                     (<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                         <CircularProgress color="inherit" size={28} />
                                     </Box>
-                                    ) : ('UPLOAD PROJECT')}
+                                    ) : ('UPLOAD-PROJECT')}
                             </button>
                             {/* Cancel button */}
                             <button
                                 onClick={onClose}
-                                className='bg-blue-600 w-full py-[3px] rounded opacity-90 text-white text-[1rem] hover:bg-blue-700 text-opacity-90 '
+                                className='bg-blue-600 w-full py-1 rounded opacity-90 text-white text-[1rem] hover:bg-blue-700 text-opacity-90 '
                             >CANCEL</button>
                         </div>
 
