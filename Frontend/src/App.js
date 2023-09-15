@@ -6,7 +6,7 @@ import ProfilePage from './Pages/ProfilePage'
 import ProjectPage from './Pages/ProjectPage'
 import DocsPage from './Pages/DocsPage';
 import MessagePage from './Pages/MessagePage';
-
+import CustomSelection from './Components/CustomInput/CustomSelection';
 
 
 function App() {
@@ -25,6 +25,7 @@ function App() {
         <Route path="/docs" element={<DocsPage />} />
         {/* Messages page */}
         <Route path="/message" element={<MessagePage />} />
+        <Route path="/select" element={<CustomSelection />} />
         
       </Routes>
     </>
