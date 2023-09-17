@@ -185,10 +185,10 @@ const EditProfile = () => {
 
                             {/* image and name */}
                             <div className="name-and-image flex flex-col items-center gap-4 ">
-                                <div className="image_box h-32 w-32">
+                                <div className="image_box bg-slate-900 w-32 h-32 rounded-full cursor-pointer hover:bg-gray-400 shadow-xl shadow-blue-700 ">
                                     {/* button content is changing to circluar progress when upload image */}
                                     {loading ?
-                                        (<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                        (<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', top: '3rem' }}>
                                             <CircularProgress color="inherit" size={28} />
                                         </Box>
                                         ) : (
