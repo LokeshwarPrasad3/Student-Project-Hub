@@ -77,9 +77,9 @@
 }
 @media (max-width: 870px) {
   /* when select options then fix their sizef */
-  .selected_technology {
+  /* .selected_technology {
     max-width: 100%;
-  }
+  } */
   .technologies_names {
     max-width: 100%;
   }
@@ -90,7 +90,7 @@
   }
 
   .user_details {
-    padding: 0.3rem;
+    gap: 1rem;
   }
   .top_details {
     padding: 0 0;
@@ -102,16 +102,15 @@
     max-width: 100%;
   }
   .social_links {
-    padding-left: 25vw;
+    /* padding-left: 25vw; */
+    margin: auto;
+    width: auto;
   }
-  .basic_details {
-    width: 100%;
-    gap: 0.8rem;
-    padding-left: 0vw;
-    justify-content: center;
-    align-items: center;
+  .background_info {
+    /* padding-left: 25vw; */
+    margin: auto;
+    width: auto;
   }
-
   .bio_details {
     width: 90vw;
   }
@@ -134,10 +133,6 @@
   }
   .profile_container_heading {
     font-size: 1rem;
-  }
-
-  .social_links {
-    padding-left: 12vw;
   }
 }
 
