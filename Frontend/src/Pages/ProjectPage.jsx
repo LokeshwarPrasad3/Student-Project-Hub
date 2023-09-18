@@ -22,12 +22,24 @@ import { atomOneDarkReasonable } from 'react-syntax-highlighter/dist/esm/styles/
 import ContentPasteOutlinedIcon from '@mui/icons-material/ContentPasteOutlined';
 import DoneIcon from '@mui/icons-material/Done';
 import { Link } from 'react-router-dom';
+import Rating from '@mui/material/Rating';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import CustomRating from '../Components/ProjectComponents/CustomRating';
+import CommentShow from '../Components/Popup/CommentShow';
+
 
 const ProjectPage = () => {
 
 
     // state for when clicked to folder then show files toggle
     const [showFolder, setShowFolder] = useState(false);
+
+    // Show comments when clicked to comments
+    const [showComments, setShowComments] = useState(false);
+
+    // Rating value
+    const [ratingValue, setRatingValue] = React.useState(2);
 
     // sample code for display
     const codeString =
@@ -66,6 +78,11 @@ export default CodeEditor;
 
     // state when copy code then show copied 
     const [copied, setCopied] = useState(false);
+
+    // Comment close popup
+    const commentClose= () =>{
+        setShowComments(!showComments);
+    }
 
 
     return (
@@ -149,15 +166,13 @@ export default CodeEditor;
                         </div>
 
                         {/* rating container */}
-                        <div className="user_rating min-w-[220px] flex items-center text-white flex-col justify-center gap-1   pb-1">
-                            <span className='text-xl '>Rating</span>
-                            <div className="rating_box">
-                                <GradeIcon className='grade_icon' />
-                                <GradeIcon className='grade_icon' />
-                                <GradeIcon className='grade_icon' />
-                                <GradeIcon className='grade_icon' />
-                                <GradeIcon className='grade_icon' />
+                        <div className="user_rating min-w-[220px] flex flex-col  items-center text-white justify-center gap-1   pb-1">
+                            <div className="rating_box justify-center items-center">
+                                <CustomRating value={3} fillColor="yellow" emptyColor="white" />
                             </div>
+                            <button className="download_button fav_button "
+                                onClick={() => setShowComments(!showComments)}
+                            >Comments</button>
                         </div>
                     </div>
                 </div>
@@ -288,40 +303,18 @@ export default CodeEditor;
 
                 </div>
 
-                    {/* comments of another students */}
-                        {/* indivisual box of comments */}
-                        {/* profile image first */}
-                            {/* comment */}
-                        {/* indivisual box of comments */}
-                        {/* profile image first */}
-                            {/* comment */}
-                {/* <div className="comments_container text-white flex flex-col  font-signika px-5 py-6 shadow-sm items-center justify-center shadow-blue-400 m-1">
-                    <h2 className='text-xl font-semibold opacity-90 pb-3' >COMMENTS</h2>
 
-                        <div className="comments_box py-2 px-1 ">
-                            <div className="profile_image flex items-center gap-1">
-                                <img src="./Images/lokeshwar1.jpg" className="h-7 w-7 rounded-full" alt="" />
-                                <h3>Lokeshwar Prasad</h3>
-                            </div>
-                            <div className="comment px-8 ">
-                                <p className='text-sm' >Lorem adipisicing elit. Facere accusamus earum ipsam nulla asperiores aspernatur quas vero perspiciatis voluptatum cum.</p>
-                            </div>
-
-                        </div>
-
-                        <div className="comments_box py-[1px] px-1 ">
-                            <div className="profile_image flex items-center gap-1">
-                                <img src="./Images/lokeshwar1.jpg" className="h-7 w-7 rounded-full" alt="" />
-                                <h3>Lokeshwar Prasad</h3>
-                            </div>
-                            <div className="comment px-8 ">
-                                <p className='text-sm' >Lorem adipisicing elit. Facere accusamus earum ipsam nulla asperiores aspernatur quas vero perspiciatis voluptatum cum.</p>
-                            </div>
-
-                        </div>
-
-                </div> */}
             </div>
+
+
+
+            {/* Show comments when required */}
+            {
+                showComments ?
+                    <CommentShow
+                      onClose={commentClose}
+                    /> : ""
+            }
         </>
     )
 }

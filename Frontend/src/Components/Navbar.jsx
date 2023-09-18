@@ -7,12 +7,11 @@ import MessageIcon from '@mui/icons-material/Message';
 import Tooltip from '@mui/material/Tooltip';
 import CloseIcon from '@mui/icons-material/Close';
 import LogoutIcon from '@mui/icons-material/Logout';
-
-
+import Notification from '../Pages/NotificationPage';
 
 // include css of navbar
 import '../CSS/Navbar.css';
-import UploadProject from './ProjectComponents/UploadProject';
+import UploadProject from './Popup/UploadProject';
 
 const Navbar = () => {
 
@@ -20,6 +19,9 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     const studentName = "Lokeshwar Prasad Dewangan";
+
+    // When clicked notification then show popup
+    const [showNotification, setShowNotification] = useState(false);
 
     // making state when true then show upload project modal and false then hide
     const [showUpload, setShowUpload] = useState(false);
@@ -42,6 +44,7 @@ const Navbar = () => {
         e.preventDefault();
         setShowMenu(!showMenu);
     }
+
 
     // need state : when mobile size then convert menu icons to texts
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 1100);
@@ -105,7 +108,7 @@ const Navbar = () => {
 
                     {/* Notification menu link */}
                     <li>
-                        <Link to="/" className="menu_link flex items-center justify-center hover:bg-slate-700 px-3 py-2 custom-transtion hover:opacity-90 rounded-2xl ">
+                        <Link to="/notification" className="menu_link flex items-center justify-center hover:bg-slate-700 px-3 py-2 custom-transtion hover:opacity-90 rounded-2xl ">
 
                             {/* we changing content when mobile size  */}
                             {
@@ -118,7 +121,7 @@ const Navbar = () => {
                                 ) : (
                                     <h3 className='custom-menu-link'
                                         //Also Close reponsive menu when cicked
-                                        onClick={(e) => { e.preventDefault(); setShowMenu(!showMenu) }}
+                                        onClick={(e)=>{ e.preventDefault(); setShowMenu(!showMenu); navigate('/notification') }}
                                     >Notifications</h3>
                                 )
                             }
@@ -138,7 +141,7 @@ const Navbar = () => {
                                 ) : (
                                     <h3 className='custom-menu-link'
                                         //Also Close reponsive menu when cicked
-                                        onClick={(e) => { e.preventDefault(); setShowMenu(!showMenu);navigate('/message') }}
+                                        onClick={(e) => { e.preventDefault(); setShowMenu(!showMenu); navigate('/message') }}
                                     >My Messages</h3>
                                 )
                             }
@@ -179,9 +182,14 @@ const Navbar = () => {
                 </Link>
             </nav>
 
-
+            {/* show Upload project popup */}
             {
                 showUpload ? <UploadProject onClose={closePopup} /> : ""
+            }
+
+            {/* show Notification popup */}
+            {
+                showNotification ? <Notification /> : ""
             }
         </>
     )

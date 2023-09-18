@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../CSS/Style.css'
+import '../CSS/Profile.css'
 import Navbar from '../Components/Navbar';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import LinkIcon from '@mui/icons-material/Link';

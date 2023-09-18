@@ -7,6 +7,7 @@ import ProjectPage from './Pages/ProjectPage'
 import DocsPage from './Pages/DocsPage';
 import MessagePage from './Pages/MessagePage';
 import EditProfile from './Pages/EditProfile'
+import NotificationPage from './Pages/NotificationPage';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/message" element={<MessagePage />} />
         {/* only for testing custom search selection */}
         <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/notification" element={<NotificationPage />} />
 
       </Routes>
     </>

@@ -1,6 +1,6 @@
 import Navbar from '../Components/Navbar'
 import React, { useState } from 'react';
-import '../CSS/Style.css'
+import '../CSS/Profile.css'
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import LinkIcon from '@mui/icons-material/Link';
 import GitHubIcon from '@mui/icons-material/GitHub';
