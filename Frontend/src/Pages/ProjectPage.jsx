@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Navbar from '../Components/Navbar'
 // eslint-disable-next-line
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -21,163 +21,226 @@ import SyntaxHighlighter from 'react-syntax-highlighter';
 import { atomOneDarkReasonable } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import ContentPasteOutlinedIcon from '@mui/icons-material/ContentPasteOutlined';
 import DoneIcon from '@mui/icons-material/Done';
-import { Link } from 'react-router-dom';
-import Rating from '@mui/material/Rating';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import CustomRating from '../Components/ProjectComponents/CustomRating';
-import CommentShow from '../Components/Popup/CommentShow';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import axios from 'axios';
+import { getCode, getProject, host } from '../utils/ApiRoutes';
+import { toast } from 'react-toastify';
+import mainContext from '../Components/context/mainContext';
 
 
-const ProjectPage = () => {
-
-
-    // state for when clicked to folder then show files toggle
-    const [showFolder, setShowFolder] = useState(false);
-
-    // Show comments when clicked to comments
-    const [showComments, setShowComments] = useState(false);
-
-    // Rating value
-    const [ratingValue, setRatingValue] = React.useState(2);
-
-    // sample code for display
-    const codeString =
-        `
-import React, { useState } from 'react';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-
-function CodeEditor() {
-    const codeString = '(num) => num + 1';
+function Folder({ name, children }) {
+    const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="grid grid-rows-[auto,1fr] gap-3 w-full   p-4">
-            <div className="bg-gray-900 text-white text-center border-l-[1px] border-gray-400 rounded py-2">
-                <h2 className="text-xl font-semibold opacity-90">CODE SECTION</h2>
+        <div className="structures overflow-y-auto flex flex-col ">
+            <div className="root_folder flex cursor-pointer">
+                {
+                    isOpen ?
+                        <ExpandMoreIcon /> :
+                        <ChevronRightIcon />
+                }
+                <FolderIcon onClick={(e) => setIsOpen(!isOpen)} className='text-yellow-400' />
+                <h3 className='text-lg hover:opacity-95 select-none active:text-gray-300'
+                    onClick={(e) => setIsOpen(!isOpen)}
+                >&nbsp;{name}</h3>
             </div>
-            <div className="max-w-2xl min-w-[25rem] bg-[#3a404d] rounded-md overflow-hidden ">
-                <SyntaxHighlighter language="javascript"
-                style={atomOneDark}
-                customStyle={{
-                    padding: '25px'
-                }}
-                >
-                    {codeString}
-                </SyntaxHighlighter>
-            </div>
+            {isOpen && <div className={`all_files flex flex-col gap-1  pl-6`}>{children}</div>}
         </div>
-    );
+    )
 }
 
-export default CodeEditor;
-    `
-        ;
-
-
-
-    // state when copy code then show copied 
-    const [copied, setCopied] = useState(false);
-
-    // Comment close popup
-    const commentClose= () =>{
-        setShowComments(!showComments);
+function File({ name,path}) {
+    const {setCode}=useContext(mainContext);
+    const codeFetch=async(path)=>{
+       const data=await axios.post(getCode,{path});
+       const str=data.data.replace(/\\/g,'\n')
+       setCode(str);
     }
+    return (
+        <div className="files flex cursor-pointer ">
+            <SubdirectoryArrowRightIcon className='text-gray-300' />
+            <CodeIcon className='text-red-500' />
+            <h4 onClick={()=>codeFetch(path)} className='hover:opacity-95 select-none active:text-gray-300' >&nbsp;{name}</h4>
+        </div>
+    )
+}
 
+function FolderStructure({ data }) {
+    const renderNode = (node) => {
+        if (node.type === 'folder') {
+            return (
+                <Folder key={node.name} name={node.name}>
+                    {node.children.map(renderNode)}
+                </Folder>
+            );
+        } else if (node.type === 'file') {
+            return <File key={node.name} name={node.name} path={node.path} />;
+        }
+        return null;
+    };
 
+    return <div>{data.map(renderNode)}</div>;
+}
+
+const ProjectPage = () => {
+    const searchQuery = useSearchParams()[0];
+    const PROJECTID = searchQuery.get("PROJECTID"); // null or id
+    
+    const navigate = useNavigate();
+    const [copied, setCopied] = useState(false);
+    const [project, setProject] = useState(null);
+    
+    const {code,setCode}=useContext(mainContext);
+    useEffect(() => {
+        if (!PROJECTID) {
+            navigate("/profile");
+        } else {
+            fetchProject(PROJECTID);
+        }
+    }, [])
+    const fetchProject = async (PROJECTID) => {
+        const data = await axios.get(`${getProject}/${PROJECTID}`);
+        if (data.data.success === false) {
+            alert(data.data.msg);
+            toast.error(data.data.msg);
+            return;
+        }
+        if (data.data.length > 0) {
+            setProject(data.data[0]);
+        }
+    }
+    const data = [
+        {
+            type: 'folder',
+            name: 'Root',
+            children: [
+                {
+                    type: 'folder',
+                    name: 'Folder 1',
+                    children: [
+                        { type: 'file', name: 'File 1-1.txt' },
+                        { type: 'file', name: 'File 1-2.txt' },
+                    ],
+                },
+                {
+                    type: 'folder',
+                    name: 'Folder 2',
+                    children: [
+                        { type: 'file', name: 'File 2-1.txt' },
+                        { type: 'file', name: 'File 2-2.txt' },
+                    ],
+                },
+                { type: 'file', name: 'Root File.txt' },
+            ],
+        },
+    ];
     return (
         <>
-            <Navbar />
             {/* container of project view */}
             <div className="main_container w-full">
 
 
                 {/* Project basic details show container */}
-                <div className='project_details_container font-signika flex flex-col bg--500 justify-center items-center mx-1 py-0 pb-5 shadow-sm shadow-blue-200 ' >
 
-                    {/* basic details of project */}
-                    <div className="project_details text-white flex gap-3 flex-col justify-center items-center py-5 pb-3  ">
-                        {/* name of project container */}
-                        <div className="project_name_box flex w-full justify-center">
-                            <h1 className='font-signika  text-gray-100 text-3xl font-semibold opacity-90' >SMART CANTEEN</h1>
-                        </div>
+                {
+                    project && <>
+                        <div className='project_details_container font-signika flex flex-col bg--500 justify-center items-center mx-1 py-0 pb-5 shadow-sm shadow-blue-200 ' >
 
-                        {/* description of project container */}
-                        <div className="project_description_box lg:w-[80%] ">
-                            <p className='project_description text-center text-xl custom-values' >
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae nisi atque amet quasi id architecto? Natus commodi adipisci assumenda? Mollitia.
-                            </p>
-                        </div>
+                            {/* basic details of project */}
+                            <div className="project_details text-white flex gap-3 flex-col justify-center items-center py-5 pb-3  ">
+                                {/* name of project container */}
+                                <div className="project_name_box flex w-full justify-center">
+                                    <h1 className='font-signika  text-gray-100 text-3xl font-semibold opacity-90' >
+                                        {project && (project.titel.length > 0 ? project.titel : "EXM-PROJECT")}
+                                    </h1>
+                                </div>
 
-                        {/* technology used */}
+                                {/* description of project container */}
+                                <div className="project_description_box lg:w-[80%] ">
+                                    <p className='project_description text-center text-xl custom-values' >
+                                        {project && (project.discription.length > 0 ? project.discription : "EXM-DESCRIPTION")}
+                                    </p>
+                                </div>
 
-                        {/* technology which is selected */}
-                        <div className="selected_technology max-w-[450px] mb-2 flex flex-wrap justify-center items-center gap-1 select-none">
-                            <h2 className='text-xl' >Techology Used : </h2>
-                            <div className="technology_box flex flex-wrap items-center gap-1 justify-center ">
-                                <span className='selected_options px-1 ' >HTML</span>
-                                <span className='selected_options px-1' >CSS</span>
-                                <span className='selected_options px-1' >JavaScript</span>
-                                <span className='selected_options px-1' >REACT</span>
+                                {/* technology used */}
+
+                                {/* technology which is selected */}
+                                <div className="selected_technology max-w-[450px] mb-2 flex flex-wrap justify-center items-center gap-1 select-none">
+                                    <h2 className='text-xl' >Techology Used : </h2>
+                                    <div className="technology_box flex flex-wrap items-center gap-1 justify-center ">
+                                        {
+                                            (project.usedTechnology.split(" ")).map((technology,index)=>{
+                                                return(<span key={index} className='selected_options px-1 ' >{technology}</span>)
+                                            })
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            {/* properties of projects */}
+                            <div className="project_properties text-white flex justify-center items-center gap-5 flex-wrap">
+                                {/* <div className="project_properties text-white grid grid-cols-[155px,1fr] gap-5 flex-wrap"> */}
+
+
+                                {/* contributers container */}
+                                <div className="show_contributers min-w-[220px] flex flex-col gap-4 justify-center items-center  py-2">
+                                    {/* <h2>Contributes</h2> */}
+                                    <select className='text-black min-w-[155px]' name="" id="">
+                                        <option value="Puran Verma">_CONTRIBUTERES_</option>
+                                        {
+                                            project.contributors.map((name) => {
+                                                return (
+                                                    <option key={name} value={`${name}`}>{name}</option>
+
+                                                )
+                                            })
+                                        }
+                                    </select>
+                                    <button className='req_button  fav_button '>Req-Contribute</button>
+                                </div>
+
+                                {/* documentation and download */}
+                                <div className="project_buttons min-w-[220px] flex flex-col justify-center items-center gap-4  py-2">
+                                    <div className="documentation_button">
+                                        <Link to="/docs" className="docu_button  fav_button ">See-Docs</Link>
+                                    </div>
+                                    <div className="">
+                                    <Link target='_blank' to={`${project.filePath}`}><button className="download_button  fav_button ">
+                                            downloading
+                                        </button></Link>
+                                    </div>
+                                </div>
+
+                                {/* links live or eloborate post videos */}
+                                <div className="project_links min-w-[220px]  flex flex-col justify-center items-center gap-2  py-1">
+                                    <select className='text-black w-[155px]' name="" id="">
+                                        <option value="GITHUB">GITHUB</option>
+                                        <option value="YOUTUBE">YOUTUBE</option>
+                                        <option value="INSTAGRAM">INSTAGRAM</option>
+                                        <option value="LINKEDIN">LINKEDIN</option>
+                                    </select>
+                                    <div className="show_links text-white flex items-center justify-around gap-2 ">
+                                        <GitHubIcon className='' />
+                                        <Link className='text-blue-200' target='_blank' to="https://github.com">GitHub-Link</Link>
+                                    </div>
+                                </div>
+
+                                {/* rating container */}
+                                <div className="user_rating min-w-[220px] flex items-center text-white flex-col justify-center gap-1   pb-1">
+                                    <span className='text-xl '>Rating</span>
+                                    <div className="rating_box">
+                                        <GradeIcon className='grade_icon' />
+                                        <GradeIcon className='grade_icon' />
+                                        <GradeIcon className='grade_icon' />
+                                        <GradeIcon className='grade_icon' />
+                                        <GradeIcon className='grade_icon' />
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-
-                    {/* properties of projects */}
-                    <div className="project_properties text-white flex justify-center items-center gap-5 flex-wrap">
-                        {/* <div className="project_properties text-white grid grid-cols-[155px,1fr] gap-5 flex-wrap"> */}
-
-
-                        {/* contributers container */}
-                        <div className="show_contributers min-w-[220px] flex flex-col gap-4 justify-center items-center  py-2">
-                            {/* <h2>Contributes</h2> */}
-                            <select className='text-black min-w-[155px]' name="" id="">
-                                <option value="Puran Verma">_CONTRIBUTERES_</option>
-                                <option value="Puran Verma">Puran Verma</option>
-                                <option value="Surendra Kumar "> Surendra Kumar</option>
-                                <option value="Dushyant Das">Dushyant Das</option>
-                            </select>
-                            <button className='req_button  fav_button '>Req-Contribute</button>
-                        </div>
-
-                        {/* documentation and download */}
-                        <div className="project_buttons min-w-[220px] flex flex-col justify-center items-center gap-4  py-2">
-                            <div className="documentation_button">
-                                <Link to="/docs" className="docu_button  fav_button ">See-Docs</Link>
-                            </div>
-                            <div className="">
-                                <button className="download_button  fav_button ">DOWNLOAD</button>
-                            </div>
-                        </div>
-
-                        {/* links live or eloborate post videos */}
-                        <div className="project_links min-w-[220px]  flex flex-col justify-center items-center gap-2  py-1">
-                            <select className='text-black w-[155px]' name="" id="">
-                                <option value="GITHUB">GITHUB</option>
-                                <option value="YOUTUBE">YOUTUBE</option>
-                                <option value="INSTAGRAM">INSTAGRAM</option>
-                                <option value="LINKEDIN">LINKEDIN</option>
-                            </select>
-                            <div className="show_links text-white flex items-center justify-around gap-2 ">
-                                <GitHubIcon className='' />
-                                <a className='text-blue-200' href="https://github.com">GitHub-Link</a>
-                            </div>
-                        </div>
-
-                        {/* rating container */}
-                        <div className="user_rating min-w-[220px] flex flex-col  items-center text-white justify-center gap-1   pb-1">
-                            <div className="rating_box justify-center items-center">
-                                <CustomRating value={3} fillColor="yellow" emptyColor="white" />
-                            </div>
-                            <button className="download_button fav_button "
-                                onClick={() => setShowComments(!showComments)}
-                            >Comments</button>
-                        </div>
-                    </div>
-                </div>
-
-
+                    </>
+                }
 
                 {/* PROJECT FILES FOLDERS SHOW */}
 
@@ -193,51 +256,11 @@ export default CodeEditor;
                         {/* folder structure design */}
                         <div className="structures overflow-y-auto flex flex-col ">
 
-                            {/* root folder design */}
-                            <div className="root_folder flex cursor-pointer">
-                                {
-                                    showFolder ?
-                                        <ExpandMoreIcon /> :
-                                        <ChevronRightIcon />
-                                }
-                                <FolderIcon className='text-yellow-400' />
-                                <h3 className='text-lg hover:opacity-95 select-none active:text-gray-300'
-                                    onClick={(e) => setShowFolder(!showFolder)}
-                                >&nbsp;Smart Canteen Project</h3>
-                            </div>
-
-                            {/* another files of folder */}
-                            <div className={`all_files ${showFolder ? 'flex' : 'hidden'}  flex-col gap-1  pl-6`}>
-
-                                {/* file1 */}
-                                <div className="files flex cursor-pointer ">
-                                    <SubdirectoryArrowRightIcon className='text-gray-300' />
-                                    {/* <HtmlIcon className='text-red-500'/> */}
-                                    {/* <SourceIcon className='text-red-500'/> */}
-                                    <CodeIcon className='text-red-500' />
-                                    <h4 className='hover:opacity-95 select-none active:text-gray-300' >&nbsp;Index.html</h4>
-                                </div>
-
-                                {/* file2 */}
-                                <div className="files flex cursor-pointer ">
-                                    <SubdirectoryArrowRightIcon className='text-gray-300' />
-                                    {/* <CssIcon className='text-blue-500'/> */}
-                                    {/* <SourceIcon className='text-blue-500'/> */}
-                                    <CodeIcon className='text-blue-500' />
-                                    <h4 className='hover:opacity-95 select-none active:text-gray-300' >&nbsp;Style.css</h4>
-                                </div>
-                                {/* file3 */}
-                                <div className="files flex cursor-pointer ">
-                                    <SubdirectoryArrowRightIcon className='text-gray-300' />
-                                    {/* <JavascriptIcon className='text-yellow-500' /> */}
-                                    {/* <SourceIcon className='text-yellow-500' /> */}
-                                    <CodeIcon className='text-yellow-500' />
-                                    <h4 className='hover:opacity-95 select-none active:text-gray-300' >&nbsp;Script.js</h4>
-                                </div>
-                            </div>
+                            {/* root folder design --------------------*/}
+                            {project && <FolderStructure data={[project.folderStructure]} />}
                         </div>
 
-
+ 
                     </div>
 
                     {/* design textarea for code showing */}
@@ -262,11 +285,11 @@ export default CodeEditor;
                                         <span
                                             onClick={() => {
                                                 console.log("clicked");
-                                                navigator.clipboard.writeText(codeString);
+                                                navigator.clipboard.writeText(code);
                                                 setCopied(true);
                                                 setTimeout(() => {
                                                     setCopied(false);
-                                                }, 3000);
+                                                }, 1000);
                                             }
                                             }
                                             className='cursor-pointer' >
@@ -296,25 +319,47 @@ export default CodeEditor;
 
                                 showLineNumbers={true}
                             >
-                                {codeString}
+                                {code}
                             </SyntaxHighlighter>
                         </div>
                     </div>
-
+  
                 </div>
 
+                {/* comments of another students */}
+                {/* indivisual box of comments */}
+                {/* profile image first */}
+                {/* comment */}
+                {/* indivisual box of comments */}
+                {/* profile image first */}
+                {/* comment */}
+                {/* <div className="comments_container text-white flex flex-col  font-signika px-5 py-6 shadow-sm items-center justify-center shadow-blue-400 m-1">
+                    <h2 className='text-xl font-semibold opacity-90 pb-3' >COMMENTS</h2>
 
+                        <div className="comments_box py-2 px-1 ">
+                            <div className="profile_image flex items-center gap-1">
+                                <img src="./Images/lokeshwar1.jpg" className="h-7 w-7 rounded-full" alt="" />
+                                <h3>Lokeshwar Prasad</h3>
+                            </div>
+                            <div className="comment px-8 ">
+                                <p className='text-sm' >Lorem adipisicing elit. Facere accusamus earum ipsam nulla asperiores aspernatur quas vero perspiciatis voluptatum cum.</p>
+                            </div>
+
+                        </div>
+
+                        <div className="comments_box py-[1px] px-1 ">
+                            <div className="profile_image flex items-center gap-1">
+                                <img src="./Images/lokeshwar1.jpg" className="h-7 w-7 rounded-full" alt="" />
+                                <h3>Lokeshwar Prasad</h3>
+                            </div>
+                            <div className="comment px-8 ">
+                                <p className='text-sm' >Lorem adipisicing elit. Facere accusamus earum ipsam nulla asperiores aspernatur quas vero perspiciatis voluptatum cum.</p>
+                            </div>
+
+                        </div>
+
+                </div> */}
             </div>
-
-
-
-            {/* Show comments when required */}
-            {
-                showComments ?
-                    <CommentShow
-                      onClose={commentClose}
-                    /> : ""
-            }
         </>
     )
 }

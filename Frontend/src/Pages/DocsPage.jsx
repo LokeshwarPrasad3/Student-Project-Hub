@@ -91,8 +91,6 @@ const DocsPage = () => {
 
   return (
     <>
-      {/* navbar include */}
-      <Navbar />
 
       <div className="docs_container font-signika ">
 

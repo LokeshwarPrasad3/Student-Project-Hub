@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import '../CSS/Profile.css'
+import React, { useContext, useEffect, useState } from 'react';
+import '../CSS/Style.css'
 import Navbar from '../Components/Navbar';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import LinkIcon from '@mui/icons-material/Link';
@@ -8,35 +8,49 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import Diversity1Icon from '@mui/icons-material/Diversity1';
 import GradeIcon from '@mui/icons-material/Grade';
 import ProjectCard from '../Components/ProjectComponents/ProjectCard';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { getStudentInfo } from '../utils/ApiRoutes'
+import axios from 'axios';
+import mainContext from '../Components/context/mainContext';
+import { toast } from 'react-toastify';
 
 const Profile = () => {
-
-  const studentName = "Lokeshwar Prasad Dewangan";
-  const studentBio = "ipsum dolor sit amet consectetur adipisicing elit. Fugiat rem cumque possimus et nostrum eos voluptate sapiente alias labore. Magnam.";
-  const studentWebsite = "https://netlify.com";
-  const studentLinkedin = "https://linkedin.com";
-  const studentGithub = "https://github.com";
-  const studentInstagram = "https://instagram.com";
-  const studentEmail = "lokeshwar@gmail.com";
-  const studentCollege = "RSR Rungta college bhilai";
-  const studentCourse = "BTech/CSE";
-  const studentPassYear = 2025;
-  const studentCurrentSemYear = "5th Sem";
-  const studentLocation = "Durg Chhattisgarh"
-
   const navigate = useNavigate();
+  const searchQuery = useSearchParams()[0];
+  const referenceId = searchQuery.get("referenceId"); // null or Id
+  const { navbarRender, setNavbarRender } = useContext(mainContext);
+  const [student, setStudent] = useState(null);
 
-  // when choosing technologies in options then store
-  // eslint-disable-next-line
-  const [selectedTechnology, setSelectedTechnology] = useState(["React", "Typescript", "Javascript"]);
+  useEffect(() => {
+    const studentId = localStorage.getItem("studentId");
+    if (!studentId) {
+      navigate("/auth");
+    }
+    else {
+      if (referenceId) {
+        fetchStudent(referenceId);
+      } else fetchStudent(studentId);
+    }
+  }, [])
+  const fetchStudent = async (studentId) => {
+    try {
+      const data = await axios.get(`${getStudentInfo}/${studentId}`);
+      if (data.data.success === false) {
+        toast.error(data.data.msg);
+      } else {
+        if (data.data) setStudent(data.data);
+        if (!referenceId) setNavbarRender(!navbarRender); // trigger navbar to fetch data 
+        // console.log(data.data);
+      }
 
-  // when choosing Programming language in options then store
-  // eslint-disable-next-line
-  const [selectedProgramming, setSelectedProgramming] = useState(["Java", "Python"]);
+    } catch (error) {
+      toast.error("Internal server error");
+    }
+  }
 
   // edit button handle
   const handleEdit = (e) => {
+    localStorage.setItem("studentInfo", JSON.stringify(student));
     navigate('/edit-profile')
   }
 
@@ -44,11 +58,11 @@ const Profile = () => {
 
   return (
     <>
-      <Navbar />
+
 
       <div className="profle_container flex flex-col font-signika px-2">
 
-        <div className="heading_container flex  text-white items-center justify-between px-16 py-3 shadow-sm shadow-gray-500 ">
+        {!referenceId && <div className="heading_container flex  text-white items-center justify-between px-16 py-3 shadow-sm shadow-gray-500 ">
           <h1 className='profile_container_heading font-signika font-semibold text-gray-300 text-2xl ' >MY PROFILE SECTION</h1>
           <div className="edit_profile_box flex gap-6 items-center justify-center">
 
@@ -57,11 +71,11 @@ const Profile = () => {
               onClick={handleEdit}
             >EDIT</button>
           </div>
-        </div>
+        </div>}
 
 
         {/* user details strudents  */}
-        <div className="user_details text-white flex flex-wrap justify-center items-center px-0 gap-3 w-full h-full py-8 shadow-sm shadow-gray-600">
+        {student && <div className="user_details text-white flex flex-wrap justify-center items-center px-0 gap-3 w-full h-full py-8 shadow-sm shadow-gray-600">
 
           {/* images name descr social links changed from 30vw */}
           <div className="imp_show flex flex-col items-center gap-6 px-2 py-2 min-w-[25vw]">
@@ -72,18 +86,18 @@ const Profile = () => {
               {/* image and name */}
               <div className="name-and-image flex flex-col items-center gap-4 ">
                 <div className="image_box ">
-                  <img src="./Images/lokeshwar1.jpg" alt="user" className='p-[0.2rem] transition-all duration-500 bg-slate-900 w-32 h-32 rounded-full cursor-pointer hover:bg-gray-400 shadow-xl shadow-blue-700 overflow-hidden' />
+                  <img src={`${student.image.length > 0 ? student.image : "./Images/default.png"}`} alt="user" className='p-[0.2rem] transition-all duration-500 bg-slate-900 w-32 h-32 rounded-full cursor-pointer hover:bg-gray-400 shadow-xl shadow-blue-700 overflow-hidden' />
                 </div>
 
                 <h2 className='text-3xl font-semibold opacity-90'>
-                  {studentName.split(' ').slice(0, 2).join(' ')}
+                  {student.name.length > 0 ? student.name.split(' ').slice(0, 2).join(' ') : "unknown-student"}
                 </h2>
               </div>
 
               {/* bio of students */}
               <div className="bio w-full max-w-[34vw]">
                 <p className='bio_details text-center text-xl custom-values' >
-                  {studentBio.split(' ').slice(0, 20).join(' ')}
+                  {student.bio.length > 0 ? student.bio.split(' ').slice(0, 20).join(' ') : `Write Bio ${student.name}`}
                 </p>
 
 
@@ -98,36 +112,36 @@ const Profile = () => {
                 <div className="user_connections flex gap-3 w-full  text-xl">
                   <Diversity1Icon />
                   <span className='custom-values' >Connections : </span>
-                  <span className='custom-values' >5</span>
+                  <span className='custom-values' >{student.connection}</span>
                 </div>
 
                 {/* My Website link */}
                 <div className="website_link flex gap-3">
                   <LinkIcon className='' />
-                  <Link to={studentWebsite} className='custom-values' target="_blank" rel="noopener noreferrer">
-                    {studentWebsite}
+                  <Link to={(student.link.website.length) > 5 ? student.link.website : "#website"} className='custom-values' target={`${(student.link.website.length) > 5 ? "_blank" : ""}`} rel="noopener noreferrer">
+                    {(student.link.website.length) > 5 ? student.link.website : "www.exm.come"}
                   </Link>
                 </div>
                 {/* linkedin link */}
                 <div className="linkedin_link flex gap-3">
                   <LinkedInIcon className='' />
-                  <Link to={studentLinkedin} className='custom-values' target="_blank" rel="noopener noreferrer">
-                    {studentLinkedin}
+                  <Link to={(student.link.linkdin.length) > 5 ? student.link.linkdin : "#linkdin"} className='custom-values' target={`${(student.link.linkdin.length) > 5 ? "_blank" : ""}`} rel="noopener noreferrer">
+                    {(student.link.linkdin.length) > 5 ? student.link.linkdin : "www.exm.come"}
                   </Link>
                 </div>
                 {/* github link */}
                 <div className="github_link flex gap-3">
                   <GitHubIcon className='' />
-                  <Link to={studentGithub} className='custom-values' target="_blank" rel="noopener noreferrer">
-                    {studentGithub}
+                  <Link to={(student.link.github.length) > 5 ? student.link.github : "#github"} className='custom-values' target={`${(student.link.github.length) > 5 ? "_blank" : ""}`} rel="noopener noreferrer">
+                    {(student.link.github.length) > 5 ? student.link.github : "www.exm.come"}
                   </Link>
                 </div>
 
                 {/* instagram link */}
                 <div className="instagram_link flex gap-3">
                   <InstagramIcon className='' />
-                  <Link to={studentInstagram} className='custom-values' target="_blank" rel="noopener noreferrer">
-                    {studentInstagram}
+                  <Link to={(student.link.instagram.length) > 5 ? student.link.instagram : "#instagram"} className='custom-values' target={`${(student.link.instagram.length) > 5 ? "_blank" : ""}`} rel="noopener noreferrer">
+                    {(student.link.instagram.length) > 5 ? student.link.instagram : "www.exm.come"}
                   </Link>
                 </div>
               </div>
@@ -143,36 +157,36 @@ const Profile = () => {
             {/* email */}
             <div className="user_email flex items-center  gap-3">
               <span className='small_heading' >Email : </span>
-              <span className='custom-values' >{studentEmail}</span>
+              <span className='custom-values' >{student.email.length > 0 ? student.email : "exm@exm.com"}</span>
             </div>
 
             {/* Collage */}
             <div className="user_collge flex items-center  gap-3">
               <span className='small_heading opacity-95' >Collage : </span>
-              <span className='custom-values' >{studentCollege}</span>
+              <span className='custom-values' >{student.college.length > 0 ? student.college : "exm univercity"}</span>
             </div>
 
             {/* Courses */}
             <div className="user_course flex items-center  gap-3">
               <span className='small_heading opacity-95' >Course : </span>
-              <span className='custom-values' >{studentCourse}</span>
+              <span className='custom-values' >{student.course.length > 0 ? student.course : "exm Course"}</span>
             </div>
 
             {/* Passout Year */}
             <div className="user_pass_year flex items-center  gap-3">
               <span className='small_heading opacity-95' >PassYear : </span>
-              <span className='custom-values' >{studentPassYear}</span>
+              <span className='custom-values' >{student.passYear.length > 0 ? student.passYear : "exm-2222"}</span>
             </div>
 
             {/* SEM/ YEAR */}
             <div className="user_year_sem flex items-center  gap-3">
               <span className='small_heading opacity-95' >Sem/Year : </span>
-              <span className='custom-values' >{studentCurrentSemYear}</span>
+              <span className='custom-values' >{student.sem_year.length > 0 ? student.sem_year : "exm-2"}</span>
             </div>
 
             <div className="user_location flex items-center  gap-3">
               <span className='small_heading opacity-95' >Location : </span>
-              <span className='custom-values' >{studentLocation} </span>
+              <span className='custom-values' >{student.location.length > 0 ? student.location : "exm city exm area"} </span>
             </div>
 
           </div>
@@ -191,7 +205,7 @@ const Profile = () => {
                 <div className="selected_technology  flex  flex-wrap items-center justify-center gap-1 w-full">
 
                   {
-                    selectedTechnology.map((name) => {
+                    student.technology.map((name) => {
                       return (
                         <React.Fragment key={name}>
                           {/* one selected */}
@@ -216,7 +230,7 @@ const Profile = () => {
                 {/* selections of Programming */}
                 <div className="selected_programming_language flex justify-center items-center gap-1">
                   {
-                    selectedProgramming.map((name) => {
+                    student.programming.map((name) => {
                       return (
                         <React.Fragment key={name}>
                           {/* one selected */}
@@ -249,11 +263,11 @@ const Profile = () => {
               <button className="send_message custom-button">SEND MESSAGE</button>
             </div>
           </div>
-        </div>
+        </div>}
 
         {/* all projects container with headings  */}
 
-        <ProjectCard />
+        {student&&<ProjectCard studentId={student._id} />}
 
       </div>
     </>

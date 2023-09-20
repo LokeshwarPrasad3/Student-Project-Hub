@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link, useNavigate } from 'react-router-dom';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -7,21 +7,36 @@ import MessageIcon from '@mui/icons-material/Message';
 import Tooltip from '@mui/material/Tooltip';
 import CloseIcon from '@mui/icons-material/Close';
 import LogoutIcon from '@mui/icons-material/Logout';
-import Notification from '../Pages/NotificationPage';
+import axios from 'axios';
+
 
 // include css of navbar
 import '../CSS/Navbar.css';
-import UploadProject from './Popup/UploadProject';
+import UploadProject from './ProjectComponents/UploadProject';
+import mainContext from './context/mainContext';
+import { getStudentInfo } from '../utils/ApiRoutes';
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
+    const { navbarRender,setNavbarRender } = useContext(mainContext);
+    const [navStudent, setNavStudent] = useState(null);
 
+    useEffect(() => {
+        if (localStorage.getItem("studentId"))
+            fetchStudent(localStorage.getItem("studentId"));
+    }, [navbarRender]);
+
+    const fetchStudent = async (studentId) => {
+        try {
+            const data = await axios.get(`${getStudentInfo}/${studentId}`);
+            if (data.data.success===false) {toast.error(data.data.msg);}
+            else setNavStudent(data.data);
+        } catch (error) {
+            toast.error("Internal server error");
+        }
+    }
     // using for navigation
     const navigate = useNavigate();
-
-    const studentName = "Lokeshwar Prasad Dewangan";
-
-    // When clicked notification then show popup
-    const [showNotification, setShowNotification] = useState(false);
 
     // making state when true then show upload project modal and false then hide
     const [showUpload, setShowUpload] = useState(false);
@@ -45,7 +60,6 @@ const Navbar = () => {
         setShowMenu(!showMenu);
     }
 
-
     // need state : when mobile size then convert menu icons to texts
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 1100);
 
@@ -67,15 +81,15 @@ const Navbar = () => {
     return (
         <>
             {/* navbar container */}
-            <nav id="navbar" className='nav_container  text-white flex items-center justify-between px-60 h-16 bg-slate-800 min-w-full' >
+            <nav id="navbar" className={`nav_container ${!localStorage.getItem("studentId") && "do-not-show "} text-white flex items-center justify-between px-60 h-16 bg-slate-800 min-w-full`} >
                 {/* header section left part */}
                 <div className="header flex items-center gap-7">
                     <Tooltip title="Go-to-Profile " arrow>
                         <Link to="/profile" className="menu_link p-[.1rem] flex rounded-full custom-transtion hover:bg-slate-700 shadow-lg shadow-blue-700">
-                            <img src="./Images/lokeshwar1.jpg" alt="user" className='w-9 h-9 rounded-full' srcSet="" />
+                            <img src={`${navStudent && (navStudent.image.length > 0 ? navStudent.image : "./images/default.png")}`} alt="user" className='w-9 h-9 rounded-full' srcSet="" />
                         </Link>
                     </Tooltip>
-                    <Link to="/" className='user_name font-bree text-2xl hover:opacity-90 custom-transtion ' >{studentName.split(' ').slice(0, 2).join(' ')}</Link>
+                    <Link to="/" className='user_name font-bree text-2xl hover:opacity-90 custom-transtion ' >{navStudent && (navStudent.name.split(' ').slice(0, 2).join(' '))}{!navStudent && "unknown-student"}</Link>
                 </div>
                 {/* right part */}
                 <ul
@@ -108,7 +122,7 @@ const Navbar = () => {
 
                     {/* Notification menu link */}
                     <li>
-                        <Link to="/notification" className="menu_link flex items-center justify-center hover:bg-slate-700 px-3 py-2 custom-transtion hover:opacity-90 rounded-2xl ">
+                        <Link to="/" className="menu_link flex items-center justify-center hover:bg-slate-700 px-3 py-2 custom-transtion hover:opacity-90 rounded-2xl ">
 
                             {/* we changing content when mobile size  */}
                             {
@@ -121,7 +135,7 @@ const Navbar = () => {
                                 ) : (
                                     <h3 className='custom-menu-link'
                                         //Also Close reponsive menu when cicked
-                                        onClick={(e)=>{ e.preventDefault(); setShowMenu(!showMenu); navigate('/notification') }}
+                                        onClick={(e) => { e.preventDefault(); setShowMenu(!showMenu) }}
                                     >Notifications</h3>
                                 )
                             }
@@ -155,13 +169,13 @@ const Navbar = () => {
                                 !isMobile ? (
                                     <>
                                         <Tooltip title="Logout" arrow>
-                                            <LogoutIcon className='' />
+                                            <LogoutIcon onClick={() => { localStorage.removeItem("studentId"); localStorage.removeItem("studentInfo")}} className='' />
                                         </Tooltip>
                                     </>
                                 ) : (
                                     <h3 className='custom-menu-link'
                                         //Also Close reponsive menu when cicked
-                                        onClick={(e) => { e.preventDefault(); setShowMenu(!showMenu); navigate("/auth") }}
+                                        onClick={(e) => { e.preventDefault(); setShowMenu(!showMenu); setNavbarRender(!navbarRender); localStorage.removeItem("studentId"); navigate("/auth") }}
                                     >Logout</h3>
                                 )
                             }
@@ -182,14 +196,9 @@ const Navbar = () => {
                 </Link>
             </nav>
 
-            {/* show Upload project popup */}
+
             {
                 showUpload ? <UploadProject onClose={closePopup} /> : ""
-            }
-
-            {/* show Notification popup */}
-            {
-                showNotification ? <Notification /> : ""
             }
         </>
     )

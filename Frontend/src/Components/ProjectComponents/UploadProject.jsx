@@ -9,141 +9,64 @@ import Box from '@mui/material/Box';
 // import axios from 'axios';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import '../../CSS/Style.css';
+import axios from 'axios';
+import { upLoadProject } from '../../utils/ApiRoutes';
+import { useNavigate } from 'react-router-dom';
 
 const UploadProject = ({ onClose }) => {
 
-
+    const navigate=useNavigate();
     // getting project name
     const [projectName, setProjectName] = useState('');
-    // getting project description
     const [description, setDescription] = useState('');
-    // getting technology used as string 
-    // const [technology, setTechnology] = useState('');
-    // getting main technology form of arrays
-    // is project ongoing true/false
     const [onGoing, setOnGoing] = useState(false);
-    // const [allTechnology, setAllTechnology] = useState(technology.split(',').join(" "));
-    const [allTechnology, setAllTechnology] = useState([]);
+    const [allTechnology, setAllTechnology] = useState("");
+    const [projectFile,setProjectFile]=useState(null);
 
-    // state for loading to upload picture of user
     const [loading, setLoading] = useState(false);
 
 
-    // tradition method to choose folder system
-    const handleTakeFolder = (event) => {
-        // when upload starts then loading in button
-        setLoading(true);
-        try {
-            // Now event.target.file is getting files data
-            console.log(event.target.files[0]); // 0th element data console
-            console.log(event.target.files[0].name);
-            console.log(event.target.files[0].size);
-            console.log(event.target.files[0].type);
-            console.log(event.target.files[0].webkitRelativePath);
-
-            // getting all files in folder object
-            const folder = event.target.files;
-            // making formData to post request to server api
-            const formData = new FormData();
-
-            for (const file of folder) { // iterate over folder object to append
-                formData.append("files", file);
-            }
-
-            // POST METHOD SECTION
-            toast.warn("Successfull image uploaded!")
-
-            setTimeout(() => {
-                // when succesfully uploaded then remove loader of button
-                setLoading(false);
-            }, 3000);
-        }
-        // if user clicked cancel then getting error
-        catch (error) {
-            toast.warn("Image Uploading failed!")
-            // when error then remove loader of button
-            setLoading(false);
-        }
-        // close the popup when done work
-        onClose();
-    }
-
-    // when drop any folder then listen folders files
-    const handleDrop = (event) => {
-        // when dragging file then dont open in new tab
-        event.preventDefault();
-        // when upload starts then loading in button
-        setLoading(true);
-        console.log("dropped");
-        try {
-            // we getting files from dataTransfer it give what the fileList transfers
-            const files = event.dataTransfer.files; // now files is objects of files
-
-            // making formData to post request on server api
-            const formData = new FormData();
-            // append all details in formData
-            for (const file of files) { // iterate over folder object to append
-                formData.append('files', file);
-            }
-
-            // POST METHOD SECTION
-
-            toast.success("Folder uploaded!");
-            setTimeout(() => {
-                // when succesfully uploaded then remove loader of button
-                setLoading(false);
-            }, 3000);
-
-        }
-        // if any error to drag and drop then show toast
-        catch (error) {
-            toast.error("folder upload failed!");
-            // when error then remove loader of button
-            setLoading(false);
-        }
-
-        // close the popup when done work
-        onClose();
-
-    }
-
-    // when mouse hold folder in browser then it listen that
-    const handleDragOver = (e) => {
-        //  when dragging file then dont open in new tab
-        console.log("dragover");
-        e.preventDefault();
-    };
-
-
     // UPLOAD WHOLE FORM WITH PROJECT FOLDER IN SERVER 
-    const uploadProject = (event) => {
+    const uploadProject = async(event) => {
         event.preventDefault();
-
+        if(!localStorage.getItem("studentId"))return;
+        if(!projectFile){
+            toast.warn("Please select a zip file")
+            return;
+        }
         // validate checking all data to not empty
-        if (!projectName || !description || !allTechnology.length > 0) {
+        if (projectName.length<1 || description.length<1|| allTechnology.length <1) {
             toast.warn("Please fill all inputs");
             return;
         }
-
+       
+        setLoading(true);
         // POSTING ON API TO DATA
-
-        // if project ongoing 
-        console.log(onGoing ? "Ongoing" : "Completed");
-        // on success fully posted on server 
-        toast.success("Project has been created!");
-
+        const formData=new FormData();
+        formData.append("titel",projectName);
+        formData.append("discription",description);
+        formData.append("usedTechnology",allTechnology);
+        formData.append("onGoing",onGoing);
+        formData.append("projectFile",projectFile);
+        formData.append("student_id",localStorage.getItem("studentId"));
+        const data = await axios.post(upLoadProject,formData);
+        if(data.data.success===false){
+            toast.error(data.data.msg);
+            return;
+        }
         // do empty in input fields
         setProjectName("");
         setDescription("");
         setOnGoing(false);
-        setAllTechnology([]);
+        setAllTechnology("");
+        setProjectFile(null);
 
 
-        toast.success("Folder uploaded!");
-        setTimeout(() => {
-            // when succesfully uploaded then remove loader of button
-            setLoading(false);
-        }, 3000);
+       toast.success("Folder uploaded!");
+       setLoading(false);
+       onClose();
+       navigate(`/project?PROJECTID=${data.data._id}`)
+
     }
 
 
@@ -211,11 +134,7 @@ const UploadProject = ({ onClose }) => {
 
                             {/* Drag and drop feature implemented */}
                             <div className="drag-drop hover:bg-slate-100 custom-transition cursor-pointer flex-all border-2 h-40 rounded-xl border-dashed border-slate-400"
-                                draggable="true" // set to draggable component
-                                // when drop folder then listen that event
-                                onDrop={handleDrop}
-                                // onDragOver measure when dragged any file in draggable box if file dragged then dont load page e.preventDefault()
-                                onDragOver={handleDragOver}>
+                                draggable="true">
                                 <div className="drop">
                                     <CloudUploadIcon className='text-blue-600' style={{ fontSize: '6rem' }} />
                                 </div>
@@ -230,8 +149,7 @@ const UploadProject = ({ onClose }) => {
                             <input type="file"
                                 id="input_project_folder"
                                 // webkitdirectory=""
-                                directory=""
-                                onChange={handleTakeFolder}
+                                onChange={e=>setProjectFile(e.target.files[0])}
                                 className='hidden'
                             />
                         </div>

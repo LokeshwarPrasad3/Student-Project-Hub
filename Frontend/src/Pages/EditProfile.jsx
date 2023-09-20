@@ -1,6 +1,6 @@
 import Navbar from '../Components/Navbar'
-import React, { useState } from 'react';
-import '../CSS/Profile.css'
+import React, { useEffect, useState } from 'react';
+import '../CSS/Style.css'
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import LinkIcon from '@mui/icons-material/Link';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -10,89 +10,71 @@ import CustomSelection from '../Components/CustomInput/CustomSelection';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
+import {upDateStudentImg,upDateStudentInfo} from '../utils/ApiRoutes'
 // circular progress
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
 const EditProfile = () => {
+    const [name, setName] = useState("");
+    const [bio, setBio] = useState("");
+    const [website, setWebsite] = useState("");
+    const [linkdin, setLinkdin] = useState("");
+    const [github, setGithub] = useState("");
+    const [instagram, setInstagram] = useState("");
+    const [email, setEmail] = useState("");
+    const [college, setCollege] = useState("");
+    const [course, setCourse] = useState("");
+    const [passYear, setPassYear] = useState("");
+    const [sem_year, setSem_Year] = useState("");
+    const [location, setLocation] = useState("");
+    const [image, setImage] = useState("");
+    const [technology, setTechnology] = useState([]);
+    const [programming, setProgramming] = useState([]);
 
+    const [tech, setTech] = useState("");
+    const [language, setLanguage] = useState("");
+    // const [pic,setPic]=useState("");
 
-    const myName = "Lokeshwar Prasad Dewangan";
-    const bio = "ipsum dolor sit amet consectetur adipisicing elit. Fugiat rem cumque possimus et nostrum eos voluptate sapiente alias labore. Magnam.";
-    const website = "https://netlify.com";
-    const linkedin_link = "https://linkedin.com";
-    const github_link = "https://github.com";
-    const instagram_link = "https://instagram.com";
-    const email = "lokeshwar@gmail.com";
-    const college = "RSR Rungta college bhilai";
-    const course = "BTech/CSE";
-    const passYear = 2025;
-    const semYear = "5th Sem";
-    const location = "Durg Chhattisgarh"
-
-    // Array for technologies Custom-Selection props
-    const listTechnologies = [
-        "HTML", "CSS", "JavaScript", "React", "Tailwind", "Bootstrap", "NodeJS", "ExpressJS", "MongoDB"
-    ];
-    const listProgramming = [
-        "C", "C++", "JAVA", "Python"
-    ];
+    useEffect(() => {
+        const studentInfo = JSON.parse(localStorage.getItem("studentInfo"));
+        setName(studentInfo.name)
+        setBio(studentInfo.bio)
+        setWebsite(studentInfo.link.website)
+        setLinkdin(studentInfo.link.linkdin)
+        setGithub(studentInfo.link.github)
+        setInstagram(studentInfo.link.instagram)
+        setEmail(studentInfo.email)
+        setCollege(studentInfo.college)
+        setCourse(studentInfo.course)
+        setPassYear(studentInfo.passYear)
+        setSem_Year(studentInfo.sem_year)
+        setLocation(studentInfo.location)
+        setImage(studentInfo.image)
+        setTechnology(studentInfo.technology)
+        setProgramming(studentInfo.programming)
+    }, [])
 
     // state for loading to upload picture of user
     const [loading, setLoading] = useState(false);
 
 
-    // STUDENT onChange saved on that state DETAILS STORE
-    const [studentName, setStudentName] = useState(myName);
-    const [studentBio, setStudentBio] = useState(bio);
-    const [studentWebsite, setStudentWebsite] = useState(website);
-    const [studentLinkedin, setStudentLinkedin] = useState(linkedin_link);
-    const [studentGithub, setStudentGithub] = useState(github_link);
-    const [studentInstagram, setStudentInstagram] = useState(instagram_link);
-    const [studentEmail, setStudentEmail] = useState(email);
-    const [studentCollege, setStudentCollege] = useState(college);
-    const [studentCourse, setStudentCourse] = useState(course);
-    const [studentPassYear, setStudentPassYear] = useState(passYear);
-    const [studentCurrentSemYear, setStudentCurrentSemYear] = useState(semYear);
-    const [studentLocation, setStudentLocation] = useState(location);
-    const [pic, setPic] = useState("https://shorturl.at/hxUXY");
-
     //✅👉 Post data of that state when clicked to save then it saved all indivisual above state 
     // eslint-disable-next-line
-    const [studentDetails, setStudentDetails] = useState([]);
 
-    // Set Technologies Student known
-    const [technologiesList, setTechnologiesList] = useState(["HTML", "CSS", "Javascript"]);
-    // Set programming languages Student known
-    const [programmingList, setProgrammingList] = useState(["Java"]);
-
-    // when choosing technologies in options then store
-    // eslint-disable-next-line
-    const [selectedTechnology, setSelectedTechnology] = useState(["React", "Typescript", "Javascript"]);
-
-    // when choosing Programming language in options then store
-    // eslint-disable-next-line
-    const [selectedProgramming, setSelectedProgramming] = useState(["Java", "Python"]);
-
-    // useNavigate used to redirect in router
     const navigate = useNavigate();
 
     // Saved data if user clicked saved button
-    const handleSaveEdit = () => {
-        setStudentDetails([studentName,
-            studentBio,
-            studentWebsite,
-            studentLinkedin,
-            studentGithub,
-            studentInstagram,
-            studentEmail,
-            studentCollege,
-            studentCourse,
-            studentPassYear,
-            studentCurrentSemYear,
-            studentLocation
-        ]);
+    const handleSaveEdit = async() => {
+        setLoading(true);
+        console.log(bio);
+         const data=await axios.post(`${upDateStudentInfo}/${localStorage.getItem("studentId")}`,{
+            name, bio, website, linkdin, github, instagram,
+            email, college,course,passYear,sem_year,location,
+            image, technology,programming
+         })
         toast.success("Saved Successfully!");
+        localStorage.removeItem("studentInfo");
         setTimeout(() => {
             navigate('/profile');
         }, 2000);
@@ -100,10 +82,27 @@ const EditProfile = () => {
 
     // handle cancel when edit (managing by main data)
     const handleCancelEdit = () => {
+        localStorage.removeItem("studentInfo");
         navigate('/profile');
     }
 
-    // when clicked to choose file for image then post request to cloudinay with payload image to get image-link
+    const handleImageChange=async(e)=>{ // not working
+        setLoading(true);
+        try {
+            const formData=new FormData();
+            formData.append("profileImg",e.target.files[0]);
+            const data=await axios.post(`${upDateStudentImg}/${localStorage.getItem("studentId")}`,formData)
+            if(data.data.success===true){
+                setImage(data.data.img_url);
+                console.log(data.data.img_url)
+                toast.success(data.data.msg);
+                setLoading(false);
+            }
+        } catch (error) {
+            setLoading(false);
+            toast.error("Internal server error");
+        }
+    }
     const getImageDetails = async (pic) => { // pics is user entered image
         // when upload picture then load button
         setLoading(true); // when loading starts
@@ -134,7 +133,7 @@ const EditProfile = () => {
                 console.log(data);
                 console.log(data.url);
                 // Picture is setted
-                setPic(data.url.toString());
+                setImage(data.url.toString());
                 setLoading(false);
             }
             catch (error) {
@@ -148,13 +147,9 @@ const EditProfile = () => {
             return;
         }
     }
-
-
-
     return (
         <>
-            <Navbar />
-
+         
             <div className="profle_container flex flex-col font-signika px-2">
 
                 <div className="heading_container flex  text-white items-center justify-between px-16 py-3 shadow-sm shadow-gray-500 ">
@@ -185,19 +180,19 @@ const EditProfile = () => {
 
                             {/* image and name */}
                             <div className="name-and-image flex flex-col items-center gap-4 ">
-                                <div className="image_box bg-slate-900 w-32 h-32 rounded-full cursor-pointer hover:bg-gray-400 shadow-xl shadow-blue-700 ">
+                                <div className="image_box h-32 w-32">
                                     {/* button content is changing to circluar progress when upload image */}
                                     {loading ?
-                                        (<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', top: '3rem' }}>
+                                        (<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                             <CircularProgress color="inherit" size={28} />
                                         </Box>
                                         ) : (
                                             <>
-                                                <img src={pic} alt="user" className='p-[0.2rem] transition-all duration-500 bg-slate-900 w-32 h-32 rounded-full cursor-pointer hover:bg-gray-400 shadow-xl shadow-blue-700 overflow-hidden' />
+                                                <img src={image.length > 0 ? image : "./images/default.png"} alt="user" className='p-[0.2rem] transition-all duration-500 bg-slate-900 w-32 h-32 rounded-full cursor-pointer hover:bg-gray-400 shadow-xl shadow-blue-700 overflow-hidden' />
                                                 <input
                                                     accept='image/*'
                                                     // input image handle by getImageDetails method
-                                                    onChange={(e) => getImageDetails(e.target.files[0])}
+                                                    onChange={(e) =>getImageDetails(e.target.files[0])}
                                                     type="file"
                                                     id="profile_file" className='hidden ' />
                                                 <label htmlFor="profile_file" className='relative top-[-1.6rem] left-4 pb-1 px-1 rounded-lg text-[0.9rem] text-white bg-purple-950 ' >Change Image</label>
@@ -208,8 +203,8 @@ const EditProfile = () => {
                                 <h2 className='text-3xl font-semibold opacity-90'>
 
                                     <input
-                                        onChange={(e) => setStudentName(e.target.value)}
-                                        type="text" className='bg-gray-700 text-lg pl-2 text-gray-200 font-normal rounded w-64 border-[1px]  border-gray-400 focus:border-blue-600 placeholder:Enter Your Name' name="" value={studentName} id="" />
+                                        onChange={(e) => setName(e.target.value)}
+                                        type="text" className='bg-gray-700 text-lg pl-2 text-gray-200 font-normal rounded w-64 border-[1px]  border-gray-400 focus:border-blue-600 placeholder:Enter Your Name' name="" value={name} id="" />
                                 </h2>
                             </div>
 
@@ -219,7 +214,8 @@ const EditProfile = () => {
                                     <textarea
                                         className='textarea_bio min-h-[100px] min-w-[30vw]  text-lg pl-2 py-1 bg-gray-700 text-gray-200 font-normal rounded  border-[1px]  border-gray-400 focus:border-blue-600'
                                         placeholder="Your bio"
-                                        onChange={(e) => setStudentBio(e.target.value)}
+                                        value={bio}
+                                        onChange={(e) => setBio(e.target.value)}
                                     >
                                     </textarea>
                                 </p>
@@ -236,33 +232,36 @@ const EditProfile = () => {
                                 <div className="website_link flex gap-3">
                                     <LinkIcon className='' />
                                     <input
-                                        onChange={(e) => setStudentWebsite(e.target.value)}
+                                        onChange={(e) => setWebsite(e.target.value)}
                                         type="text"
                                         className="bg-gray-700 text-lg pl-2 text-gray-200  font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
                                         placeholder="Your Website"
-                                        name=""
+                                        name="website"
+                                        value={website}
                                     />
                                 </div>
                                 {/* linkedin link */}
                                 <div className="linkedin_link flex gap-3">
                                     <LinkedInIcon className='' />
                                     <input
-                                        onChange={(e) => setStudentLinkedin(e.target.value)}
+                                        onChange={(e) => setLinkdin(e.target.value)}
                                         type="text"
                                         className="bg-gray-700 text-lg pl-2 text-gray-200  font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
                                         placeholder="Linkedin Link"
-                                        name=""
+                                        name="linkdin"
+                                        value={linkdin}
                                     />
                                 </div>
                                 {/* github link */}
                                 <div className="github_link flex gap-3">
                                     <GitHubIcon className='' />
                                     <input
-                                        onChange={(e) => setStudentGithub(e.target.value)}
+                                        onChange={(e) => setGithub(e.target.value)}
                                         type="text"
                                         className="bg-gray-700 text-lg pl-2 text-gray-200  font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
                                         placeholder="Github Link"
-                                        name=""
+                                        name="github"
+                                        value={github}
                                     />
                                 </div>
 
@@ -270,11 +269,12 @@ const EditProfile = () => {
                                 <div className="instagram_link flex gap-3">
                                     <InstagramIcon className='' />
                                     <input
-                                        onChange={(e) => setStudentInstagram(e.target.value)}
+                                        onChange={(e) => setInstagram(e.target.value)}
                                         type="text"
                                         className="bg-gray-700 text-lg pl-2 text-gray-200  font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
                                         placeholder="Instagram Link"
-                                        name=""
+                                        name="instagram"
+                                        value={instagram}
                                     />
                                 </div>
                             </div>
@@ -293,11 +293,12 @@ const EditProfile = () => {
                                 <span className='small_heading' >Email &nbsp; &nbsp; &nbsp; : </span>
 
                                 <input
-                                    onChange={(e) => setStudentEmail(e.target.value)}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     type="email"
                                     className=" bg-gray-700 text-lg pl-2 text-gray-200  font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
                                     placeholder="Your Email"
-                                    name=""
+                                    name="email"
+                                    value={email}
                                 />
                             </div>
 
@@ -306,11 +307,12 @@ const EditProfile = () => {
                                 <span className='small_heading opacity-95' >Collage  &nbsp; : </span>
 
                                 <input
-                                    onChange={(e) => setStudentCollege(e.target.value)}
+                                    onChange={(e) => setCollege(e.target.value)}
                                     type="text"
                                     className="bg-gray-700 text-lg pl-2 text-gray-200  font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
                                     placeholder="Your College"
-                                    name=""
+                                    name="college"
+                                    value={college}
                                 />
                             </div>
 
@@ -320,11 +322,12 @@ const EditProfile = () => {
 
 
                                 <input
-                                    onChange={(e) => setStudentCourse(e.target.value)}
+                                    onChange={(e) => setCourse(e.target.value)}
                                     type="text"
                                     className="bg-gray-700 text-lg pl-2 text-gray-200  font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
                                     placeholder="Your Course"
-                                    name=""
+                                    name="course"
+                                    value={course}
                                 />
                             </div>
 
@@ -334,11 +337,12 @@ const EditProfile = () => {
 
 
                                 <input
-                                    onChange={(e) => setStudentPassYear(e.target.value)}
+                                    onChange={(e) => setPassYear(e.target.value)}
                                     type="text"
                                     className="bg-gray-700 text-lg pl-2 text-gray-200  font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
                                     placeholder="Your PassYear"
-                                    name=""
+                                    name="passYear"
+                                    value={passYear}
                                 />
                             </div>
 
@@ -347,11 +351,12 @@ const EditProfile = () => {
                                 <span className='small_heading opacity-95' >Sem/Year :</span>
 
                                 <input
-                                    onChange={(e) => setStudentCurrentSemYear(e.target.value)}
+                                    onChange={(e) => setSem_Year(e.target.value)}
                                     type="text"
                                     className="bg-gray-700 text-lg pl-2 text-gray-200  font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
                                     placeholder="Your Sem/Year"
-                                    name=""
+                                    name="sem_year"
+                                    value={sem_year}
                                 />
                             </div>
 
@@ -359,11 +364,12 @@ const EditProfile = () => {
                                 <span className='small_heading opacity-95' >Location &nbsp;: </span>
 
                                 <input
-                                    onChange={(e) => setStudentLocation(e.target.value)}
+                                    onChange={(e) => setLocation(e.target.value)}
                                     type="text"
                                     className="bg-gray-700 text-lg pl-2 text-gray-200  font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
                                     placeholder="Your Location"
-                                    name=""
+                                    name="location"
+                                    value={location}
                                 />
                             </div>
 
@@ -376,36 +382,38 @@ const EditProfile = () => {
                             <div className="technologies_names flex w-full  flex-col items-center ">
                                 {/* technology listed options */}
                                 <div className="show_technologies flex w-full items-center gap-3 ">
-                                    <div className='small_heading' >Technology : </div>
+                                    <div className='small_heading' >Technology : </div>                             
 
-                                    {/* selections of technologies */}
-                                    {/* <select
-                                        onChange={addTechnologies}
-                                        multiple={false}
-                                        className='cursor-pointer h-5 text-[1rem] text-black max-w-[100px]'
-                                        name=""
-                                        id=""
-                                    >
-                                        <option value="">_SELECT_</option>
-                                        <option value="HTML">HTML</option>
-                                        <option value="CSS">CSS</option>
-                                        <option value="Javascript">Javascript</option>
-                                        <option value="Typescript">Typescript</option>
-                                        <option value="Bootstrap">Bootstrap</option>
-                                        <option value="Talwind">Talwind</option>
-                                        <option value="React">React</option>
-                                        <option value="NodeJS">NodeJS</option>
-                                        <option value="Express">Express</option>
-                                        <option value="MySql">MySql</option>
-                                        <option value="PHP">PHP</option>
-                                        <option value="Spring">Spring</option>
-                                        <option value="Hybernet">Hybernet</option>
-                                        <option value="Django">Django</option>
-                                        <option value=".NET">.NET</option>
-                                        <option value="GO">GO</option>
-                                    </select> */}
-
-                                    <CustomSelection listValues={listTechnologies} values={technologiesList} setValues={setTechnologiesList} />
+                                    {/* <CustomSelection listValues={listTechnologies} values={technologiesList} setValues={setTechnologiesList} /> */}
+                                    <div className="tiger-div" style={{
+                                        display: "flex", justifyContent: "center", alignItems: "center"
+                                    }}>
+                                        <input name="tech" value={tech} onChange={e => setTech(e.target.value)}
+                                            type="text" placeholder='Technology'
+                                            style={{
+                                                paddingLeft: "5px",
+                                                paddingRight: "5px",
+                                                width: "70%",
+                                                borderRadius: "4px",
+                                                marginRight: "6px",
+                                                background: "#374151",
+                                                border: "0.6px solid",
+                                                fontSize: "17px"
+                                            }} />
+                                        <button onClick={() => {
+                                            if (tech.length > 0) {
+                                                setTechnology([...technology, tech])
+                                                setTech("");
+                                            }
+                                        }}
+                                            className='tiger-btn' style={{
+                                                background: "green",
+                                                borderRadius: "50px",
+                                                height: "25px",
+                                                width: "25px",
+                                                border: "0.6px solid",
+                                            }}></button>
+                                    </div>
 
 
                                 </div>
@@ -418,16 +426,16 @@ const EditProfile = () => {
 
                                 {/* show all technologies which is selected by selectedTechnology state */}
                                 {
-                                    technologiesList.map((name) => {
+                                    technology.map((name, index) => {
                                         return (
-                                            <React.Fragment key={name}>
+                                            <React.Fragment key={index}>
                                                 {/* one selected */}
                                                 <div className="technology_box selected_options ">
                                                     <span>{name}</span>
                                                     <CloseIcon
                                                         onClick={() => {
-                                                            const filteredOptions = technologiesList.filter((currName) => currName !== name);
-                                                            setTechnologiesList(filteredOptions);
+                                                            const filteredOptions = technology.filter((currName) => currName !== name);
+                                                            setTechnology(filteredOptions);
                                                         }}
                                                         className='selected_options_close ' style={{ height: '1.2rem', width: '1.2rem' }} />
                                                 </div>
@@ -446,21 +454,36 @@ const EditProfile = () => {
                                 <div className="show_programming_language flex items-center gap-1">
                                     <div className='small_heading' >Programming : </div>
 
-                                    {/* selections of Programming */}
 
-                                    {/* <select
-                                        onChange={addProgrammings}
-                                        multiple={false}
-                                        className='cursor-pointer h-5 text-[1rem] text-black w-[75px]' name="" id="">
-                                        <option value="">_SELECT_Language</option>
-                                        <option value="C">C</option>
-                                        <option value="C++">C++</option>
-                                        <option value="Python">Python</option>
-                                        <option value="Java">Java</option>
-                                    </select> */}
-
-                                    <CustomSelection listValues={listProgramming} values={programmingList} setValues={setProgrammingList} />
-
+                                    {/* <CustomSelection listValues={listProgramming} values={programmingList} setValues={setProgrammingList} /> */}
+                                    <div className="tiger-div" style={{
+                                        display: "flex", justifyContent: "center", alignItems: "center"
+                                    }}>
+                                        <input value={language} onChange={e => setLanguage(e.target.value)}
+                                            type="text" placeholder='Programming' style={{
+                                                paddingLeft: "5px",
+                                                paddingRight: "5px",
+                                                width: "70%",
+                                                borderRadius: "4px",
+                                                marginRight: "6px",
+                                                background: "#374151",
+                                                border: "0.6px solid",
+                                                fontSize: "17px"
+                                            }} />
+                                        <button onClick={() => {
+                                            if (language.length > 0) {
+                                                setProgramming([...programming, language])
+                                                setLanguage("");
+                                            }
+                                        }}
+                                            className='tiger-btn' style={{
+                                                background: "green",
+                                                borderRadius: "50px",
+                                                height: "25px",
+                                                width: "25px",
+                                                border: "0.6px solid",
+                                            }}></button>
+                                    </div>
 
                                 </div>
 
@@ -469,7 +492,7 @@ const EditProfile = () => {
 
                                     {/* show all prpogramming lang which is selected by selectedTechnology state */}
                                     {
-                                        programmingList.map((name) => {
+                                        programming.map((name) => {
                                             return (
                                                 <React.Fragment key={name}>
                                                     {/* one selected */}
@@ -477,8 +500,8 @@ const EditProfile = () => {
                                                         <span>{name}</span>
                                                         <CloseIcon
                                                             onClick={() => {
-                                                                const filteredOptions = programmingList.filter((currName) => currName !== name);
-                                                                setProgrammingList(filteredOptions);
+                                                                const filteredOptions = programming.filter((currName) => currName !== name);
+                                                                setProgramming(filteredOptions);
                                                             }}
                                                             className='selected_options_close custom-transition' style={{ height: '1.2rem', width: '1.2rem' }} />
                                                     </div>

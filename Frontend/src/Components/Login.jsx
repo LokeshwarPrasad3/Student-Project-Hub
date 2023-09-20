@@ -6,6 +6,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import CircularProgress from '@mui/material/CircularProgress'; // button which round when process
 import Box from '@mui/material/Box';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { logInStudent } from '../utils/ApiRoutes';
 
 const Login = () => {
 
@@ -41,20 +43,16 @@ const Login = () => {
         try {
 
             // HERE IS MY POST REQUEST CODE --------------
+            const data=await axios.post(logInStudent,{email,password});
 
             // if all done successfully then
-            toast.success("Successfully Login");
-
-            // make empty values of input fields
-            setEmail("");
-            setPassword("");
-
-            //logged popup removed after 3 second
-            setTimeout(() => {
-                setLoading(false);
-                // navigate to user home page section 
-                navigate('/profile');
-            }, 1000);
+            if(data.data.success===true){
+                toast.success("Successfully Login");
+                localStorage.setItem("studentId",data.data.student_id);
+                navigate("/profile");
+            }
+            else toast.error(data.data.msg);
+            setLoading(false);
         } catch (error) {
             toast.error("Invalid User");
             setLoading(false);

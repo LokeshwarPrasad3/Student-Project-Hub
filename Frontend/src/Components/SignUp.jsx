@@ -8,71 +8,16 @@ import Box from '@mui/material/Box';
 // axios for fetching api
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { signUpStudent } from '../utils/ApiRoutes'
 
 
 const Signup = () => {
 
     const navigate = useNavigate();
-
-    // getting name
-    const [name, setName] = useState('');
-    // getting  email
-    const [email, setEmail] = useState('');
-    // getting  password
-    const [password, setPassword] = useState('');
-    // // getting  cpassword
-    const [cpassword, setCPassword] = useState('');
-    // set image given by user
-    const [pic, setPic] = useState();
+    const [student, setStudent] = useState({ name: "", email: "", password: "", cpassword: "" });
 
     // state for loading to upload picture of user
     const [loading, setLoading] = useState(false);
-
-    // when clicked to choose file for image then post request to cloudinay with payload image to get image-link
-    const postDetail = async (pic) => { // pics is user entered image
-        // when upload picture then load button
-        setLoading(true); // when loading starts
-        // if pics is undefined then popup error
-        if (pic === undefined) {
-            toast.warn("Please Select an Image");
-            return; // no move forward
-        }
-
-        // if type is jpeg and png only then only upload
-        if ((pic.type === "image/jpeg") || (pic.type === "image/png")) {
-
-            // using formData of JS for sending post request to cloudinary api
-
-            const picData = new FormData();
-
-            // FormData JS object used for data format when sending body in HTTP requests, 
-            // often used in web applications for tasks like file uploads.
-
-            picData.append("file", pic);
-            picData.append("upload_preset", "chat-app");
-            picData.append("cloud_name", "hackethon-users-image");
-
-            try {
-                // desctructured data is giving all details about uploaded image
-                const { data } = await axios.post("https://api.cloudinary.com/v1_1/hackethon-users-image/image/upload"
-                    , picData) // send payLoad
-                console.log(data);
-                console.log(data.url);
-                setPic(data.url.toString());
-                setLoading(false);
-            }
-            catch (error) {
-                toast.error("Failed to upload image");
-                setLoading(false);
-            }
-
-        } else {
-            toast.warn("Please select image");
-            setLoading(false);
-            return;
-        }
-    }
-
 
     // toggle password value show/hide
     const [showPass, setShowPass] = useState(false);
@@ -90,44 +35,49 @@ const Signup = () => {
         setLoading(true);
 
         // check all is valid  or not
-        if (!name || !email || !password || !cpassword || !pic) {
+        if (!student.name || !student.email || !student.password || !student.cpassword) {
             toast.warn("Please Fill All Fields");
             setLoading(false);
             return;
         }
 
         // check password === cpassword
-        if (password !== cpassword) {
-            toast.warn("Please Fill All Fields");
+        if (student.password !== student.cpassword) {
+            toast.warn("Password should be same");
             setLoading(false);
             return;
         }
 
         try {
-            // make headers to post in post request
-            // eslint-disable-next-line
-            const config = {
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            }
-            
-             // HERE IS MY POST REQUEST CODE --------------
+            // signup student
+            const data = await axios.post(signUpStudent, {
+                name: student.name,
+                email: student.email,
+                password: student.password,
+            })
 
-            //  if successfully done
-            toast.success("Registration is successfull");
-            // goto /profile to complete their profile
-            navigate('/update-profile');
+            if (data.data.success === true) {
+                localStorage.setItem("studentId", data.data.student_id);
+                toast.success("Registration is successfull");
+                navigate('/profile');
+                setLoading(false);
+            }
+            else toast.error(data.data.msg);
             setLoading(false);
+            //  if successfully done
+            // goto /profile to complete their profile
         }
         catch (error) {
-            toast.error("Error Occured");
+            console.log(error);
+            toast.error("Internal server error");
             setLoading(false);
         }
     }
 
 
-
+    const handleInputChange = (e) => {
+        setStudent({ ...student, [e.target.name]: e.target.value });
+    }
     return (
         <>
             {/*👉 CREATE ACCOUNT FOROM */}
@@ -138,18 +88,18 @@ const Signup = () => {
                 <div className="name_box flex flex-col gap-2">
                     <label htmlFor="create_input_name" className='text-xl  font-[600] opacity-70'>Name *</label>
                     <input
-                        value={name}
-                        onChange={(e) => setName(e.target.value)} // set value when change
-                        type="text" name="create_input_name" id="create_input_name" className='py-1 px-3 w-full bg-gray-100' placeholder='Enter Your Name' />
+                        value={student.name}
+                        onChange={(e) => handleInputChange(e)} // set value when change
+                        type="text" name="name" id="create_input_name" className='py-1 px-3 w-full bg-gray-100' placeholder='Enter Your Name' />
                 </div>
 
                 {/* for input type email */}
                 <div className="email_box flex flex-col gap-2">
                     <label htmlFor="create_input_email" className='text-xl  font-[600] opacity-70'>Email Address *</label>
                     <input
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)} // set value when change
-                        type="email" name="create_input_email" id="create_input_email" className='py-1 px-3 w-full bg-gray-100' placeholder='Enter Your Email Address' autoComplete="on" />
+                        value={student.email}
+                        onChange={(e) => handleInputChange(e)} // set value when change
+                        type="email" name="email" id="create_input_email" className='py-1 px-3 w-full bg-gray-100' placeholder='Enter Your Email Address' autoComplete="on" />
                 </div>
 
                 {/* for input type password */}
@@ -157,9 +107,9 @@ const Signup = () => {
                     <label htmlFor="create_input_password" className='text-xl  font-[600] opacity-70'>Password *</label>
                     <div className="password flex items-center ">
                         <input
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)} // set value when change
-                            type={showPass ? 'text' : 'password'} name="create_input_password" id="create_input_password" className='py-1 px-3 w-full bg-gray-100' placeholder='Enter Password' autoComplete="new-password" />
+                            value={student.password}
+                            onChange={(e) => handleInputChange(e)} // set value when change
+                            type={showPass ? 'text' : 'password'} name="password" id="create_input_password" className='py-1 px-3 w-full bg-gray-100' placeholder='Enter Password' autoComplete="new-password" />
                         <button tabIndex="-1" onClick={toggleShow} className="show_button bg-gray-200 py-1 px-2 rounded-md">{showPass ? 'Hide' : 'Show'}</button>
                     </div>
                 </div>
@@ -169,9 +119,9 @@ const Signup = () => {
                     <label htmlFor="create_input_cpassword" className='text-xl  font-[600] opacity-70'>Confirm Password *</label>
                     <div className="password flex items-center ">
                         <input
-                            value={cpassword}
-                            onChange={(e) => setCPassword(e.target.value)} // set value when change
-                            type={showPass ? 'text' : 'password'} name="create_input_cpassword" id="create_input_cpassword" className='py-1 px-3 w-full bg-gray-100' placeholder='Confirm Password' autoComplete="new-password" />
+                            value={student.cpassword}
+                            onChange={(e) => handleInputChange(e)} // set value when change
+                            type={showPass ? 'text' : 'password'} name="cpassword" id="create_input_cpassword" className='py-1 px-3 w-full bg-gray-100' placeholder='Confirm Password' autoComplete="new-password" />
                         <button tabIndex="-1" onClick={toggleShow} className="show_button bg-gray-200 py-1 px-2 rounded-md">{showPass ? 'Hide' : 'Show'}</button>
                     </div>
                 </div>
@@ -182,7 +132,7 @@ const Signup = () => {
                     {/* only accept image */}
                     <input type="file" accept='image/*'
                         // input image handle by postDetail method
-                        onChange={(e) => postDetail(e.target.files[0])}
+
                         name="create_input_picture" id="create_input_picture" className='py-1 px-3 w-full bg-gray-100' placeholder='Confirm Password' />
                 </div>
 

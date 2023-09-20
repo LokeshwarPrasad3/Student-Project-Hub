@@ -133,8 +133,6 @@ const MessagePage = () => {
 
     return (
         <>
-            <Navbar />
-
             <div className="communication_message_container text-white font-signika flex items-center justify-center w-full  min-h-full ">
 
 
