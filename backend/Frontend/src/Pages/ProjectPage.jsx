@@ -26,7 +26,8 @@ import axios from 'axios';
 import { getCode, getProject, host } from '../utils/ApiRoutes';
 import { toast } from 'react-toastify';
 import mainContext from '../Components/context/mainContext';
-
+import CustomRating from '../Components/ProjectComponents/CustomRating';
+import CommentShow from '../Components/Popup/CommentShow';
 
 function Folder({ name, children }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -83,6 +84,16 @@ function FolderStructure({ data }) {
 }
 
 const ProjectPage = () => {
+    // Show comments when clicked to comments
+    const [showComments, setShowComments] = useState(false);
+    // close popup when clicked
+    const commentClose = () => {
+        setShowComments(!showComments);
+    }
+    // Rating value
+    const [ratingValue, setRatingValue] = React.useState(2); // custom input
+
+
     const searchQuery = useSearchParams()[0];
     const PROJECTID = searchQuery.get("PROJECTID"); // null or id
     
@@ -227,15 +238,13 @@ const ProjectPage = () => {
                                 </div>
 
                                 {/* rating container */}
-                                <div className="user_rating min-w-[220px] flex items-center text-white flex-col justify-center gap-1   pb-1">
-                                    <span className='text-xl '>Rating</span>
-                                    <div className="rating_box">
-                                        <GradeIcon className='grade_icon' />
-                                        <GradeIcon className='grade_icon' />
-                                        <GradeIcon className='grade_icon' />
-                                        <GradeIcon className='grade_icon' />
-                                        <GradeIcon className='grade_icon' />
+                                <div className="user_rating min-w-[220px] flex flex-col  items-center text-white justify-center gap-1   pb-1">
+                                    <div className="rating_box justify-center items-center">
+                                        <CustomRating ratingValue={3} fillColor="yellow" emptyColor="white" />
                                     </div>
+                                    <button className="download_button fav_button "
+                                        onClick={() => setShowComments(!showComments)}
+                                    >Comments</button>
                                 </div>
                             </div>
                         </div>
@@ -264,17 +273,6 @@ const ProjectPage = () => {
                     </div>
 
                     {/* design textarea for code showing */}
-                    {/* <div className="grid grid-rows-[auto,1fr] gap-3 w-full   p-4">
-                        <div className="bg-gray-900 text-white text-center border-l-[1px] border-gray-400 rounded py-2">
-                            <h2 className="text-xl font-semibold opacity-90">CODE SECTION</h2>
-                        </div>
-                        <div className="bg-gray-100">
-                            <textarea
-                                rows="10"
-                                cols="30"
-                                className="w-full h-full border border-gray-400 p-4 text-gray-800 resize-none"/>
-                        </div>
-                    </div> */}
 
                     <div className="code_space grid grid-rows-[auto,1fr] gap-3 w-full  font-signika p-4">
                         <div className="code_heading  w-full bg-gray-900 text-white flex items-center justify-between rounded py-1 px-20">
@@ -326,40 +324,16 @@ const ProjectPage = () => {
   
                 </div>
 
-                {/* comments of another students */}
-                {/* indivisual box of comments */}
-                {/* profile image first */}
-                {/* comment */}
-                {/* indivisual box of comments */}
-                {/* profile image first */}
-                {/* comment */}
-                {/* <div className="comments_container text-white flex flex-col  font-signika px-5 py-6 shadow-sm items-center justify-center shadow-blue-400 m-1">
-                    <h2 className='text-xl font-semibold opacity-90 pb-3' >COMMENTS</h2>
-
-                        <div className="comments_box py-2 px-1 ">
-                            <div className="profile_image flex items-center gap-1">
-                                <img src="./Images/lokeshwar1.jpg" className="h-7 w-7 rounded-full" alt="" />
-                                <h3>Lokeshwar Prasad</h3>
-                            </div>
-                            <div className="comment px-8 ">
-                                <p className='text-sm' >Lorem adipisicing elit. Facere accusamus earum ipsam nulla asperiores aspernatur quas vero perspiciatis voluptatum cum.</p>
-                            </div>
-
-                        </div>
-
-                        <div className="comments_box py-[1px] px-1 ">
-                            <div className="profile_image flex items-center gap-1">
-                                <img src="./Images/lokeshwar1.jpg" className="h-7 w-7 rounded-full" alt="" />
-                                <h3>Lokeshwar Prasad</h3>
-                            </div>
-                            <div className="comment px-8 ">
-                                <p className='text-sm' >Lorem adipisicing elit. Facere accusamus earum ipsam nulla asperiores aspernatur quas vero perspiciatis voluptatum cum.</p>
-                            </div>
-
-                        </div>
-
-                </div> */}
             </div>
+
+
+            {/* Show comments when required */}
+            {
+                showComments ?
+                    <CommentShow
+                        commentClose={commentClose}
+                    /> : ""
+            }
         </>
     )
 }

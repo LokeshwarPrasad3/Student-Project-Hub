@@ -122,7 +122,7 @@ const Navbar = () => {
 
                     {/* Notification menu link */}
                     <li>
-                        <Link to="/" className="menu_link flex items-center justify-center hover:bg-slate-700 px-3 py-2 custom-transtion hover:opacity-90 rounded-2xl ">
+                        <Link to="/notification" className="menu_link flex items-center justify-center hover:bg-slate-700 px-3 py-2 custom-transtion hover:opacity-90 rounded-2xl ">
 
                             {/* we changing content when mobile size  */}
                             {
@@ -135,7 +135,7 @@ const Navbar = () => {
                                 ) : (
                                     <h3 className='custom-menu-link'
                                         //Also Close reponsive menu when cicked
-                                        onClick={(e) => { e.preventDefault(); setShowMenu(!showMenu) }}
+                                            onClick={(e) => { e.preventDefault(); setShowMenu(!showMenu); navigate('/message') }}
                                     >Notifications</h3>
                                 )
                             }

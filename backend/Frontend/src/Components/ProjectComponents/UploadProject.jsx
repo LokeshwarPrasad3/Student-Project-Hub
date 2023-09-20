@@ -75,12 +75,12 @@ const UploadProject = ({ onClose }) => {
             <div className="project_upload z-50 transition fixed top-2 left-2/4 right-2/4 font-signika flex flex-col justify-center items-center pt-7 gap-2  ">
 
                 {/* this includes heading part */}
-                <div className="login_heading bg-white rounded-md w-[35rem]  py-3 flex justify-center items-center">
+                {/* <div className="login_heading bg-white rounded-md w-[35rem]  py-3 flex justify-center items-center">
                     <h1 className=' text-2xl font-semibold  opacity-80 tracking-wide' >Upload Your Project</h1>
-                </div>
+                </div> */}
 
                 {/*  this includes upload content part */}
-                <div className="upload_part bg-white rounded-md  w-[35rem]  py-0 flex justify-center items-center flex-col ">
+                <div className="upload_part bg-white rounded-md  w-[35rem]  pb-4  pt-2 flex justify-center items-center flex-col ">
 
                     {/*👉 CREATE UPLOAD PROJECT FOROM */}
 

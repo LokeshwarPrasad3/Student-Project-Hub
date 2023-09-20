@@ -9,6 +9,7 @@ import MessagePage from './Pages/MessagePage';
 import EditProfile from './Pages/EditProfile'
 import Navbar from './Components/Navbar';
 import MainState from './Components/context/MainState';
+import NotificationPage from './Pages/NotificationPage';
 
 function App() {
   return (
@@ -30,6 +31,8 @@ function App() {
         <Route path="/message" element={<MessagePage />} />
         {/* only for testing custom search selection */}
         <Route path="/edit-profile" element={<EditProfile />} />
+        {/* Notification path */}
+          <Route path="/notification" element={<NotificationPage />} />
 
       </Routes>
 </MainState>
