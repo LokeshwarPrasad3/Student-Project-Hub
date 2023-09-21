@@ -9,7 +9,8 @@ import Box from '@mui/material/Box';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { signUpStudent } from '../utils/ApiRoutes'
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const Signup = () => {
 
@@ -110,7 +111,15 @@ const Signup = () => {
                             value={student.password}
                             onChange={(e) => handleInputChange(e)} // set value when change
                             type={showPass ? 'text' : 'password'} name="password" id="create_input_password" className='py-1 px-3 w-full bg-gray-100' placeholder='Enter Password' autoComplete="new-password" />
-                        <button tabIndex="-1" onClick={toggleShow} className="show_button bg-gray-200 py-1 px-2 rounded-md">{showPass ? 'Hide' : 'Show'}</button>
+                        <button tabIndex="-1" onClick={toggleShow} className="show_button bg-gray-100 py-1 px-2 rounded-br-md rounded-tr-md ">
+                            {showPass ? (
+                                <VisibilityOffIcon className="text-gray-700" />
+                            )
+                                : (
+                                    <VisibilityIcon className="text-gray-700" />
+                                )
+                            }
+                        </button>
                     </div>
                 </div>
 
@@ -122,7 +131,15 @@ const Signup = () => {
                             value={student.cpassword}
                             onChange={(e) => handleInputChange(e)} // set value when change
                             type={showPass ? 'text' : 'password'} name="cpassword" id="create_input_cpassword" className='py-1 px-3 w-full bg-gray-100' placeholder='Confirm Password' autoComplete="new-password" />
-                        <button tabIndex="-1" onClick={toggleShow} className="show_button bg-gray-200 py-1 px-2 rounded-md">{showPass ? 'Hide' : 'Show'}</button>
+                        <button tabIndex="-1" onClick={toggleShow} className="show_button bg-gray-100 py-1 px-2 rounded-br-md rounded-tr-md ">
+                            {showPass ? (
+                                <VisibilityOffIcon className="text-gray-700" />
+                            )
+                                : (
+                                    <VisibilityIcon className="text-gray-700" />
+                                )
+                            }
+                        </button>
                     </div>
                 </div>
 

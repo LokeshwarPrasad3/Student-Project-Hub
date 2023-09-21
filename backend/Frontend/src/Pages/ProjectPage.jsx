@@ -50,18 +50,18 @@ function Folder({ name, children }) {
     )
 }
 
-function File({ name,path}) {
-    const {setCode}=useContext(mainContext);
-    const codeFetch=async(path)=>{
-       const data=await axios.post(getCode,{path});
-       const str=data.data.replace(/\\/g,'\n')
-       setCode(str);
+function File({ name, path }) {
+    const { setCode } = useContext(mainContext);
+    const codeFetch = async (path) => {
+        const data = await axios.post(getCode, { path });
+        const str = data.data.replace(/\\/g, '\n')
+        setCode(str);
     }
     return (
         <div className="files flex cursor-pointer ">
-            <SubdirectoryArrowRightIcon className='text-gray-300' />
+            <SubdirectoryArrowRightIcon className='text-gray-800' />
             <CodeIcon className='text-red-500' />
-            <h4 onClick={()=>codeFetch(path)} className='hover:opacity-95 select-none active:text-gray-300' >&nbsp;{name}</h4>
+            <h4 onClick={() => codeFetch(path)} className='hover:opacity-95 select-none active:text-gray-300' >&nbsp;{name}</h4>
         </div>
     )
 }
@@ -96,12 +96,12 @@ const ProjectPage = () => {
 
     const searchQuery = useSearchParams()[0];
     const PROJECTID = searchQuery.get("PROJECTID"); // null or id
-    
+
     const navigate = useNavigate();
     const [copied, setCopied] = useState(false);
     const [project, setProject] = useState(null);
-    
-    const {code,setCode}=useContext(mainContext);
+
+    const { code, setCode } = useContext(mainContext);
     useEffect(() => {
         if (!PROJECTID) {
             navigate("/profile");
@@ -155,19 +155,19 @@ const ProjectPage = () => {
 
                 {
                     project && <>
-                        <div className='project_details_container font-signika flex flex-col bg--500 justify-center items-center mx-1 py-0 pb-5 shadow-sm shadow-blue-200 ' >
+                        <div className='project_details_container font-overpass flex flex-col bg--500 justify-center items-center mx-1 py-0 pb-5 shadow-sm shadow-blue-200 ' >
 
                             {/* basic details of project */}
-                            <div className="project_details text-white flex gap-3 flex-col justify-center items-center py-5 pb-3  ">
+                            <div className="project_details text-black flex gap-3 flex-col bg-slate-500 justify-center items-center py-5 pb-3 w-[97%] m-5">
                                 {/* name of project container */}
                                 <div className="project_name_box flex w-full justify-center">
-                                    <h1 className='font-signika  text-gray-100 text-3xl font-semibold opacity-90' >
+                                    <h1 className='font-overpass  text-gray-800 text-3xl font-semibold opacity-90' >
                                         {project && (project.titel.length > 0 ? project.titel : "EXM-PROJECT")}
                                     </h1>
                                 </div>
 
                                 {/* description of project container */}
-                                <div className="project_description_box lg:w-[80%] ">
+                                <div className="project_description_box w-full ">
                                     <p className='project_description text-center text-xl custom-values' >
                                         {project && (project.discription.length > 0 ? project.discription : "EXM-DESCRIPTION")}
                                     </p>
@@ -180,8 +180,10 @@ const ProjectPage = () => {
                                     <h2 className='text-xl' >Techology Used : </h2>
                                     <div className="technology_box flex flex-wrap items-center gap-1 justify-center ">
                                         {
-                                            (project.usedTechnology.split(" ")).map((technology,index)=>{
-                                                return(<span key={index} className='selected_options px-1 ' >{technology}</span>)
+                                            (project.usedTechnology.split(" ")).map((technology, index) => {
+                                                return (<span key={index} className='selected_options px-1 ' >
+                                                    {technology.toUpperCase()}
+                                                </span>)
                                             })
                                         }
                                     </div>
@@ -190,59 +192,59 @@ const ProjectPage = () => {
 
 
                             {/* properties of projects */}
-                            <div className="project_properties text-white flex justify-center items-center gap-5 flex-wrap">
-                                {/* <div className="project_properties text-white grid grid-cols-[155px,1fr] gap-5 flex-wrap"> */}
+                            <div className="project_properties text-black flex justify-center items-center gap-5 flex-wrap">
+                                {/* <div className="project_properties text-black grid grid-cols-[155px,1fr] gap-5 flex-wrap"> */}
 
 
                                 {/* contributers container */}
-                                <div className="show_contributers min-w-[220px] flex flex-col gap-4 justify-center items-center  py-2">
+                                <div className="show_contributers min-w-[220px] flex flex-col gap-4 justify-center items-center  py-5">
                                     {/* <h2>Contributes</h2> */}
-                                    <select className='text-black min-w-[155px]' name="" id="">
+                                    <select className='text-black min-w-[155px] bg-slate-200' name="" id="">
                                         <option value="Puran Verma">_CONTRIBUTERES_</option>
                                         {
                                             project.contributors.map((name) => {
                                                 return (
-                                                    <option key={name} value={`${name}`}>{name}</option>
+                                                    <option classname="text-sm" key={name} value={`${name}`}>{name}</option>
 
                                                 )
                                             })
                                         }
                                     </select>
-                                    <button className='req_button  fav_button '>Req-Contribute</button>
+                                    <button className='req_button  project_page_button '>Req-Contribute</button>
                                 </div>
 
                                 {/* documentation and download */}
-                                <div className="project_buttons min-w-[220px] flex flex-col justify-center items-center gap-4  py-2">
+                                <div className="project_buttons min-w-[220px] flex flex-col justify-center items-center gap-4  py-5">
                                     <div className="documentation_button">
-                                        <Link to="/docs" className="docu_button  fav_button ">See-Docs</Link>
+                                        <Link to="/docs" className="docu_button  project_page_button ">See-Docs</Link>
                                     </div>
                                     <div className="">
-                                    <Link target='_blank' to={`${project.filePath}`}><button className="download_button  fav_button ">
+                                        <Link target='_blank' to={`${project.filePath}`}><button className="download_button  project_page_button ">
                                             downloading
                                         </button></Link>
                                     </div>
                                 </div>
 
                                 {/* links live or eloborate post videos */}
-                                <div className="project_links min-w-[220px]  flex flex-col justify-center items-center gap-2  py-1">
-                                    <select className='text-black w-[155px]' name="" id="">
+                                <div className="project_links min-w-[220px]  flex flex-col justify-center items-center gap-2  py-7">
+                                    <select className='text-black w-[155px]  bg-slate-200' name="" id="">
                                         <option value="GITHUB">GITHUB</option>
                                         <option value="YOUTUBE">YOUTUBE</option>
                                         <option value="INSTAGRAM">INSTAGRAM</option>
                                         <option value="LINKEDIN">LINKEDIN</option>
                                     </select>
-                                    <div className="show_links text-white flex items-center justify-around gap-2 ">
+                                    <div className="show_links text-black flex items-center justify-around gap-2 ">
                                         <GitHubIcon className='' />
-                                        <Link className='text-blue-200' target='_blank' to="https://github.com">GitHub-Link</Link>
+                                        <Link className='text-blue-900' target='_blank' to="https://github.com">GitHub-Link</Link>
                                     </div>
                                 </div>
 
                                 {/* rating container */}
-                                <div className="user_rating min-w-[220px] flex flex-col  items-center text-white justify-center gap-1   pb-1">
+                                <div className="user_rating min-w-[220px] flex flex-col  items-center text-black justify-center gap-1 py-5">
                                     <div className="rating_box justify-center items-center">
-                                        <CustomRating ratingValue={3} fillColor="yellow" emptyColor="white" />
+                                        <CustomRating value={5} fillColor="red" emptyColor="yellow" />
                                     </div>
-                                    <button className="download_button fav_button "
+                                    <button className="download_button project_page_button "
                                         onClick={() => setShowComments(!showComments)}
                                     >Comments</button>
                                 </div>
@@ -253,12 +255,12 @@ const ProjectPage = () => {
 
                 {/* PROJECT FILES FOLDERS SHOW */}
 
-                <div className="project_folder_container mb-4 font-signika flex  h-[100vh]  shadow-sm shadow-blue-200">
+                <div className="project_folder_container mb-4 font-overpass flex  h-[100vh]  shadow-sm shadow-blue-200">
 
                     {/* desgin of folder structure */}
-                    <div className="folder_structures w-[28rem] text-white flex flex-col px-4 py-5 gap-3 shadow-sm shadow-blue-200 ">
+                    <div className="folder_structures w-[28rem] text-black flex flex-col px-4 py-5 gap-3 m-5 shadow-sm shadow-blue-200 ">
 
-                        <div className="stucture_heading flex">
+                        <div className="stucture_heading flex font-signika">
                             <h2 className='text-xl font-semibold opacity-90' >FOLDER STRUCTURE</h2>
                         </div>
 
@@ -269,15 +271,15 @@ const ProjectPage = () => {
                             {project && <FolderStructure data={[project.folderStructure]} />}
                         </div>
 
- 
+
                     </div>
 
                     {/* design textarea for code showing */}
 
-                    <div className="code_space grid grid-rows-[auto,1fr] gap-3 w-full  font-signika p-4">
-                        <div className="code_heading  w-full bg-gray-900 text-white flex items-center justify-between rounded py-1 px-20">
+                    <div className="code_space grid grid-rows-[auto,1fr] gap-3 w-full  font-overpass p-4 my-1">
+                        <div className="code_heading   bg-[#fff] text-black flex items-center justify-between rounded-lg py-1 px-20">
                             <h2 className="text-xl font-semibold opacity-90">CODE SECTION</h2>
-                            <button className="py-1 inline-flex items-center gap-1 tracking-wide " >
+                            <button className="py-1 inline-flex items-center gap-1 tracking-wide font-signika " >
                                 {
                                     !copied ? (
                                         <span
@@ -321,7 +323,7 @@ const ProjectPage = () => {
                             </SyntaxHighlighter>
                         </div>
                     </div>
-  
+
                 </div>
 
             </div>

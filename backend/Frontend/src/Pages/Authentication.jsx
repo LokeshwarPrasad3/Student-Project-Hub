@@ -26,12 +26,12 @@ const HomePage = () => {
         <>
             {/* <Navbar/> */}
 
-            <div className="login_container font-signika flex flex-col justify-center items-center pt-7 gap-4  ">
+            <div className="login_container font-overpass flex flex-col justify-center items-center pt-7 gap-4  ">
 
                 {/* this includes heading part */}
-                <div className="login_heading bg-white rounded-md w-[35rem]  py-3 flex justify-center items-center ">
+                {/* <div className="login_heading bg-white rounded-md w-[35rem]  py-3 flex justify-center items-center ">
                     <h1 className=' text-3xl font-semibold  opacity-80 tracking-wide' >Your-Login-Page</h1>
-                </div>
+                </div> */}
 
 
                 {/*  this includes login content part */}

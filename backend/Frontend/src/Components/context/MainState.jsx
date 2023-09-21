@@ -3,8 +3,8 @@ import mainContext from './mainContext'
 
 
 export default function MainState(props) {
-    const [navbarRender,setNavbarRender]=useState(false);
-    const [code,setCode]=useState(`
+    const [navbarRender, setNavbarRender] = useState(false);
+    const [code, setCode] = useState(`
     import React, { useState } from 'react';
     import SyntaxHighlighter from 'react-syntax-highlighter';
     import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
@@ -33,12 +33,12 @@ export default function MainState(props) {
     
     export default CodeEditor;
 `)
-  return (
-    <mainContext.Provider value={{
-      navbarRender,setNavbarRender,
-      code,setCode,
-    }}>
-    {props.children}
-    </mainContext.Provider>
-  )
+    return (
+        <mainContext.Provider value={{
+            navbarRender, setNavbarRender,
+            code, setCode,
+        }}>
+            {props.children}
+        </mainContext.Provider>
+    )
 }

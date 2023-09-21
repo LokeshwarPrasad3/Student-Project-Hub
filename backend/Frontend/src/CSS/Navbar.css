@@ -2,12 +2,14 @@
 .menu_bar {
   display: none;
 }
-
+#navbar{
+  background-color: #fff;
+}
 
 /* when tablet size then adjust navbar padding */
 @media (max-width: 1500px) {
   #navbar {
-    padding: 0 9rem;
+    padding: 0 5rem;
   }
 }
 
@@ -21,7 +23,8 @@
   .menu_links {
     flex-direction: column;
     position: fixed;
-    background-color: #f2f2f2;
+    /* background-color: #f2f2f2; */
+    background-color: rgb(241 245 249);
     top: 4.2rem;
     height: 100vh;
     width: 100%;
@@ -29,10 +32,6 @@
     left: 0%;
     transition: all 0.3s ease;
     z-index: 1;
-  }
-  /* disable hover  */
-  .menu_link:hover {
-    background-color: #f2f2f2;
   }
   .menu_links li {
     margin: 5px 0px;

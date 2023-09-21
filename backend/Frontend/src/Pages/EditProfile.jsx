@@ -10,10 +10,11 @@ import CustomSelection from '../Components/CustomInput/CustomSelection';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
-import {upDateStudentImg,upDateStudentInfo} from '../utils/ApiRoutes'
+import { upDateStudentImg, upDateStudentInfo } from '../utils/ApiRoutes'
 // circular progress
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import AddIcon from '@mui/icons-material/Add';
 
 const EditProfile = () => {
     const [name, setName] = useState("");
@@ -65,14 +66,14 @@ const EditProfile = () => {
     const navigate = useNavigate();
 
     // Saved data if user clicked saved button
-    const handleSaveEdit = async() => {
+    const handleSaveEdit = async () => {
         setLoading(true);
         console.log(bio);
-         const data=await axios.post(`${upDateStudentInfo}/${localStorage.getItem("studentId")}`,{
+        const data = await axios.post(`${upDateStudentInfo}/${localStorage.getItem("studentId")}`, {
             name, bio, website, linkdin, github, instagram,
-            email, college,course,passYear,sem_year,location,
-            image, technology,programming
-         })
+            email, college, course, passYear, sem_year, location,
+            image, technology, programming
+        })
         toast.success("Saved Successfully!");
         localStorage.removeItem("studentInfo");
         setTimeout(() => {
@@ -86,13 +87,13 @@ const EditProfile = () => {
         navigate('/profile');
     }
 
-    const handleImageChange=async(e)=>{ // not working
+    const handleImageChange = async (e) => { // not working
         setLoading(true);
         try {
-            const formData=new FormData();
-            formData.append("profileImg",e.target.files[0]);
-            const data=await axios.post(`${upDateStudentImg}/${localStorage.getItem("studentId")}`,formData)
-            if(data.data.success===true){
+            const formData = new FormData();
+            formData.append("profileImg", e.target.files[0]);
+            const data = await axios.post(`${upDateStudentImg}/${localStorage.getItem("studentId")}`, formData)
+            if (data.data.success === true) {
                 setImage(data.data.img_url);
                 console.log(data.data.img_url)
                 toast.success(data.data.msg);
@@ -149,11 +150,11 @@ const EditProfile = () => {
     }
     return (
         <>
-         
-            <div className="profle_container flex flex-col font-signika px-2">
 
-                <div className="heading_container flex  text-white items-center justify-between px-16 py-3 shadow-sm shadow-gray-500 ">
-                    <h1 className='profile_container_heading font-signika font-semibold text-gray-300 text-2xl ' >MY PROFILE SECTION</h1>
+            <div className="profle_container flex flex-col font-overpass p-2">
+
+                <div className="heading_container flex  items-center justify-between px-20 py-3 m-3 bg-slate-100 rounded-md">
+                    <h1 className='profile_container_heading font-signika font-semibold text-gray-700 text-2xl ' >MY PROFILE SECTION</h1>
                     <div className="edit_profile_box flex gap-6 items-center justify-center">
 
                         {/* if user edit then show save and cancel button */}
@@ -170,10 +171,10 @@ const EditProfile = () => {
 
 
                 {/* user details strudents  */}
-                <div className="user_details text-white flex flex-wrap justify-center items-center px-0 gap-20 w-full  py-8 shadow-sm shadow-gray-600">
+                <div className="user_details user_detail user_detail flex flex-wrap justify-center items-center px-0 gap-7 font-overpass h-full py-2 m-3shadow-gray-600 rounded-md ">
 
                     {/* images name descr social links changed from 30vw */}
-                    <div className="imp_show flex flex-col items-center gap-6 px-2 py-2 min-w-[25vw]">
+                    <div className="imp_show rounded-lg flex flex-col items-center min-h-[27rem] gap-6 px-2 bg-slate-100 py-2 w-[47.5%] min-w-[25vw]">
 
                         {/* image name bio */}
                         <div className="top_details flex flex-col items-center gap-5 px-[0vw]">
@@ -188,14 +189,14 @@ const EditProfile = () => {
                                         </Box>
                                         ) : (
                                             <>
-                                                <img src={image.length > 0 ? image : "./images/default.png"} alt="user" className='p-[0.2rem] transition-all duration-500 bg-slate-900 w-32 h-32 rounded-full cursor-pointer hover:bg-gray-400 shadow-xl shadow-blue-700 overflow-hidden' />
+                                                <img src={image.length > 0 ? image : "./images/default.jpg"} alt="user" className='p-[0.15rem] transition-all duration-500 bg-slate-600 w-32 h-32 rounded-full cursor-pointer hover:bg-gray-600 shadow-md shadow-blue-400 overflow-hidden' />
                                                 <input
                                                     accept='image/*'
                                                     // input image handle by getImageDetails method
-                                                    onChange={(e) =>getImageDetails(e.target.files[0])}
+                                                    onChange={(e) => getImageDetails(e.target.files[0])}
                                                     type="file"
                                                     id="profile_file" className='hidden ' />
-                                                <label htmlFor="profile_file" className='relative top-[-1.6rem] left-4 pb-1 px-1 rounded-lg text-[0.9rem] text-white bg-purple-950 ' >Change Image</label>
+                                                <label htmlFor="profile_file" className='relative top-[-1.6rem] left-4 py-1 px-1 cursor-pointer rounded-lg text-[0.9rem] text-white bg-slate-800 opacity-80' >Change Image</label>
                                             </>
                                         )}
                                 </div>
@@ -204,7 +205,7 @@ const EditProfile = () => {
 
                                     <input
                                         onChange={(e) => setName(e.target.value)}
-                                        type="text" className='bg-gray-700 text-lg pl-2 text-gray-200 font-normal rounded w-64 border-[1px]  border-gray-400 focus:border-blue-600 placeholder:Enter Your Name' name="" value={name} id="" />
+                                        type="text" className='edit_profile_input_bg text-lg pl-2 font-normal rounded w-64 border-[1px]  border-gray-400 focus:border-blue-600 placeholder:Enter Your Name' name="" value={name} id="" />
                                 </h2>
                             </div>
 
@@ -212,7 +213,7 @@ const EditProfile = () => {
                             <div className="bio w-full max-w-[34vw]">
                                 <p className='bio_details text-center text-xl custom-values' >
                                     <textarea
-                                        className='textarea_bio min-h-[100px] min-w-[30vw]  text-lg pl-2 py-1 bg-gray-700 text-gray-200 font-normal rounded  border-[1px]  border-gray-400 focus:border-blue-600'
+                                        className='textarea_bio min-h-[100px] min-w-[30vw]  text-lg pl-2 py-1  font-normal rounded  edit_profile_input_bg placeholder:text-gray-800 border-[1px]  border-gray-400 focus:border-blue-600'
                                         placeholder="Your bio"
                                         value={bio}
                                         onChange={(e) => setBio(e.target.value)}
@@ -234,7 +235,7 @@ const EditProfile = () => {
                                     <input
                                         onChange={(e) => setWebsite(e.target.value)}
                                         type="text"
-                                        className="bg-gray-700 text-lg pl-2 text-gray-200  font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
+                                        className="  edit_profile_input_bg text-lg pl-2 placeholder:text-gray-800   font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
                                         placeholder="Your Website"
                                         name="website"
                                         value={website}
@@ -246,7 +247,7 @@ const EditProfile = () => {
                                     <input
                                         onChange={(e) => setLinkdin(e.target.value)}
                                         type="text"
-                                        className="bg-gray-700 text-lg pl-2 text-gray-200  font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
+                                        className="  edit_profile_input_bg text-lg pl-2 placeholder:text-gray-800     font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
                                         placeholder="Linkedin Link"
                                         name="linkdin"
                                         value={linkdin}
@@ -258,7 +259,7 @@ const EditProfile = () => {
                                     <input
                                         onChange={(e) => setGithub(e.target.value)}
                                         type="text"
-                                        className="bg-gray-700 text-lg pl-2 text-gray-200  font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
+                                        className="  edit_profile_input_bg text-lg pl-2 placeholder:text-gray-800     font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
                                         placeholder="Github Link"
                                         name="github"
                                         value={github}
@@ -271,7 +272,7 @@ const EditProfile = () => {
                                     <input
                                         onChange={(e) => setInstagram(e.target.value)}
                                         type="text"
-                                        className="bg-gray-700 text-lg pl-2 text-gray-200  font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
+                                        className="  edit_profile_input_bg text-lg pl-2 placeholder:text-gray-800     font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
                                         placeholder="Instagram Link"
                                         name="instagram"
                                         value={instagram}
@@ -283,10 +284,11 @@ const EditProfile = () => {
 
                     </div>
 
-                    <div className="background_info flex flex-col justify-center items-center gap-4">
+                    {/* <div className="background_info rounded-lg flex flex-col bg-slate-100 w-[47.5%] items-center justify-center min-h-[27rem] pl-9 h-full pt-7 px-0 gap-3 text-xl min-w-[400px]"> */}
+                    <div className="background_info rounded-lg flex flex-col items-center min-h-full h-full gap-6 px-2 bg-slate-100 py-2 w-[47.5%] min-w-[400px]">
 
                         {/* basic details of User */}
-                        <div className="basic_details flex flex-col pt-7 px-0 gap-4 text-xl">
+                        <div className="basic_details flex rounded-lg flex-col w-full min-h-[21rem] justify-center items-center pt-7 px-0 gap-4 text-xl">
 
                             {/* email */}
                             <div className="user_email flex items-center gap-3">
@@ -295,7 +297,7 @@ const EditProfile = () => {
                                 <input
                                     onChange={(e) => setEmail(e.target.value)}
                                     type="email"
-                                    className=" bg-gray-700 text-lg pl-2 text-gray-200  font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
+                                    className="   edit_profile_input_bg text-lg pl-2 placeholder:text-gray-800     font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
                                     placeholder="Your Email"
                                     name="email"
                                     value={email}
@@ -309,7 +311,7 @@ const EditProfile = () => {
                                 <input
                                     onChange={(e) => setCollege(e.target.value)}
                                     type="text"
-                                    className="bg-gray-700 text-lg pl-2 text-gray-200  font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
+                                    className="  edit_profile_input_bg text-lg pl-2 placeholder:text-gray-800     font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
                                     placeholder="Your College"
                                     name="college"
                                     value={college}
@@ -324,7 +326,7 @@ const EditProfile = () => {
                                 <input
                                     onChange={(e) => setCourse(e.target.value)}
                                     type="text"
-                                    className="bg-gray-700 text-lg pl-2 text-gray-200  font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
+                                    className="  edit_profile_input_bg text-lg pl-2 placeholder:text-gray-800     font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
                                     placeholder="Your Course"
                                     name="course"
                                     value={course}
@@ -339,7 +341,7 @@ const EditProfile = () => {
                                 <input
                                     onChange={(e) => setPassYear(e.target.value)}
                                     type="text"
-                                    className="bg-gray-700 text-lg pl-2 text-gray-200  font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
+                                    className="  edit_profile_input_bg text-lg pl-2 placeholder:text-gray-800     font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
                                     placeholder="Your PassYear"
                                     name="passYear"
                                     value={passYear}
@@ -353,7 +355,7 @@ const EditProfile = () => {
                                 <input
                                     onChange={(e) => setSem_Year(e.target.value)}
                                     type="text"
-                                    className="bg-gray-700 text-lg pl-2 text-gray-200  font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
+                                    className="  edit_profile_input_bg text-lg pl-2 placeholder:text-gray-800     font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
                                     placeholder="Your Sem/Year"
                                     name="sem_year"
                                     value={sem_year}
@@ -366,7 +368,7 @@ const EditProfile = () => {
                                 <input
                                     onChange={(e) => setLocation(e.target.value)}
                                     type="text"
-                                    className="bg-gray-700 text-lg pl-2 text-gray-200  font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
+                                    className="  edit_profile_input_bg text-lg pl-2 placeholder:text-gray-800     font-normal rounded  border-[1px] border-gray-400 focus:border-blue-600"
                                     placeholder="Your Location"
                                     name="location"
                                     value={location}
@@ -376,18 +378,16 @@ const EditProfile = () => {
                         </div>
 
 
-                        <div className="user_all_skills  flex items-center flex-col  gap-2 text-xl ">
+                        <div className="user_all_skills rounded-lg flex items-center flex-col w-full py-4 justify-center gap-0 text-xl ">
 
                             {/* technology used */}
-                            <div className="technologies_names flex w-full  flex-col items-center ">
+                            <div className="technologies_names flex w-full justify-center flex-col items-center ">
                                 {/* technology listed options */}
-                                <div className="show_technologies flex w-full items-center gap-3 ">
-                                    <div className='small_heading' >Technology : </div>                             
+                                <div className="show_technologies flex w-full items-center justify-center gap-3 ">
+                                    {/* <div className='small_heading' >Technology : </div> */}
 
                                     {/* <CustomSelection listValues={listTechnologies} values={technologiesList} setValues={setTechnologiesList} /> */}
-                                    <div className="tiger-div" style={{
-                                        display: "flex", justifyContent: "center", alignItems: "center"
-                                    }}>
+                                    <div className="tiger-div flex justify-center items-center gap-1" >
                                         <input name="tech" value={tech} onChange={e => setTech(e.target.value)}
                                             type="text" placeholder='Technology'
                                             style={{
@@ -396,23 +396,29 @@ const EditProfile = () => {
                                                 width: "70%",
                                                 borderRadius: "4px",
                                                 marginRight: "6px",
-                                                background: "#374151",
                                                 border: "0.6px solid",
                                                 fontSize: "17px"
-                                            }} />
+                                            }}
+                                            className='edit_profile_input_bg placeholder:text-gray-800'
+                                            // when user clicked enter then also add 
+                                            onKeyDown={(e) => {
+                                                if (tech.length > 0 && e.key === 'Enter') {
+                                                    setTechnology([...technology, tech])
+                                                    setTech("");
+                                                }
+
+                                            }}
+                                        />
                                         <button onClick={() => {
                                             if (tech.length > 0) {
                                                 setTechnology([...technology, tech])
                                                 setTech("");
                                             }
                                         }}
-                                            className='tiger-btn' style={{
-                                                background: "green",
-                                                borderRadius: "50px",
-                                                height: "25px",
-                                                width: "25px",
-                                                border: "0.6px solid",
-                                            }}></button>
+                                            className='tiger-btn flex justify-center p-[2px] items-center opacity-95 edit_profile_input_bg hover:text-slate-900 hover:bg-slate-400 transition-all duration-500 rounded-md text-lg shadow-sm shadow-blue-400 font-signika'
+                                        >
+                                            <AddIcon />
+                                        </button>
                                     </div>
 
 
@@ -430,14 +436,14 @@ const EditProfile = () => {
                                         return (
                                             <React.Fragment key={index}>
                                                 {/* one selected */}
-                                                <div className="technology_box selected_options ">
-                                                    <span>{name}</span>
+                                                <div className="technology_box choiced_options ">
+                                                    <span className='pl-1 text-gray-100' >{name}</span>
                                                     <CloseIcon
                                                         onClick={() => {
                                                             const filteredOptions = technology.filter((currName) => currName !== name);
                                                             setTechnology(filteredOptions);
                                                         }}
-                                                        className='selected_options_close ' style={{ height: '1.2rem', width: '1.2rem' }} />
+                                                        className='selected_options_close custom-transition' style={{ height: '1.2rem', width: '1.2rem' }} />
                                                 </div>
                                             </React.Fragment>
                                         )
@@ -451,14 +457,12 @@ const EditProfile = () => {
                             {/* Core Programming Lnagugae */}
                             <div className="programming_language_names w-full flex flex-col ">
                                 {/* programming language listed options */}
-                                <div className="show_programming_language flex items-center gap-1">
-                                    <div className='small_heading' >Programming : </div>
+                                <div className="show_programming_language w-full justify-center flex items-center gap-1">
+                                    {/* <div className='small_heading' >Programming : </div> */}
 
 
                                     {/* <CustomSelection listValues={listProgramming} values={programmingList} setValues={setProgrammingList} /> */}
-                                    <div className="tiger-div" style={{
-                                        display: "flex", justifyContent: "center", alignItems: "center"
-                                    }}>
+                                    <div className="tiger-div flex justify-center items-center gap-1">
                                         <input value={language} onChange={e => setLanguage(e.target.value)}
                                             type="text" placeholder='Programming' style={{
                                                 paddingLeft: "5px",
@@ -466,51 +470,58 @@ const EditProfile = () => {
                                                 width: "70%",
                                                 borderRadius: "4px",
                                                 marginRight: "6px",
-                                                background: "#374151",
                                                 border: "0.6px solid",
                                                 fontSize: "17px"
-                                            }} />
+                                            }}
+                                            className='edit_profile_input_bg placeholder:text-gray-800'
+                                            // when user clicked enter then also add 
+                                            onKeyDown={(e) => {
+                                                if (language.length > 0 && e.key === 'Enter') {
+                                                    setProgramming([...programming, language])
+                                                    setLanguage("");
+                                                }
+
+                                            }}
+                                        />
                                         <button onClick={() => {
                                             if (language.length > 0) {
                                                 setProgramming([...programming, language])
                                                 setLanguage("");
                                             }
                                         }}
-                                            className='tiger-btn' style={{
-                                                background: "green",
-                                                borderRadius: "50px",
-                                                height: "25px",
-                                                width: "25px",
-                                                border: "0.6px solid",
-                                            }}></button>
+                                            className='tiger-btn flex justify-center p-[2px] items-center opacity-95 edit_profile_input_bg hover:text-slate-200 hover:bg-slate-500 transition-all duration-500 rounded-md text-lg shadow-sm shadow-blue-400 font-signika'
+                                        >
+                                            <AddIcon />
+                                        </button>
                                     </div>
 
                                 </div>
+                            </div>
 
-                                {/* technology which is selected */}
-                                <div className=" my-2 flex flex-wrap max-w-[20rem] justify-center items-center gap-1 select-none">
 
-                                    {/* show all prpogramming lang which is selected by selectedTechnology state */}
-                                    {
-                                        programming.map((name) => {
-                                            return (
-                                                <React.Fragment key={name}>
-                                                    {/* one selected */}
-                                                    <div className="language_box selected_options" >
-                                                        <span>{name}</span>
-                                                        <CloseIcon
-                                                            onClick={() => {
-                                                                const filteredOptions = programming.filter((currName) => currName !== name);
-                                                                setProgramming(filteredOptions);
-                                                            }}
-                                                            className='selected_options_close custom-transition' style={{ height: '1.2rem', width: '1.2rem' }} />
-                                                    </div>
-                                                </React.Fragment>
-                                            )
-                                        })
-                                    }
+                            {/* technology which is selected */}
+                            <div className="my-2 flex flex-wrap max-w-[20rem] justify-center items-center gap-1 select-none">
 
-                                </div>
+                                {/* show all prpogramming lang which is selected by selectedTechnology state */}
+                                {
+                                    programming.map((name) => {
+                                        return (
+                                            <React.Fragment key={name}>
+                                                {/* one selected */}
+                                                <div className="language_box choiced_options " >
+                                                    <span className='pl-1 text-gray-100' >{name}</span>
+                                                    <CloseIcon
+                                                        onClick={() => {
+                                                            const filteredOptions = programming.filter((currName) => currName !== name);
+                                                            setProgramming(filteredOptions);
+                                                        }}
+                                                        className='selected_options_close custom-transition' style={{ height: '1.2rem', width: '1.2rem' }} />
+                                                </div>
+                                            </React.Fragment>
+                                        )
+                                    })
+                                }
+
                             </div>
                         </div>
 

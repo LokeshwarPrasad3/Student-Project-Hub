@@ -1,4 +1,5 @@
 import React from 'react';
+import GradeIcon from '@mui/icons-material/Grade';
 
 const CustomRating = ({ value, fillColor, emptyColor }) => {
     const maxStars = 5;
@@ -13,13 +14,13 @@ const CustomRating = ({ value, fillColor, emptyColor }) => {
                 cursor: 'pointer', // Add cursor pointer for interaction (optional)
             }}
         >
-            ★
+            <GradeIcon />
         </span>
     ));
 
     return (
         <>
-            <div className='flex  justify-center items-center' >
+            <div className='flex justify-center items-center' >
                 <span>Rating : </span>
                 {stars}
             </div>

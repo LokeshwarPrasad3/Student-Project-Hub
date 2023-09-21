@@ -68,6 +68,9 @@ const DocsPage = () => {
   const addPageBox = () => {
     // first check if any input is empty
     if (!heading || !description || !pagePic) {
+      setHeading("");
+      setDescription("");
+      setPagePic("");
       toast.warn("Please fill all inputs");
       return;
     }
@@ -75,7 +78,6 @@ const DocsPage = () => {
       setPageBox([...pageBox, { heading: heading, description: description, pagePic: pagePic }])
       toast.success("Added Successfully!");
     }
-
   }
 
   // delete particular box of page box
@@ -85,17 +87,16 @@ const DocsPage = () => {
     })
     // set new boxes
     setPageBox(newBoxes);
-
   }
 
 
   return (
     <>
 
-      <div className="docs_container font-signika ">
+      <div className="docs_container font-overpass ">
 
-        <div className="heading_container flex  text-white items-center justify-between px-16 py-3 shadow-sm shadow-gray-500 ">
-          <h1 className='profile_container_heading font-signika font-semibold text-gray-300 text-2xl ' >DOCUMENTATION</h1>
+        <div className="heading_container flex  items-center justify-between px-20 py-3 m-3 bg-slate-100 rounded-md ">
+          <h1 className='profile_container_heading font-overpass font-semibold text-gray-700 text-2xl ' >DOCUMENTATION</h1>
           <div className="edit_profile_box flex gap-6 items-center justify-center">
 
             {/* if user edit then show save and cancel button */}
@@ -107,10 +108,10 @@ const DocsPage = () => {
               ) : (
                 <>
                   <button className='edit_button custom-button '
-                  onClick={()=> setShowEditBox(false)}
+                    onClick={() => setShowEditBox(false)}
                   >SAVE</button>
                   <button className='edit_button custom-button '
-                  onClick={()=> setShowEditBox(false)}
+                    onClick={() => setShowEditBox(false)}
                   >CANCEL</button>
                 </>
               )
@@ -121,10 +122,10 @@ const DocsPage = () => {
 
 
         {/* basic details of project */}
-        <div className="project_details text-white flex gap-3 flex-col justify-center items-center py-10 px-2 pb-3  shadow-sm shadow-blue-500">
+        <div className="project_details text-black flex gap-3 flex-col justify-center items-center py-10 px-2 pb-3 m-4 shadow-sm shadow-blue-100">
           {/* name of project container */}
           <div className="project_name_box flex w-full justify-center">
-            <h1 className='font-signika  text-gray-100 text-3xl font-semibold opacity-90' >SMART CANTEEN</h1>
+            <h1 className='font-signika  text-gray-800 text-3xl font-semibold opacity-90' >SMART CANTEEN</h1>
           </div>
 
           {/* description of project container */}
@@ -153,7 +154,7 @@ const DocsPage = () => {
         {/* if need then edit */}
         {/* all descripton of pages of project */}
         <div className="pages_info_containe w-full py-5 pb-16 mb-5 ">
-        <h1 className='text-center text-2xl font-semibold text-gray-200 py-1' >Description</h1>
+          <h1 className='text-center text-2xl font-semibold text-gray-700 py-1' >Description</h1>
 
           {
             showEditBox ?
@@ -190,10 +191,10 @@ const DocsPage = () => {
                         onChange={handleTakePageImage}
                         className='hidden ' type="file" name="" accept=".jpeg, .jpg, .png" id="docs_page_image" />
                     </div>
-                    <div className="page_description flex flex-col max-h-[16rem]  gap-1">
+                    <div className="page_description flex flex-col max-h-[16rem] border-[1px]  border-gray-500 gap-1">
                       <input
                         onChange={(e) => setHeading(e.target.value)}
-                        type="text" className='text-white pl-3 bg-slate-800 text-xl py-[0.2rem] ' placeholder='Enter Heading' />
+                        type="text" className='text-black pl-3 bg-slate-100 text-xl py-[0.2rem] ' placeholder='Enter Heading' />
                       <textarea
                         onChange={(e) => setDescription(e.target.value)}
                         className="docs_textarea_form min-w-[35rem] p-3  overflow-x-auto text-lg bg-gray-700 text-gray-200 font-normal rounded focus:border-slate-600 " placeholder="Enter Page Description"
@@ -201,13 +202,12 @@ const DocsPage = () => {
                     </div>
                   </div>
 
-
                   <div className="add_buttons flex justify-end items-center relative w-[85vw] py-2 pb-10">
                     <button
                       onClick={addPageBox}
-                      className="add_new_page_info  text-white flex items-center justify-center fav_button min-w-[123px]"
+                      className="add_new_page_info  text-black bg-red-500 z-50 flex items-center justify-center fav_button min-w-[123px]"
                     >
-                      <AddCardIcon />&nbsp;  <span>Add New</span>
+                      <AddCardIcon className="text-black" />&nbsp;  <span className="text-black" >Add New</span>
                     </button>
                   </div>
 

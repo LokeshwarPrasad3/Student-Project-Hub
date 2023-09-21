@@ -4,24 +4,25 @@
 @tailwind utilities;
 
 /* Set the background color for the body with opacity */
+
 body {
   --tw-bg-opacity: 1;
-  background-color: rgb(15 23 42 / var(--tw-bg-opacity));
+  background-color: #f0f3f5;
 }
 
-.flex-3{
+.flex-3 {
   @apply flex justify-center items-center;
 }
-.flex-2{
+.flex-2 {
   @apply flex items-center;
 }
-.flex-all{
+.flex-all {
   @apply flex flex-col justify-center items-center;
 }
 
 /* Style for custom navigation links (Feature of TalwindCSS) */
 .custom-nav-link {
-  @apply flex gap-1 items-center cursor-pointer font-signika justify-center hover:bg-slate-700 px-3 py-2 transition-all duration-300 hover:opacity-90 rounded-2xl;
+  @apply flex gap-1 items-center cursor-pointer justify-center px-3 py-2 transition-all duration-300 hover:opacity-90 rounded-2xl;
 }
 
 /* Define a custom transition class */
@@ -30,17 +31,18 @@ body {
 }
 
 .custom-button {
-  @apply py-1 px-3 w-fit bg-green-700  opacity-95 hover:text-slate-200 transition-all duration-300 rounded-md text-xl shadow-md shadow-pink-300 font-signika;
+  @apply py-[1px] px-3 w-fit bg-slate-200  opacity-95 hover:text-slate-900 hover:bg-gray-300 transition-all duration-500 rounded-sm text-xl shadow-sm shadow-blue-400 font-signika;
 }
-
-
 
 /* in profile secction when technology select */
+.choiced_options {
+  @apply flex justify-center text-[1rem] cursor-pointer items-center gap-1 bg-slate-500 rounded-lg pl-[3px] h-[1.3rem];
+}
 .selected_options {
-  @apply flex justify-center text-[1rem] cursor-pointer items-center gap-1 bg-gray-100 text-black rounded-lg pl-[1px] h-[1.3rem];
+  @apply flex justify-center text-[1rem] cursor-pointer items-center gap-1 bg-slate-200 rounded-lg pl-[3px] h-[1.3rem];
 }
 .selected_options_close {
-  @apply bg-gray-400 cursor-pointer h-[1.2rem] w-[1.2rem] rounded-md hover:bg-gray-300;
+  @apply bg-slate-400 opacity-80 text-red-800  cursor-pointer h-[1.2rem] w-[1.2rem] rounded-md  hover:bg-gray-500 transition-all duration-500;
 }
 
 /* heading of h1 */
@@ -49,10 +51,13 @@ body {
 }
 
 /* custom values of keys */
-.custom-values{
-  @apply text-gray-300 text-[1.2rem];
+.custom-values {
+  @apply text-[1.2rem];
 }
 /* favoritae button of project */
-.fav_button{
-  @apply py-0 px-3 w-fit bg-green-700  opacity-95 hover:text-slate-200 transition-all duration-300 rounded-md text-lg shadow-sm shadow-pink-300 font-signika;
+.fav_button {
+  @apply py-0 px-3 w-fit bg-slate-200 opacity-95 hover:text-slate-900 hover:bg-gray-300 transition-all duration-500 rounded-md text-lg shadow-sm shadow-blue-400 font-signika;
+}
+.project_page_button {
+  @apply py-0 px-3 w-fit bg-green-400 hover:text-slate-900 hover:bg-green-400 transition-all duration-500 rounded-md text-lg shadow-sm shadow-blue-400 font-signika opacity-90;
 }

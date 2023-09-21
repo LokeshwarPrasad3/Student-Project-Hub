@@ -160,7 +160,7 @@ const UploadProject = ({ onClose }) => {
                                 // Upload Project button
                                 onClick={uploadProject}
                                 disabled={loading}
-                                className='bg-blue-600 py-1 w-full rounded opacity-90 text-white text-[1rem] hover:bg-blue-700 text-opacity-90 '
+                                className='bg-indigo-500 opacity-95 py-1 w-full rounded text-white text-[1rem] hover:bg-indigo-600 text-opacity-90 '
                             >
                                 {/* button content is changing to circluar progress when upload image */}
                                 {loading ?
@@ -172,7 +172,7 @@ const UploadProject = ({ onClose }) => {
                             {/* Cancel button */}
                             <button
                                 onClick={onClose}
-                                className='bg-blue-600 w-full py-1 rounded opacity-90 text-white text-[1rem] hover:bg-blue-700 text-opacity-90 '
+                                className='bg-indigo-500 opacity-95 w-full py-1 rounded  text-white text-[1rem] hover:bg-indigo-600 text-opacity-90 '
                             >CANCEL</button>
                         </div>
 

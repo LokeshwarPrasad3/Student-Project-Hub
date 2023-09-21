@@ -31,8 +31,17 @@
   }
 }
 
-
 /* 3️⃣ UPLOAD PROJECT COMPONENT CSS STYLE */
+
+.project_details,
+.show_contributers,
+.project_buttons,
+.project_links,
+.user_rating,
+.folder_structures {
+  background-color: #fff;
+  border-radius: 0.6rem;
+}
 @media (max-width: 600px) {
   .upload_part {
     width: 25rem;
@@ -104,16 +113,21 @@
     height: 9rem;
   }
 }
-
 /* 5.DOCUMENTATION PAGE DESINGSd */
+.messages_container {
+  min-width: calc(100vw - 24rem);
+}
 @media (max-width: 1009px) {
   /* card of */
   .person_details {
     min-width: 23rem;
   }
-  .messages_container {
-    min-width: 50vw;
-  }
+}
+.communication_message_container,
+.all_person_list,
+.messages_container {
+  min-height: calc(100vh - 4rem);
+  overflow: hidden;
 }
 @media (max-width: 821px) {
   .messages_container {

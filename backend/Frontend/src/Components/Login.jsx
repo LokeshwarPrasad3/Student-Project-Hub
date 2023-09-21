@@ -8,6 +8,8 @@ import Box from '@mui/material/Box';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { logInStudent } from '../utils/ApiRoutes';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const Login = () => {
 
@@ -43,12 +45,12 @@ const Login = () => {
         try {
 
             // HERE IS MY POST REQUEST CODE --------------
-            const data=await axios.post(logInStudent,{email,password});
+            const data = await axios.post(logInStudent, { email, password });
 
             // if all done successfully then
-            if(data.data.success===true){
+            if (data.data.success === true) {
                 toast.success("Successfully Login");
-                localStorage.setItem("studentId",data.data.student_id);
+                localStorage.setItem("studentId", data.data.student_id);
                 navigate("/profile");
             }
             else toast.error(data.data.msg);
@@ -60,12 +62,11 @@ const Login = () => {
 
     }
 
-
     return (
         <>
 
             {/*👉 LOGIN FOROM of login user */}
-            <form action="" className="login_form w-[35rem]  px-16 flex flex-col gap-5 py-9" >
+            <form action="" className="login_form w-[35rem] px-16 flex flex-col gap-5 py-9" >
                 {/* for input type email */}
                 <div className="email_box flex flex-col gap-2">
                     <label htmlFor="login_input_email" className='text-xl  font-[600] opacity-70'>Email Address *</label>
@@ -82,7 +83,15 @@ const Login = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             type={showPass ? 'text' : 'password'} name="login_input_password" id="login_input_password" className='py-1 px-3 w-full bg-gray-100' placeholder='Enter Password' autoComplete="new-password" />
-                        <button tabIndex="-1" onClick={toggleShow} className="show_button bg-gray-200 py-1 px-2 rounded-md">{showPass ? 'Hide' : 'Show'}</button>
+                        <button tabIndex="-1" onClick={toggleShow} className="show_button bg-gray-100 py-1 px-2 rounded-br-md rounded-tr-md ">
+                            {showPass ? (
+                                <VisibilityOffIcon className="text-gray-700" />
+                            )
+                                : (
+                                    <VisibilityIcon className="text-gray-700" />
+                                )
+                            }
+                        </button>
                     </div>
                 </div>
                 {/* input button for login */}

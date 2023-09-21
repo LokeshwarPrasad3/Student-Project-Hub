@@ -133,7 +133,7 @@ const MessagePage = () => {
 
     return (
         <>
-            <div className="communication_message_container text-white font-signika flex items-center justify-center w-full  min-h-full ">
+            <div className="communication_message_container font-signika flex items-center justify-center w-full min-h-full ">
 
 
                 {/* not show when showing chatsContent */}
@@ -146,22 +146,22 @@ const MessagePage = () => {
                             <div className="all_person_list flex flex-col  min-h-[90vh] min-w-[25rem] max-w-[50rem] px-3 gap-1 border-[1px] border-blue-900 rounded-md" >
                                 {/* three filters connect group */}
                                 <div className="person_filters flex justify-center gap-3 items-center py-2 h-16">
-                                    <button className='fav_button ' >All</button>
-                                    <button className='fav_button ' >Connect</button>
-                                    <button className='fav_button ' >Group</button>
+                                    <button className='fav_button' >All</button>
+                                    <button className='fav_button' >Connect</button>
+                                    <button className='fav_button' >Group</button>
                                 </div>
                                 {/* list of persons */}
 
                                 <div
-                                    className="person_list flex flex-col gap-2 px-1 py-1 bg-slate-800 h-full ">
+                                    className="person_list flex flex-col gap-2 px-1 font-overpass py-1 rounded h-full ">
 
                                     {/* card of particular person */}
                                     <div
                                         onClick={() => { if (windowWidth <= 821) { setShowChat(true); scrollToBottom(); } }}
-                                        className="person_details cursor-pointer rounded hover:bg-slate-500 flex custom-transition justify-between h-14 bg-slate-600 px-5 items-center">
+                                        className="person_details cursor-pointer text-gray-100 hover:text-slate-100 rounded hover:bg-slate-500 flex custom-transition justify-between h-14 bg-slate-400 px-5 items-center">
                                         <div className="person_box flex gap-3  py-1 items-center">
                                             <img className='h-10 w-10 rounded-full' src="./Images/dushyant.jpg" alt="lokeshwar" />
-                                            <h3 className='text-lg opacity-90' >Dushyant Das</h3>
+                                            <h3 className='text-lg ' >Dushyant Das</h3>
                                         </div>
                                         <span className='opacity-85' >12/09/23</span>
                                     </div>
@@ -169,10 +169,10 @@ const MessagePage = () => {
                                     {/* card of particular person */}
                                     <div
                                         onClick={() => { if (windowWidth <= 821) { setShowChat(true); scrollToBottom(); } }}
-                                        className="person_details cursor-pointer rounded hover:bg-slate-500 flex custom-transition justify-between  h-14  bg-slate-600 px-5 items-center">
+                                        className="person_details cursor-pointer text-gray-100 hover:text-slate-100 rounded hover:bg-slate-500 flex custom-transition justify-between  h-14  bg-slate-400 px-5 items-center">
                                         <div className="person_box flex gap-3  py-1 items-center">
                                             <img className='h-10 w-10 rounded-full' src="./Images/khilendra.jpg" alt="lokeshwar" />
-                                            <h3 className='text-lg opacity-90' >Khilendra Kumar</h3>
+                                            <h3 className='text-lg' >Khilendra Kumar</h3>
                                         </div>
                                         <span className='opacity-85' >Yesterday</span>
                                     </div>
@@ -180,10 +180,10 @@ const MessagePage = () => {
                                     {/* card of particular person */}
                                     <div
                                         onClick={() => { if (windowWidth <= 821) { setShowChat(true) } }}
-                                        className="person_details cursor-pointer rounded hover:bg-slate-500 flex custom-transition justify-between  h-14  bg-slate-600 px-5 items-center">
+                                        className="person_details cursor-pointer text-gray-100 hover:text-slate-100 rounded hover:bg-slate-500 flex custom-transition justify-between  h-14  bg-slate-400 px-5 items-center">
                                         <div className="person_box flex gap-3  py-1 items-center">
                                             <img className='h-10 w-10 rounded-full' src="./Images/takeshwar.jpg" alt="lokeshwar" />
-                                            <h3 className='text-lg opacity-90' >Takeshwar Janghel</h3>
+                                            <h3 className='text-lg' >Takeshwar Janghel</h3>
                                         </div>
                                         <span className='opacity-85' >Today</span>
                                     </div>
@@ -199,9 +199,9 @@ const MessagePage = () => {
                 {
                     ((windowWidth >= 821) || (windowWidth <= 821 && showChat)) &&
                     <div
-                        className="messages_container flex flex-col  min-h-[90vh] justify-between min-w-[60vw] border-r-[1px] border-t-[1px] border-b-[1px] border-blue-900 rounded-md">
+                        className="messages_container font-overpass flex flex-col  min-h-[90vh] justify-between border-r-[1px] border-t-[1px] border-b-[1px] border-blue-900 rounded-md">
                         {/* receiver details */}
-                        <div className="receiver_box flex items-center justify-between h-14  py-2 ">
+                        <div className="receiver_box flex items-center justify-between text-white h-14 bg-slate-400 py-2 ">
                             <div className="receiver_details flex items-center gap-2  px-3">
                                 <img className='h-11 w-11 rounded-full cursor-pointer' src="./Images/takeshwar.jpg" alt="" srcSet="" />
                                 <div className="person_online flex flex-col justify-center ">
@@ -209,27 +209,27 @@ const MessagePage = () => {
                                     <span className='text-sm' >Online</span>
                                 </div>
                             </div>
-                            <MoreVertIcon className="cursor-pointer hover:bg-slate-500 custom-transition  rounded-full" />
+                            <MoreVertIcon className="cursor-pointer hover:bg-slate-500 custom-transition mr-5 rounded-full" />
                         </div>
                         {/* messages adn send message box */}
-                        <div className=' h-full bg-slate-800 overflow-y-auto  p-2 flex flex-col justify-between gap-3' >
+                        <div className=' h-full overflow-y-auto  p-2 flex text-gray-200 opacity-90 flex-col justify-between gap-3' >
                             <div ref={messagesContainerRef} className="messagesb_box_container overflow-x-auto max-h-[73vh]">
 
                                 <ChatMessages chatMessages={chatMessages} />
 
                             </div>
-                            <div className="send_message_container flex justify-between items-center gap-1 my-1 bg-slate-800">
+                            <div className="send_message_container flex justify-between items-center gap-1 ">
                                 <input
                                     ref={inputRef}
                                     onKeyDown={handleKeyDown}
                                     value={messageInput}
                                     onChange={(e) => setMessageInput(e.target.value)}
-                                    className='w-full bg-slate-700 border-gray-500 px-2 py-1 border-[1px] rounded  focus:outline-none' type="text" name="" id="input_message " placeholder='Enter Message' />
+                                    className='w-full bg-slate-700 border-gray-500 px-2 py-1 border-[1px] rounded-xl  focus:outline-none placeholder:text-gray-200' type="text" name="" id="input_message " placeholder=' Enter Message' />
                                 {/* when enter then go send message */}
 
                                 <SendIcon
                                     onClick={sendMessage}
-                                    style={{ fontSize: '2.1rem' }} className='text-green-400 hover:bg-slate-500 rounded hover:text-green-200 custom-transition cursor-pointer p-[1px] px-1' />
+                                    style={{ fontSize: '2.1rem' }} className='text-white bg-green-600 p-1 rounded-full hover:text-slate-100 custom-transition cursor-pointer ' />
                             </div>
                         </div>
                     </div>

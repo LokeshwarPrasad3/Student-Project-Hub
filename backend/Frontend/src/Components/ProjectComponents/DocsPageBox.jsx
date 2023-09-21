@@ -20,7 +20,7 @@ const DocsPageBox = (props) => {
                 </div>
                 <div className="page_description flex-all lg:max-h-[16rem] md:max-h-fit sm:max-h-fit rounded  border-[1px]  border-gray-500">
                     <div className="heading w-full flex justify-between items-center px-3">
-                        <h3 className='text-white text-center bg-slate-800 text-xl py-[0.2rem]' >{index+1}. {heading}</h3>
+                        <h3 className='text-black text-center font-signika bg-slate-100 text-xl py-[0.2rem]' >{index + 1}. {heading}</h3>
                         <div className="operations flex items-center justify-between gap-3">
 
                             <Tooltip title="Edit" arrow >
@@ -40,7 +40,7 @@ const DocsPageBox = (props) => {
                         name="" id="description" cols="30" rows="10"
                         value={description}
                         readOnly={true}
-                        >
+                    >
                     </textarea>
                 </div>
             </div>

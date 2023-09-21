@@ -14,28 +14,28 @@ import NotificationPage from './Pages/NotificationPage';
 function App() {
   return (
     <>
-<MainState>
-    <Navbar/>
-      <Routes>
-        {/* user authenticate goto home page */}
-        <Route path="/" element={<HomePage />} />
-        {/* user need login register goto authentication */}
-        <Route path="/auth" element={<Authentication />} />
-        {/* after register goto profile section */}
-        <Route path="/profile" element={<ProfilePage />} />
-        {/* can see Project information */}
-        <Route path="/project" element={<ProjectPage />} />
-        {/* documentation page */}
-        <Route path="/docs" element={<DocsPage />} />
-        {/* Messages page */}
-        <Route path="/message" element={<MessagePage />} />
-        {/* only for testing custom search selection */}
-        <Route path="/edit-profile" element={<EditProfile />} />
-        {/* Notification path */}
+      <MainState>
+        <Navbar />
+        <Routes>
+          {/* user authenticate goto home page */}
+          <Route path="/" element={<HomePage />} />
+          {/* user need login register goto authentication */}
+          <Route path="/auth" element={<Authentication />} />
+          {/* after register goto profile section */}
+          <Route path="/profile" element={<ProfilePage />} />
+          {/* can see Project information */}
+          <Route path="/project" element={<ProjectPage />} />
+          {/* documentation page */}
+          <Route path="/docs" element={<DocsPage />} />
+          {/* Messages page */}
+          <Route path="/message" element={<MessagePage />} />
+          {/* only for testing custom search selection */}
+          <Route path="/edit-profile" element={<EditProfile />} />
+          {/* Notification path */}
           <Route path="/notification" element={<NotificationPage />} />
 
-      </Routes>
-</MainState>
+        </Routes>
+      </MainState>
     </>
   );
 }

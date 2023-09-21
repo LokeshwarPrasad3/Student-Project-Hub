@@ -6,7 +6,7 @@ const ChatMessages = ({ chatMessages }) => {
 
             {/* particular message box */}
             {
-                chatMessages.flatMap((day,dayIndex) => {
+                chatMessages.flatMap((day, dayIndex) => {
                     return (
                         <React.Fragment key={dayIndex}>
                             {/* show first date */}
@@ -22,8 +22,8 @@ const ChatMessages = ({ chatMessages }) => {
                                 day.messages.map((message, index) => (
 
                                     <div key={index} className={`message_box_right w-full flex ${message.sender === 'user' ? 'justify-end' : ''} my-2`}>
-                                        <div className={`message bg-green-800 px-2 py-[1px] w-fit max-w-[60%] rounded-md rounded-${message.sender === 'user' ? 'tr' : 'tl'}-none`}>
-                                            <p className='message_name text-[1.2rem]'>
+                                        <div className={`message bg-green-600 px-2 py-[1px] w-fit max-w-[60%] rounded-md rounded-${message.sender === 'user' ? 'tr' : 'tl'}-none`}>
+                                            <p className='message_name text-[1.2rem] text-gray-100'>
                                                 {message.message}
                                             </p>
                                         </div>
